@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   error.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/04/24 14:30:13 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/04/25 20:15:20 by rgoossen      ########   odam.nl         */
+/*   Created: 2025/04/25 18:17:55 by rgoossen      #+#    #+#                 */
+/*   Updated: 2025/04/25 19:12:28 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int main(int argc, char *argv[], char *envp[])
+void error_and_exit(char *msg, t_minishell *minishell)
 {
-	t_minishell minishell;
-
-	(void)argv;
-	if (argc > 1)
-	{
-		// TODO return simple error to 2.
-	}
-	init_minishell(&minishell, envp);
-	// run_minishell();
-	// rl_clear_history();
-	// exit_minishell();
+	(void)minishell;
+	//free_all(minishell);
+	perror(msg);
+	exit(EXIT_FAILURE);
 }

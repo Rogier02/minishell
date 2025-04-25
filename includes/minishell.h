@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/04/24 14:48:31 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/04/25 20:06:07 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# include "libft/incl/libft.h"
+# include "../libft/incl/libft.h"
 
 # define MINISHELL_PROMPT "minishell: ~$"
 
@@ -36,7 +36,7 @@ typedef struct s_envp
 {
 	char *value;
 	struct s_envp *next;
-} t_envp;s
+} t_envp;
 
 typedef struct s_cmd_table
 {
@@ -53,7 +53,15 @@ typedef struct s_cmd_table
 
 typedef struct s_minishell
 {
-
+	int			exit_code;
+	char		*input;
+	pid_t		main_process_pid;
+	t_envp		*envp;
+	t_cmd_table	cmd_table;
 } t_minishell;
+
+void	init_minishell(t_minishell *minishell, char *envp[]);
+void	collect_envp(t_minishell *minishell, char *envp[]);
+void	error_and_exit(char *msg, t_minishell *minishell);
 
 #endif
