@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/04/27 16:58:15 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/04/27 18:22:06 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,6 @@ void	init_minishell(t_minishell *minishell, char *envp[]);
 void	get_envp(t_minishell *minishell, char *envp[]);
 void	get_pwd(t_minishell *minishell);
 void	error_and_exit(char *msg, t_minishell *minishell);
+void	handle_signals(void);
 
 #endif

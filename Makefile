@@ -15,7 +15,8 @@ SRCS			= 	srcs/main.c \
 					srcs/init/init_singals.c \
 					srcs/get/get_envp.c \
 					srcs/get/get_pwd.c \
-					srcs/error/error.c 
+					srcs/error/error.c \
+					srcs/signals/handle_signals.c 
 
 OBJ_DIR			= 	objs
 OBJ_FILES		=	$(SRCS:$(SRCS_DIR)/%.c=$(OBJ_DIR)/%.o)
