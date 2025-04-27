@@ -13,7 +13,8 @@ SRCS_DIR		= 	srcs
 SRCS			= 	srcs/main.c \
 					srcs/init/init_minishell.c \
 					srcs/init/init_singals.c \
-					srcs/init/collect_envp.c \
+					srcs/get/get_envp.c \
+					srcs/get/get_pwd.c \
 					srcs/error/error.c 
 
 OBJ_DIR			= 	objs
@@ -36,7 +37,7 @@ $(OBJ_DIR)/%.o	: $(SRCS_DIR)/%.c
 
 clean			: 
 				@$(MAKE) -C $(LIBFT_DIR) clean
-				$(RM) $(OBJ_FILES)
+				$(RM) %.o $(OBJ_FILES)
 
 fclean			: clean
 				@$(MAKE) -C $(LIBFT_DIR) fclean

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   collect_envp.c                                     :+:    :+:            */
+/*   get_envp.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 17:06:41 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/04/25 19:06:38 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/04/27 16:28:50 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static t_envp	*create_node(char *value)
 	return(new_node);
 }
 
-void collect_envp(t_minishell *minishell, char *envp[])
+void get_envp(t_minishell *minishell, char *envp[])
 {
 	int	i;
 	t_envp *head = NULL;
@@ -40,8 +40,8 @@ void collect_envp(t_minishell *minishell, char *envp[])
 	while(envp[i])
 	{
 		current = create_node(envp[i]);
-		if (current->next == NULL)
-			error_and_exit("malloc failure\n", minishell);
+		if (current == NULL)
+			error_and_exit("malloc failure_1\n", minishell);
 		previous->next = current;
 		previous = current;
 		i++;
