@@ -35,9 +35,11 @@ $(OBJ_DIR)/%.o	: $(SRCS_DIR)/%.c
 				$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean			: 
+				@$(MAKE) -C $(LIBFT_DIR) clean
 				$(RM) $(OBJ_FILES)
 
 fclean			: clean
+				@$(MAKE) -C $(LIBFT_DIR) fclean
 				$(RM) $(NAME)
 
 re				: fclean all
