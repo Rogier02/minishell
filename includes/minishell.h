@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/04/27 18:22:06 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/04/28 20:36:06 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,15 @@ typedef struct s_cmd_table
 
 } t_cmd_table;
 
+typedef struct s_expansion
+{
+	char	*input;
+	char	*expanded_input;
+	char	quote_flag;
+	
+	
+} t_expansion;
+
 typedef struct s_minishell
 {
 	int			exit_code;
@@ -65,6 +74,8 @@ void	init_minishell(t_minishell *minishell, char *envp[]);
 void	get_envp(t_minishell *minishell, char *envp[]);
 void	get_pwd(t_minishell *minishell);
 void	error_and_exit(char *msg, t_minishell *minishell);
-void	handle_signals(void);
+void	handle_signals(t_minishell *minishell, int loc);
+
+
 
 #endif
