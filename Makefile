@@ -11,14 +11,18 @@ LIBFT_A			= 	libft/libft.a
 INCLUDES		=	-I ./includes
 SRCS_DIR		= 	srcs
 SRCS			= 	srcs/main.c \
-					srcs/init/init_minishell.c \
-					srcs/init/init_singals.c \
+					srcs/error/error.c \
 					srcs/get/get_envp.c \
 					srcs/get/get_pwd.c \
-					srcs/error/error.c \
-					srcs/signals/handle_signals.c \
-					srcs/parser/expansion/expansion.c \
-					srcs/parser/parser.c
+					srcs/init/init_minishell.c \
+					srcs/init/init_singals.c \
+					srcs/expansion/expansion.c \
+					srcs/expansion/append_char.c \
+					srcs/expansion/append_exit_code.c \
+					srcs/expansion/append_variable.c \
+					srcs/expansion/handle_quotes.c \
+					srcs/parser/parser.c \
+					srcs/signals/handle_signals.c 
 
 OBJ_DIR			= 	objs
 OBJ_FILES		=	$(SRCS:$(SRCS_DIR)/%.c=$(OBJ_DIR)/%.o)

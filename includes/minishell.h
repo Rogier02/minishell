@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/04/28 20:36:06 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/05/01 19:59:42 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,16 @@ typedef struct s_cmd_table
 
 typedef struct s_expansion
 {
-	char	*input;
+	char	*variable;
 	char	*expanded_input;
 	char	quote_flag;
-	
+	char	var_name;
+	char	var_expanded;
+	int		var_len;
 	
 } t_expansion;
 
-typedef struct s_minishell
+typedef struct s_minishells
 {
 	int			exit_code;
 	char		*input;
@@ -70,12 +72,18 @@ typedef struct s_minishell
 	t_cmd_table	*cmd_table;
 } t_minishell;
 
-void	init_minishell(t_minishell *minishell, char *envp[]);
+void	error_and_exit(char *msg, t_minishell *minishell);
+
 void	get_envp(t_minishell *minishell, char *envp[]);
 void	get_pwd(t_minishell *minishell);
-void	error_and_exit(char *msg, t_minishell *minishell);
+
+void	init_minishell(t_minishell *minishell, char *envp[]);
 void	handle_signals(t_minishell *minishell, int loc);
 
+int		parser(t_minishell *minishell);
 
+int		append_char(t_expansion *expan, char c);
+int		append_exit_code(t_expansion *expan, t_minishell *minishell, int *i);
+int		append_variable(t_minishell *mshell, t_expansion *expan, int *i);
 
 #endif
