@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   handle_append_char.c                               :+:    :+:            */
+/*   append_char.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 13:18:58 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/01 18:34:23 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/05/02 17:20:40 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	append_char(t_expansion *expan, char c)
 	int		len;
 
 	if (expan->expanded_input == NULL 
-		|| *expan->expanded_input == NULL)
+		|| *expan->expanded_input == '\0')
 		len = 0;
 	else 
 		len = ft_strlen(expan->expanded_input);

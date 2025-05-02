@@ -22,7 +22,8 @@ SRCS			= 	srcs/main.c \
 					srcs/expansion/append_variable.c \
 					srcs/expansion/handle_quotes.c \
 					srcs/parser/parser.c \
-					srcs/signals/handle_signals.c 
+					srcs/signals/handle_signals.c \
+					srcs/free/free_expansion.c
 
 OBJ_DIR			= 	objs
 OBJ_FILES		=	$(SRCS:$(SRCS_DIR)/%.c=$(OBJ_DIR)/%.o)

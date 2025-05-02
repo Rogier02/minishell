@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:34:37 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/01 16:07:07 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/05/02 18:39:52 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	print_envp(t_minishell *minishell)
 	head = minishell->envp;
 	while (head)
 	{
-		printf("%s", minishell->envp->value);
+		printf("%s\n", head->value);
 		head = head->next;
 	}
 }

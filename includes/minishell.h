@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/01 19:59:42 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/05/02 18:49:15 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,11 @@ typedef struct s_cmd_table
 
 typedef struct s_expansion
 {
-	char	*variable;
 	char	*expanded_input;
 	char	quote_flag;
-	char	var_name;
-	char	var_expanded;
-	int		var_len;
+	char	*var_name;
+	char	*var_expanded;
+	int		var_name_len;
 	
 } t_expansion;
 
@@ -72,18 +71,29 @@ typedef struct s_minishells
 	t_cmd_table	*cmd_table;
 } t_minishell;
 
+/* error/ */
 void	error_and_exit(char *msg, t_minishell *minishell);
 
+/* get/ */
 void	get_envp(t_minishell *minishell, char *envp[]);
 void	get_pwd(t_minishell *minishell);
 
+/* init/ */
 void	init_minishell(t_minishell *minishell, char *envp[]);
+
+/* signals/ */
 void	handle_signals(t_minishell *minishell, int loc);
 
+/* parser/ */
 int		parser(t_minishell *minishell);
 
 int		append_char(t_expansion *expan, char c);
 int		append_exit_code(t_expansion *expan, t_minishell *minishell, int *i);
 int		append_variable(t_minishell *mshell, t_expansion *expan, int *i);
+void	check_for_quotes(char c, t_expansion *expan);
+char	*expand_input(t_minishell *mshell, char *input);
+
+/* free/ */
+void	free_expansion(t_expansion *expan);
 
 #endif

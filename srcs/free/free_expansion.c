@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   get_pwd.c                                          :+:    :+:            */
+/*   free_expansion.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/04/27 16:16:25 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/02 18:38:33 by rgoossen      ########   odam.nl         */
+/*   Created: 2025/05/02 17:05:13 by rgoossen      #+#    #+#                 */
+/*   Updated: 2025/05/02 17:12:06 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	get_pwd(t_minishell *minishell)
+void free_expansion(t_expansion *expan)
 {
-	while (minishell->envp != NULL)
-	{
-		//printf("hello\n");
-		if (ft_strncmp(minishell->envp->value, "PWD=", 4) == 0)
-		{
-			minishell->pwd = ft_strdup(minishell->envp->value + 4);
-			if (minishell->pwd == NULL)
-				error_and_exit("malloc failure\n", minishell);
-			break;
-		}
-		minishell->envp = minishell->envp->next;
-	}
+	if (expan->expanded_input)
+		free(expan->expanded_input);
+	if (expan->var_expanded)
+		free(expan->var_expanded);
+	if (expan->var_name)
+		free(expan->var_name);
 }
