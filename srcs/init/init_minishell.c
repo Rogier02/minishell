@@ -6,23 +6,23 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:34:37 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/02 18:39:52 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/05/03 16:16:46 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_envp(t_minishell *minishell)
-{
-	t_envp *head;
+// static void	print_envp(t_minishell *minishell)
+// {
+// 	t_envp *head;
 	
-	head = minishell->envp;
-	while (head)
-	{
-		printf("%s\n", head->value);
-		head = head->next;
-	}
-}
+// 	head = minishell->envp;
+// 	while (head)
+// 	{
+// 		printf("%s\n", head->value);
+// 		head = head->next;
+// 	}
+// }
 
 void	init_minishell(t_minishell *minishell, char *envp[])
 {
@@ -30,7 +30,7 @@ void	init_minishell(t_minishell *minishell, char *envp[])
 
 	i = 0;
 	get_envp(minishell, envp);
-	print_envp(minishell);
+	//print_envp(minishell);
 	get_pwd(minishell);
 	minishell->main_process_pid = getpid();
 	minishell->input = NULL;

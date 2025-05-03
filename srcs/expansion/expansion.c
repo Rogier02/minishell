@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/28 18:40:39 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/02 18:37:51 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/05/03 18:06:44 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static bool	is_exit_code(char *original_input, char quote_flag, int i)
 	return (false);
 }
 
-int	handle_expansion(t_minishell *mshell, t_expansion *expan, char *input, int *i)
+int	handle_expansion(t_expansion *expan, char *input, int *i)
 {
 	if (is_isolated(input, expan->quote_flag, *i))
 	{
@@ -41,7 +41,7 @@ int	handle_expansion(t_minishell *mshell, t_expansion *expan, char *input, int *
 	}
 	else if (is_exit_code(input, expan->quote_flag, *i))
 	{
-		if (append_exit_code(expan, mshell, i) == -1)
+		if (append_exit_code(expan, i) == -1)
 			return (-1);
 	}
 	else if (expan->quote_flag == '\'')
@@ -49,35 +49,37 @@ int	handle_expansion(t_minishell *mshell, t_expansion *expan, char *input, int *
 		if (append_char(expan, input[*i]) == -1)
 			return (-1);
 	}
-	else if (append_variable(mshell, expan, i) == -1)
+	else if (append_variable(expan, input, i) == -1)
 	{
 		return (-1);
 	}
 	return (0);
 }
 
-static void init_expansion(t_expansion *expan)
+static void init_expansion(t_minishell *mshell, t_expansion *expan)
 {
 	expan->expanded_input = NULL;
 	expan->var_expanded = NULL;
 	expan->var_name = NULL;
 	expan->quote_flag = 0;
 	expan->var_name_len = 0;
+	expan->envp_copy = mshell->envp;
+	expan->exit_code_copy = mshell->exit_code;
 }
 
-char *expand_input(t_minishell *mshell, char *input)
+char *expand(t_minishell *mshell, char *input)
 {
 	t_expansion	expan;
 	int	i;
 
 	i = 0;
-	init_expansion(&expan);
+	init_expansion(mshell, &expan);
 	while(input[i])
 	{
 		check_for_quotes(input[i], &expan);
 		if (input[i] == '$')
 		{
-			if (handle_expansion(mshell, &expan, input, &i) == -1)
+			if (handle_expansion(&expan, input, &i) == -1)
 			{
 				mshell->exit_code = ENOMEM;
 				return (free_expansion(&expan), NULL);
@@ -88,6 +90,7 @@ char *expand_input(t_minishell *mshell, char *input)
 			mshell->exit_code = ENOMEM;
 			return (free_expansion(&expan), NULL);
 		}
+		
 		i++;
 	}
 	//printf("expaned input = %s", input);

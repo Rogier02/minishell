@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/02 18:49:15 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/05/03 18:07:16 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ typedef struct s_expansion
 	char	*var_name;
 	char	*var_expanded;
 	int		var_name_len;
+	t_envp	*envp_copy;
+	int		exit_code_copy;
 	
 } t_expansion;
 
@@ -88,10 +90,10 @@ void	handle_signals(t_minishell *minishell, int loc);
 int		parser(t_minishell *minishell);
 
 int		append_char(t_expansion *expan, char c);
-int		append_exit_code(t_expansion *expan, t_minishell *minishell, int *i);
-int		append_variable(t_minishell *mshell, t_expansion *expan, int *i);
+int		append_exit_code(t_expansion *expan, int *i);
+int		append_variable(t_expansion *expan, char *input, int *i);
 void	check_for_quotes(char c, t_expansion *expan);
-char	*expand_input(t_minishell *mshell, char *input);
+char	*expand(t_minishell *mshell, char *input);
 
 /* free/ */
 void	free_expansion(t_expansion *expan);

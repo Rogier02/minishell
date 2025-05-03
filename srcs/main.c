@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:30:13 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/01 19:51:24 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/05/03 13:35:36 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,15 @@
 
 static void		run_minishell(t_minishell *minishell)
 {
-	while (1)
+	int i = 0;
+	while (i < 1)
 	{
 		minishell->input = readline("minishell:~$ ");
 		if (minishell->input[0])
 			add_history(minishell->input);
 		if (parser(minishell) == -1)
 			continue ;
-		
+		i = 1;
 			
 		// initial input check. white spaces, empty line. etc
 		// add input to history
