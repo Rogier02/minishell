@@ -20,7 +20,7 @@ SRCS			= 	srcs/main.c \
 					srcs/expansion/append_char.c \
 					srcs/expansion/append_exit_code.c \
 					srcs/expansion/append_variable.c \
-					srcs/expansion/handle_quotes.c \
+					srcs/expansion/check_quotes.c \
 					srcs/parser/parser.c \
 					srcs/signals/handle_signals.c \
 					srcs/free/free_expansion.c

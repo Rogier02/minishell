@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/03 18:07:16 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/05/05 17:28:21 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,27 @@
 
 # include "../libft/incl/libft.h"
 
+# define UNMATCHED_QUOTES_ERR "minishell: unexpected EOF while looking for matching quote\n"
 # define MINISHELL_PROMPT "minishell: ~$"
+
+typedef enum e_token_type
+{
+	WORD,
+	RE_OUT,
+	RE_IN,
+	PIPE,
+	RE_APPEND,
+	HERE_DOC	
+} t_token_type;
+
+typedef struct  s_token
+{
+	t_token_type	type;
+	int				len;
+	int				start;
+	int				end;
+	char			quote_flag;
+} t_token;
 
 typedef struct s_envp
 {
@@ -63,6 +83,18 @@ typedef struct s_expansion
 	
 } t_expansion;
 
+typedef struct s_parsing
+{
+	t_cmd_table	*cmd_table;
+	t_cmd_table	*head;
+	t_cmd_table	*current;
+	t_token		token;
+	t_token		temp_token;
+	int			index;
+	char		parser_error;
+	
+}	t_parsing;
+
 typedef struct s_minishells
 {
 	int			exit_code;
@@ -92,10 +124,14 @@ int		parser(t_minishell *minishell);
 int		append_char(t_expansion *expan, char c);
 int		append_exit_code(t_expansion *expan, int *i);
 int		append_variable(t_expansion *expan, char *input, int *i);
-void	check_for_quotes(char c, t_expansion *expan);
+void	check_quotes(char c, char *quote_flag);
 char	*expand(t_minishell *mshell, char *input);
 
 /* free/ */
 void	free_expansion(t_expansion *expan);
+
+/* parser/ */
+int		parser(t_minishell *minishell);
+t_token get_token(t_parsing *p, char *input);
 
 #endif
