@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/28 18:13:23 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/05 17:08:24 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/05/08 14:38:12 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,27 @@
 
 t_cmd_table *parse_input(t_parsing *p, char *input)
 {
+	while (input[p->index])
+	{
+		if (add_command(p, input) == -1)
+			return (NULL);
+		else if (add_pipe(p, input) == -1)
+			return (NULL);
+		else if (add_redirect_and_heredoc() == -1)
+			return (NULL);
+	}
+	return (p->cmd_table);
+}
+
+t_cmd_table *parse_input(t_parsing *p, char *input)
+{
 	while(input[p->index])
 	{
 		p->token = get_token(p, input);
 		if (p->token.type == WORD)
-			add_command();
+			add_command(p, input);
 		if (p->token.type == PIPE)
-			add_node();
+			add_node(p, input);
 		if (p->token.type == RE_APPEND
 			|| p->token.type == RE_IN
 			|| p->token.type == RE_OUT
