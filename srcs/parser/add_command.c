@@ -6,36 +6,59 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/07 12:42:12 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/07 17:31:34 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/05/23 16:39:42 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	add_command(t_parsing *p, char *input)
+static  void create_new_command_array(t_parsing *p, char *command)
 {
 	char *temp;
+
+	p->cmd_table->cmd = malloc(sizeof(char *) * 2);
+	if (!p->cmd_table->cmd)
+		return ;
+	p->cmd_table->cmd[0] = ft_strdup(command);
+	if (!p->cmd_table->cmd[0])
+	{
+		p->parser_error = "malloc error:";
+		free(p->cmd_table->cmd);
+		return ;
+	}
+	p->cmd_table->cmd[1] = NULL;
+
+}
+
+static int add_to_command_table(t_parsing *p, char *command)
+{
+
+}
+
+int	add_command(t_parsing *p, char *input)
+{
 	char *command_token;
-	char **cmd_array;
 	
 	if (p->token.type == WORD)
 	{
-		temp = ft_substr(input, p->token.start, p->token.len);
-		if (!temp)
-			return (-1);
-		command_token = purge_quotes(temp);
+		command_token = ft_substr(input, p->token.start, p->token.len);
 		if (!command_token)
-			return (free(temp), -1);
+		{
+			p->parser_error = "malloc error:";
+			return (-1);
+		}
+		if (!purge_quotes(p, command_token) == -1) // TODO: <- make sure the parser error is set where the parser fails.
+			return (free(command_token), -1);
 		if (!p->cmd_table->cmd)
 		{
-			creat_new_command_array();
+			creat_new_command_array(p, command_token);
 			if (!p->cmd_table->cmd)
-				return (free(temp), free(command_token), -1);
+				return (free(command_token), -1); // TODO: <- make sure the parser error is set where the parser fails.
 			return (0);
 		}
-		else if (add_to_command_table() == -1)
-			return (0);
-		
+		else if (add_to_command_table(p, command_token) == -1)
+			return (free(command_token), -1);
+		free(command_token);
 	}
 	return (0);
 }

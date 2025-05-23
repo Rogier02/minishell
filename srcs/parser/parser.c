@@ -6,49 +6,44 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/28 18:13:23 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/08 14:38:12 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/05/23 16:49:02 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_cmd_table *parse_input(t_parsing *p, char *input)
+static int handle_file_token(t_parsing *p, t_token_type type)
 {
-	while (input[p->index])
+	char	*file_name;
+
+	file_name = get_file_name();
+	if (!file_name)
 	{
-		if (add_command(p, input) == -1)
-			return (NULL);
-		else if (add_pipe(p, input) == -1)
-			return (NULL);
-		else if (add_redirect_and_heredoc() == -1)
-			return (NULL);
+		p->parser_error = "malloc error:";
+		return (-1);
 	}
-	return (p->cmd_table);
+	if (open_file(p, file_name) == -1)
+	{
+		return (-1);
+	}
+
 }
+
 
 t_cmd_table *parse_input(t_parsing *p, char *input)
 {
 	while(input[p->index])
 	{
 		p->token = get_token(p, input);
-		if (p->token.type == WORD)
-			add_command(p, input);
-		if (p->token.type == PIPE)
-			add_node(p, input);
-		if (p->token.type == RE_APPEND
-			|| p->token.type == RE_IN
-			|| p->token.type == RE_OUT
-			|| p->token.type == HERE_DOC)
+		if (add_command(p, input) == -1);
+				return (-1);
+		if (add_node(p, input) == -1)
+				return (-1);
+		if (p->token.type == RE_APPEND || p->token.type == RE_IN
+			|| p->token.type == RE_OUT || p->token.type == HERE_DOC)
 		{
-			p->temp_token = p->token;
-			p->token = get_token(input, p->token.end);
-			if (p->token.type != WORD)
-			{
-				p->parser_error = ft_substr(input, \
-									p->token.start, p->token.len);
-				return (NULL);
-			}
-			handle_file_token();
+			if (add_redirect(p, input) == -1)
+				return (-1);
 		}
 	} 
 	return (p->cmd_table);
