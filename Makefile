@@ -24,8 +24,16 @@ SRCS			= 	srcs/main.c \
 					srcs/expansion/append_variable.c \
 					srcs/expansion/check_quotes.c \
 					srcs/parser/parser.c \
+					srcs/parser/add_command.c \
+					srcs/parser/add_pipe.c \
+					srcs/parser/add_redirection.c \
+					srcs/parser/get_token.c \
+					srcs/parser/get_token_type.c \
+					srcs/parser/open_file.c \
+					srcs/parser/quotes.c \
 					srcs/signals/handle_signals.c \
-					srcs/free/free_expansion.c
+					srcs/free/free_expansion.c \
+					srcs/free/free_parsing.c \
 
 OBJ_DIR			= 	objs
 OBJ_FILES		=	$(SRCS:$(SRCS_DIR)/%.c=$(OBJ_DIR)/%.o)

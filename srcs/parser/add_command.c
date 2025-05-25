@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/07 12:42:12 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/23 16:39:42 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/05/25 16:48:14 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,26 @@ static  void create_new_command_array(t_parsing *p, char *command)
 
 static int add_to_command_table(t_parsing *p, char *command)
 {
+	char	**new_array;
+	int		i;
+	int		j;
 
+	j = 0;
+	i = 0;
+	while (p->cmd_table->cmd[i])
+		i++;
+	new_array = malloc(sizeof(char *) * (i + 2));
+	if (!new_array)
+		return (-1);
+	while (j < i)
+	{
+		new_array[j] = ft_strdup(p->cmd_table->cmd[j]);
+		j++;
+	}
+	new_array[i] = ft_strdup(command);
+	new_array[i + 1] == NULL;
+	free_array(p->cmd_table->cmd);
+	p->cmd_table->cmd = new_array;
 }
 
 int	add_command(t_parsing *p, char *input)
@@ -47,13 +66,13 @@ int	add_command(t_parsing *p, char *input)
 			p->parser_error = "malloc error:";
 			return (-1);
 		}
-		if (!purge_quotes(p, command_token) == -1) // TODO: <- make sure the parser error is set where the parser fails.
+		if (!purge_quotes(p, command_token) == -1)
 			return (free(command_token), -1);
 		if (!p->cmd_table->cmd)
 		{
 			creat_new_command_array(p, command_token);
 			if (!p->cmd_table->cmd)
-				return (free(command_token), -1); // TODO: <- make sure the parser error is set where the parser fails.
+				return (free(command_token), -1);
 			return (0);
 		}
 		else if (add_to_command_table(p, command_token) == -1)

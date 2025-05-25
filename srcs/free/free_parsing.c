@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   init_parsing.c                                     :+:    :+:            */
+/*   free_parsing.c                                     :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/05/05 16:08:41 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/25 17:04:49 by rgoossen      ########   odam.nl         */
+/*   Created: 2025/05/25 19:29:58 by rgoossen      #+#    #+#                 */
+/*   Updated: 2025/05/25 19:33:47 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int init_parsing(t_parsing *p)
+void	free_parsing(t_parsing *parsing)
 {
-	p->cmd_table = ft_calloc(1, sizeof(t_cmd_table));
-	if (!p->cmd_table)
-		return (-1);
-	p->head	= p->cmd_table;
-	p->current = p->cmd_table;
-	p->index = 0;
-	return (0);
+	(void)parsing;
 }

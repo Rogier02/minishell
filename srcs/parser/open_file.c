@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/07 12:33:31 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/23 16:48:04 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/05/25 17:10:39 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,4 @@ int open_file(t_parsing *p, char *file_name)
 		p->parser_error = "malloc failure:";
 		return (-1);
 	}
-	
-	
 }

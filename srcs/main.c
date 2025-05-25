@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:30:13 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/05 13:13:28 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/05/25 17:03:57 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,51 @@ static char	*get_complete_input(char *initial_input)
 	return (initial_input);
 }
 
+static void		print_cmd_table(t_cmd_table *cmd_table)
+{
+	int i;
+
+    while (cmd_table)
+    {
+        printf("Command:\n");
+        if (cmd_table->cmd)
+        {
+            i = 0;
+            while (cmd_table->cmd[i])
+            {
+                printf("  Arg[%d]: %s\n", i, cmd_table->cmd[i]);
+                i++;
+            }
+        }
+        else
+            printf("  No command found.\n");
+
+        if (cmd_table->infile)
+            printf("  Input File: %s\n", cmd_table->infile);
+        else
+            printf("  Input File: None\n");
+
+        if (cmd_table->outfile)
+            printf("  Output File: %s\n", cmd_table->outfile);
+        else
+            printf("  Output File: None\n");
+
+        printf("  Append Mode: %s\n", cmd_table->heredoc ? "Yes" : "No");
+
+        if (cmd_table->heredoc_delim)
+            printf("  Heredoc Delimiter: %s\n", cmd_table->heredoc_delim);
+        else
+            printf("  Heredoc Delimiter: None\n");
+
+        printf("  Input FD: %d\n", cmd_table->infd);
+        printf("  Output FD: %d\n", cmd_table->outfd);
+
+        cmd_table = cmd_table->next;
+        if (cmd_table)
+            printf("\n--- Next Command ---\n");
+    }
+}
+
 static void		run_minishell(t_minishell *minishell)
 {
 	while (1)
@@ -73,12 +118,16 @@ static void		run_minishell(t_minishell *minishell)
 			add_history(minishell->input);
 		if (parser(minishell) == -1)
 			continue ;
+		printf("\n--- Parsed Command Table ---\n");
+        print_cmd_table(minishell->cmd_table);
+        printf("--- End of Command Table ---\n");
 		// initial input check. white spaces, empty line. etc
 		// add input to history
 		// expand input.
 		// parse input
 		// execute inpute
 		
+		free(minishell->input);
 	}
 }
 

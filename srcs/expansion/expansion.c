@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/28 18:40:39 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/05 17:26:13 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/05/25 17:08:40 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char *expand(t_minishell *mshell, char *input)
 	init_expansion(mshell, &expan);
 	while(input[i])
 	{
-		check_for_quotes(input[i], &expan.quote_flag);
+		check_quotes(input[i], &expan.quote_flag);
 		if (input[i] == '$')
 		{
 			if (handle_expansion(&expan, input, &i) == -1)
