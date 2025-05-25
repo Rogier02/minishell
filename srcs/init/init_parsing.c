@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/05 16:08:41 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/25 17:04:49 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/05/25 20:32:14 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@ int init_parsing(t_parsing *p)
 	p->head	= p->cmd_table;
 	p->current = p->cmd_table;
 	p->index = 0;
+	p->temp_file = "/tmp/minishell_heredoc";
 	return (0);
 }

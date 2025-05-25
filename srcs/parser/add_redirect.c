@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/21 15:57:41 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/25 17:38:21 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/05/25 20:20:41 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ static int handle_file_token(t_parsing *p, char *input)
 		p->parser_error = "malloc error:";
 		return (-1);
 	}
+	if (p->previous_token.type == HERE_DOC)
+		handle_heredoc(p, file_name);
 	if (open_file(p, file_name) == -1)
 	{
 		return (-1);
@@ -35,7 +37,7 @@ static int handle_file_token(t_parsing *p, char *input)
 
 int add_redirect(t_parsing *p, char *input)
 {
-	p->temp_token = p->token;
+	p->previous_token = p->token;
 	p->token = get_token(input, p->token.end);
 	if (p->token.type != WORD)
 	{

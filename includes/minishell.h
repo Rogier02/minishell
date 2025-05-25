@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/25 19:33:17 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/05/25 20:33:22 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ typedef struct s_cmd_table
 	char					*append;
 	int						infd;
 	int						outfd;
-	int						heredoc;
 	char					*heredoc_delim;
 	struct s_cmd_table	*next;
 
@@ -90,8 +89,9 @@ typedef struct s_parsing
 	t_cmd_table	*head;
 	t_cmd_table	*current;
 	t_token		token;
-	t_token		temp_token;
+	t_token		previous_token;
 	int			index;
+	char		*temp_file;
 	char		parser_error;
 	
 }	t_parsing;

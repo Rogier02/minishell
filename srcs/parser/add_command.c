@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/07 12:42:12 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/25 16:48:14 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/05/25 21:04:50 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,10 @@ int	add_command(t_parsing *p, char *input)
 }
 
 
-		//create substring of the token from the input.
-		// remove the unnquotes from the input
-		// if !new command return -1)
-		// if the command table has not been allocated.then malloc.
+	//create substring of the token from the input.
+	// remove the unnquotes from the input
+	// if !new command return -1)
+	// if the command table has not been allocated.then malloc.
 		// set the new_command string to the command table[0].
 		// set command[1] to NULL.
 		// free anything than needs to be free'd.
