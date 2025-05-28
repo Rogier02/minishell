@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/25 20:33:22 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/05/28 17:42:26 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,11 +88,11 @@ typedef struct s_parsing
 	t_cmd_table	*cmd_table;
 	t_cmd_table	*head;
 	t_cmd_table	*current;
-	t_token		token;
-	t_token		previous_token;
+	t_token		*token;
+	t_token		*previous_token;
 	int			index;
 	char		*temp_file;
-	char		parser_error;
+	char		*parser_error;
 	
 }	t_parsing;
 
@@ -115,17 +115,22 @@ void	get_pwd(t_minishell *minishell);
 
 /* init/ */
 void	init_minishell(t_minishell *minishell, char *envp[]);
+void	init_token(t_token *token, int i);
 int		init_parsing(t_parsing *p);
 
 /* signals/ */
 void	handle_signals(t_minishell *minishell, int loc);
 
 /* parser/ */
-int		parser(t_minishell *minishell);
-int		add_command(t_parsing *p, char *input);
-int		add_pipe(t_parsing *p, char *input);
-int		add_redirect(t_parsing *p, char *input);
-t_token get_token(t_parsing *p, char *input);
+int				parser(t_minishell *minishell);
+int				add_command(t_parsing *p, char *input);
+int				add_pipe(t_parsing *p);
+int				add_redirect(t_parsing *p, char *input);
+int				handle_heredoc(t_parsing *p, char *delimiter);
+int				open_file(t_parsing *p, char *file);
+void			skip_whitespaces(char *input, int *index);
+t_token_type 	get_token_type(char * input, t_token *token);	
+void			get_token(t_parsing *p, char *input);
 
 
 /* epansion */
@@ -138,5 +143,7 @@ char	*expand(t_minishell *mshell, char *input);
 /* free/ */
 void	free_expansion(t_expansion *expan);
 void	free_parsing(t_parsing *parsing);
+
+int		purge_quotes(t_parsing *p, char **str);
 
 #endif

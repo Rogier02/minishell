@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:30:13 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/25 17:03:57 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/05/28 13:59:13 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void		print_cmd_table(t_cmd_table *cmd_table)
             i = 0;
             while (cmd_table->cmd[i])
             {
-                printf("  Arg[%d]: %s\n", i, cmd_table->cmd[i]);
+                printf("  string[%d]: %s\n", i, cmd_table->cmd[i]);
                 i++;
             }
         }
@@ -87,7 +87,7 @@ static void		print_cmd_table(t_cmd_table *cmd_table)
         else
             printf("  Output File: None\n");
 
-        printf("  Append Mode: %s\n", cmd_table->heredoc ? "Yes" : "No");
+        printf("  Append Mode: %s\n", cmd_table->heredoc_delim ? "Yes" : "No");
 
         if (cmd_table->heredoc_delim)
             printf("  Heredoc Delimiter: %s\n", cmd_table->heredoc_delim);

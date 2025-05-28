@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/07 12:33:31 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/25 20:17:03 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/05/28 17:19:10 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int open_to_outfile(t_parsing *p, char *file)
 		p->parser_error = "open failure: ";
 		return (-1);
 	}
+	return (0);
 }
 
 int open_to_infile(t_parsing *p, char *file)
@@ -47,18 +48,18 @@ int open_to_infile(t_parsing *p, char *file)
 		p->parser_error = "open failure: ";
 		return (-1);
 	}
-	
+	return (0);
 }
 
 int open_file(t_parsing *p, char *file)
 {
-	if (p->previous_token.type == RE_APPEND 
-		|| p->previous_token.type == RE_OUT)
+	if (p->previous_token->type == RE_APPEND 
+		|| p->previous_token->type == RE_OUT)
 	{
 		if (open_to_outfile(p, file) == -1)
 			return (-1);
 	}
-	if (p->previous_token.type == RE_IN)
+	if (p->previous_token->type == RE_IN)
 	{
 		if (open_to_infile(p, file) == -1)
 			return (-1);

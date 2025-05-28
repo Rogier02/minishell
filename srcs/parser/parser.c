@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/28 18:13:23 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/25 19:32:09 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/05/28 15:56:40 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ t_cmd_table *parse_input(t_parsing *p, char *input)
 {
 	while(input[p->index])
 	{
-		p->token = get_token(p, input);
+		get_token(p, input);
 		if (add_command(p, input) == -1)
 				return (NULL);
-		if (add_pipe(p, input) == -1)
+		if (add_pipe(p) == -1)
 				return (NULL);
-		if (p->token.type == RE_APPEND || p->token.type == RE_IN
-			|| p->token.type == RE_OUT || p->token.type == HERE_DOC)
+		if (p->token->type == RE_APPEND || p->token->type == RE_IN
+			|| p->token->type == RE_OUT || p->token->type == HERE_DOC)
 		{
 			if (add_redirect(p, input) == -1)
 				return (NULL);
@@ -44,7 +44,7 @@ int	parser(t_minishell *minishell)
 	if (!minishell->cmd_table) // ?
 	{
 		//free_parsing(parsing);
-		ft_putstr_fd(&parsing.parser_error, STDERR_FILENO);
+		ft_putstr_fd(parsing.parser_error, STDERR_FILENO);
 		return (-1);
 	}
 	return(0);

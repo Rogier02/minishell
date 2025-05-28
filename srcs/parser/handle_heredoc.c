@@ -6,13 +6,13 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/25 20:18:35 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/25 20:49:58 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/05/28 13:57:20 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	get_heredoc_input(t_parsing *p, int heredoc_fd, char *delimiter)
+void	get_heredoc_input(int heredoc_fd, char *delimiter)
 {
 	char *line;
 
@@ -21,7 +21,8 @@ void	get_heredoc_input(t_parsing *p, int heredoc_fd, char *delimiter)
 		line = readline("> ");
 		if (!line) // should handle with signals TODO: double check
 		{
-			ft_putstr_fd("minishell: warning: heredoc delimited by EOF\n", STDERR_FILENO);
+			ft_putstr_fd("minishell: warning: heredoc delimited by EOF\n",\
+															STDERR_FILENO);
 			break;
 		}
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
@@ -45,7 +46,7 @@ int handle_heredoc(t_parsing *p, char *delimiter)
 		p->parser_error = "minishell: heredoc";
 		return (-1);
 	}
-	get_heredoc_input(p, heredoc_fd, delimiter);
+	get_heredoc_input(heredoc_fd, delimiter);
 	close(heredoc_fd);
 	if (p->cmd_table->infile)
 		free(p->cmd_table->infile);

@@ -6,15 +6,33 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/21 16:06:41 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/23 16:11:58 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/05/28 17:12:05 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	add_pipe(t_parsing *p, char *input)
+t_cmd_table *new_node(void)
 {
-	if (p->token.type == PIPE)
+	t_cmd_table	*new_cmd_table;
+
+	new_cmd_table = malloc(sizeof(t_cmd_table));
+	if (!new_cmd_table)
+		return (NULL);
+	new_cmd_table->append = NULL;
+	new_cmd_table->cmd = NULL;
+	new_cmd_table->heredoc_delim = NULL;
+	new_cmd_table->infile = NULL;
+	new_cmd_table->outfile = NULL;
+	new_cmd_table->infd = 0;
+	new_cmd_table->outfd = 0;
+	new_cmd_table->next = NULL;
+	return (new_cmd_table);
+}
+
+int	add_pipe(t_parsing *p)
+{
+	if (p->token->type == PIPE)
 	{
 		p->cmd_table->next = new_node();
 		if (!p->cmd_table->next)
@@ -24,4 +42,5 @@ int	add_pipe(t_parsing *p, char *input)
 		}
 		p->cmd_table = p->cmd_table->next;
 	}
+	return (0);
 }

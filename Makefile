@@ -26,11 +26,13 @@ SRCS			= 	srcs/main.c \
 					srcs/parser/parser.c \
 					srcs/parser/add_command.c \
 					srcs/parser/add_pipe.c \
-					srcs/parser/add_redirection.c \
+					srcs/parser/add_redirect.c \
+					srcs/parser/handle_heredoc.c \
 					srcs/parser/get_token.c \
 					srcs/parser/get_token_type.c \
 					srcs/parser/open_file.c \
 					srcs/parser/quotes.c \
+					srcs/parser/skip_whitespaces.c \
 					srcs/signals/handle_signals.c \
 					srcs/free/free_expansion.c \
 					srcs/free/free_parsing.c \

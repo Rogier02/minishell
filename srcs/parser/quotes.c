@@ -6,13 +6,13 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/21 17:16:19 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/23 16:43:11 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/05/28 17:48:24 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int *purge_quotes(t_parsing *p, char *str)
+int purge_quotes(t_parsing *p, char **str)
 {
 	char	quote_flag;
 	char	*temp;
@@ -22,21 +22,22 @@ int *purge_quotes(t_parsing *p, char *str)
 	i = 0;
 	j = 0;
 	quote_flag = 0;
-	temp = malloc (sizeof(char) * ft_strlen(str));
+	temp = malloc (sizeof(char) * (ft_strlen(*str) + 1));
 	if (!temp)
 	{
 		p->parser_error = "malloc failure:";
 		return (-1);
 	}
-	while (str[i])
+	while ((*str)[i])
 	{
-		if (quote_flag == 0 && (str[i] == '\'' || str[i] == '\"'))
-			quote_flag = str[i];
-		else if (str[i] != quote_flag)
-			temp[j++] = str[i];
+		if (quote_flag == 0 && ((*str)[i] == '\'' || (*str)[i] == '\"'))
+			quote_flag = (*str)[i];
+		else if ((*str)[i] != quote_flag)
+			temp[j++] = (*str)[i];
 		i++;
 	}
 	temp[j] = '\0';
-	free(str);
-	str = temp;
+	free(*str);
+	*str = temp;
+	return (0);
 }

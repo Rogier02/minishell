@@ -1,32 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   init_parsing.c                                     :+:    :+:            */
+/*   skip_whitespaces.c                                 :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/05/05 16:08:41 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/28 17:24:12 by rgoossen      ########   odam.nl         */
+/*   Created: 2025/05/28 13:37:59 by rgoossen      #+#    #+#                 */
+/*   Updated: 2025/05/28 13:49:55 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int init_parsing(t_parsing *p)
+void skip_whitespaces(char *input, int *index)
 {
-	p->cmd_table = ft_calloc(1, sizeof(t_cmd_table));
-	if (!p->cmd_table)
-		return (-1);
-	p->head	= p->cmd_table;
-	p->current = p->cmd_table;
-	p->index = 0;
-	p->temp_file = "/tmp/minishell_heredoc";
-	p->parser_error = NULL;
-	p->token = ft_calloc(1, sizeof(t_token));
-	if (!p->token)
-		return (-1);
-	p->previous_token = ft_calloc(1, sizeof(t_token));
-	if (!p->token)
-		return (-1);
-	return (0);
+	while (input[*index] && input[*index] == ' ')
+		(*index)++;
 }
+

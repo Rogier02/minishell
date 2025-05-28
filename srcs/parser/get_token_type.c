@@ -6,23 +6,23 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/21 12:41:02 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/21 12:55:44 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/05/28 15:48:48 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token_type get_token_type(char * input, t_token token)
+t_token_type get_token_type(char * input, t_token *token)
 {
-	if (ft_strncmp(&input[token.start], "<", token.len) == 0)
+	if (ft_strncmp(&input[token->start], "<", token->len) == 0)
 		return (RE_IN);
-	else if (ft_strncmp(&input[token.start], ">", token.len) == 0)
+	else if (ft_strncmp(&input[token->start], ">", token->len) == 0)
 		return (RE_OUT);
-	else if (ft_strncmp(&input[token.start], ">>", token.len) == 0)
+	else if (ft_strncmp(&input[token->start], ">>", token->len) == 0)
 		return (RE_APPEND);
-	else if (ft_strncmp(&input[token.start], "<<", token.len) == 0)
+	else if (ft_strncmp(&input[token->start], "<<", token->len) == 0)
 		return (HERE_DOC);
-	else if (ft_strncmp(&input[token.start], "|", token.len) == 0)
+	else if (ft_strncmp(&input[token->start], "|", token->len) == 0)
 		return (PIPE);
 	else 
 		return (WORD);
