@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/28 17:42:26 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/07 14:31:05 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ typedef struct s_cmd_table
 	char					**cmd;
 	char					*infile;
 	char					*outfile;
-	char					*append;
 	int						infd;
 	int						outfd;
+	int						append_flag;
 	char					*heredoc_delim;
 	struct s_cmd_table	*next;
 

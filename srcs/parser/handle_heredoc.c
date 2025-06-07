@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/25 20:18:35 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/28 13:57:20 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/07 19:44:27 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,24 @@ void	get_heredoc_input(int heredoc_fd, char *delimiter)
 	}
 }
 
+int	save_heredoc_info(t_parsing *p)
+{
+	p->cmd_table->infile = ft_strdup(p->temp_file);
+	if (!p->cmd_table->infile)
+	{
+		p->parser_error = "malloc failure: ";
+		return (-1);
+	}
+	p->cmd_table->infd = open(p->cmd_table->infile, O_RDONLY);
+	if (p->cmd_table->infd == -1)
+	{
+		p->parser_error = "open failure: ";
+		return (-1);
+	}
+	unlink(p->cmd_table->infile);
+	return(0);
+}
+
 int handle_heredoc(t_parsing *p, char *delimiter)
 {
 	int		heredoc_fd;
@@ -50,11 +68,7 @@ int handle_heredoc(t_parsing *p, char *delimiter)
 	close(heredoc_fd);
 	if (p->cmd_table->infile)
 		free(p->cmd_table->infile);
-	p->cmd_table->infile = ft_strdup(p->temp_file);
-	if (!p->cmd_table->infile)
-	{
-		p->parser_error = "malloc failure: ";
+	if (save_heredoc_info(p) == -1)
 		return (-1);
-	}
 	return (0);
 }

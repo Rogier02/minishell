@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/05 15:53:33 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/28 18:03:51 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/07 13:20:33 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static void	skip_meta_characters(t_parsing *p, char *input)
 void get_token(t_parsing *p, char *input)
 {
 	p->token->start = p->index;
+	p->token->len = 0;
 	while (input[p->index]) 
 	{
 		check_quotes(input[p->index], &p->token->quote_flag);

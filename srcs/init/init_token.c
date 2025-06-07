@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/05 16:08:19 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/05 16:08:28 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/07 16:06:01 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	init_token(t_token *token, int i)
 {
 	token->end = 0;
 	token->len = 0;
-	token->quote_flag = 0;
+	token->quote_flag = '\0';
 	token->start = i;
 	token->type = WORD;
 }

@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/21 15:57:41 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/28 17:14:03 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/07 15:48:42 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 static char	*get_file_name(t_token token, char *input)
 {
 	char	*file_name;
-	int		len;
+	// int		len;
 
-	len = token.end - token.start;
-	file_name = ft_substr(input, token.start, len);
+	// len = token.end - token.start;
+	file_name = ft_substr(input, token.start, token.len);
 	if (!file_name)
 		(NULL);
 	return (file_name);
@@ -29,6 +29,7 @@ static int handle_file_type(t_parsing *p, char *input)
 	char	*file_name;
 
 	file_name = get_file_name(*p->token, input);
+	purge_quotes(p, &file_name);
 	if (!file_name)
 	{
 		p->parser_error = "malloc error:";
@@ -41,9 +42,29 @@ static int handle_file_type(t_parsing *p, char *input)
 	return (0);
 }
 
+static t_token	*copy_token_data(t_token *token)
+{
+	t_token	*new_token;
+
+	new_token = ft_calloc(1, sizeof(t_token));
+	if (!new_token)
+		return (NULL);
+	new_token->type = token->type;
+	new_token->len = token->len;
+	new_token->end = token->end;
+	new_token->start = token->start;
+	new_token->quote_flag = token->quote_flag;
+	return (new_token);
+}
+
 int add_redirect(t_parsing *p, char *input)
 {
-	p->previous_token = p->token;
+	p->previous_token = copy_token_data(p->token);
+	if (!p->previous_token)
+	{
+		p->parser_error = "malloc failure: ";
+		return (-1);
+	}
 	get_token(p, input);
 	if (p->token->type != WORD)
 	{

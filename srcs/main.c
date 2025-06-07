@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:30:13 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/28 13:59:13 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/07 18:50:48 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,11 @@ static void		print_cmd_table(t_cmd_table *cmd_table)
             printf("  Output File: %s\n", cmd_table->outfile);
         else
             printf("  Output File: None\n");
-
+		if (cmd_table->append_flag == 0)
+			printf(" Append_flag: %i\n", cmd_table->append_flag);
+		else 
+			printf("  Append_flag: 1\n");
+			
         printf("  Append Mode: %s\n", cmd_table->heredoc_delim ? "Yes" : "No");
 
         if (cmd_table->heredoc_delim)
@@ -121,12 +125,7 @@ static void		run_minishell(t_minishell *minishell)
 		printf("\n--- Parsed Command Table ---\n");
         print_cmd_table(minishell->cmd_table);
         printf("--- End of Command Table ---\n");
-		// initial input check. white spaces, empty line. etc
-		// add input to history
-		// expand input.
-		// parse input
-		// execute inpute
-		
+		// excutiona
 		free(minishell->input);
 	}
 }
