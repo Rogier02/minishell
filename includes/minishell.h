@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/07 14:31:05 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/08 18:28:53 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ typedef struct s_cmd_table
 	int						outfd;
 	int						append_flag;
 	char					*heredoc_delim;
-	struct s_cmd_table	*next;
+	struct s_cmd_table		*next;
 
 } t_cmd_table;
 
@@ -134,11 +134,11 @@ void			get_token(t_parsing *p, char *input);
 
 
 /* epansion */
-int		append_char(t_expansion *expan, char c);
-int		append_exit_code(t_expansion *expan, int *i);
-int		append_variable(t_expansion *expan, char *input, int *i);
-void	check_quotes(char c, char *quote_flag);
-char	*expand(t_minishell *mshell, char *input);
+int			append_char(t_expansion *expan, char c);
+int			append_exit_code(t_expansion *expan, int *i);
+int			append_variable(t_expansion *expan, char *input, int *i);
+void		check_quotes(char c, char *quote_flag);
+int			expand_input(t_minishell *minishell);
 
 /* free/ */
 void	free_expansion(t_expansion *expan);

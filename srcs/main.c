@@ -6,62 +6,17 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:30:13 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/07 18:50:48 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/08 18:30:48 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static bool has_unmatched_quotes(char *input)
-{
-	char	quote_flag;
-	int		i;
-
-	i = 0;
-	quote_flag = 0;
-	while(input[i])
-	{
-		if (quote_flag == 0 && (input[i] == '\'' 
-								|| input[i] == '\"'))
-			quote_flag = input[i];
-		else if (quote_flag != 0 && input[i] == quote_flag)
-			quote_flag = 0;
-		i++;
-	}
-	return (quote_flag != 0);
-}
-
-static char	*get_complete_input(char *initial_input)
-{
-	char	*new_input;
-	char	*temp;
-
-	while (has_unmatched_quotes(initial_input))
-	{
-		new_input = readline("> ");
-		if (!new_input)
-		{
-			ft_putstr_fd(UNMATCHED_QUOTES_ERR , STDERR_FILENO);
-			free(initial_input);
-			return (NULL);
-		}
-		temp = ft_strjoin(initial_input, "\n");
-		free(initial_input);
-		if (!temp)
-			return (free(temp), NULL);
-		initial_input = ft_strjoin(temp, new_input);
-		free(temp);
-		free(new_input);
-		if (!initial_input)
-			return (NULL);
-	}
-	return (initial_input);
-}
-
 static void		print_cmd_table(t_cmd_table *cmd_table)
 {
 	int i;
 
+	printf("\n--- Parsed Command Table ---\n");
     while (cmd_table)
     {
         printf("Command:\n");
@@ -105,6 +60,33 @@ static void		print_cmd_table(t_cmd_table *cmd_table)
         if (cmd_table)
             printf("\n--- Next Command ---\n");
     }
+	printf("--- End of Command Table ---\n");
+}
+static int		has_syntax_error(const char *input)
+{
+	int		i;
+	char	quote_flag;
+
+	i = 0;
+	quote_flag = '\0';
+	while (input[i])
+	{	
+		if (quote_flag == '\0' && (input[i] == '\\' || input[i] == ';'))
+			return (1);
+		if (quote_flag == '\0' 
+			&& (input[i] == '\'' || input[i] == '\"'))
+			quote_flag = input[i];
+		if (quote_flag == input[i] 
+			&& (input[i] == '\'' || input[i] == '\"'))
+			quote_flag = '\0';
+		i++;
+	}
+	if (quote_flag != '\0')
+	{
+		ft_putstr_fd("minishell: syntax error: unclosed quote\n", STDERR_FILENO);
+		return (1);
+	}
+	return (0);
 }
 
 static void		run_minishell(t_minishell *minishell)
@@ -117,15 +99,20 @@ static void		run_minishell(t_minishell *minishell)
 			ft_putstr_fd("exit\n", STDOUT_FILENO);
 			break;
 		}
-		minishell->input = get_complete_input(minishell->input);
+		if (has_syntax_error(minishell->input) == 1)
+		{
+			free(minishell->input);
+			continue ;
+		}
 		if (minishell->input[0])
 			add_history(minishell->input);
 		if (parser(minishell) == -1)
+		{
+			free(minishell->input);
 			continue ;
-		printf("\n--- Parsed Command Table ---\n");
-        print_cmd_table(minishell->cmd_table);
-        printf("--- End of Command Table ---\n");
-		// excutiona
+		}
+		print_cmd_table(minishell->cmd_table);
+		//execution(minishell);
 		free(minishell->input);
 	}
 }

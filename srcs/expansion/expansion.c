@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/28 18:40:39 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/25 17:08:40 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/08 18:29:25 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,32 +67,32 @@ static void init_expansion(t_minishell *mshell, t_expansion *expan)
 	expan->exit_code_copy = mshell->exit_code;
 }
 
-char *expand(t_minishell *mshell, char *input)
+int expand_input(t_minishell *mshell)
 {
 	t_expansion	expan;
 	int	i;
 
 	i = 0;
 	init_expansion(mshell, &expan);
-	while(input[i])
+	while(mshell->input[i])
 	{
-		check_quotes(input[i], &expan.quote_flag);
-		if (input[i] == '$')
+		check_quotes(mshell->input[i], &expan.quote_flag);
+		if (mshell->input[i] == '$')
 		{
-			if (handle_expansion(&expan, input, &i) == -1)
+			if (handle_expansion(&expan, mshell->input, &i) == -1)
 			{
 				mshell->exit_code = ENOMEM;
-				return (free_expansion(&expan), NULL);
+				return (free_expansion(&expan), -1);
 			}
 		}
-		else if (append_char(&expan, input[i]) == -1)
+		else if (append_char(&expan, mshell->input[i]) == -1)
 		{
 			mshell->exit_code = ENOMEM;
-			return (free_expansion(&expan), NULL);
+			return (free_expansion(&expan), -1);
 		}
-		
 		i++;
 	}
-	//printf("expaned input = %s", input);
-	return (expan.expanded_input);
+	free(mshell->input);
+	mshell->input = expan.expanded_input;
+	return (0);
 }

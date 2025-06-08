@@ -8,6 +8,8 @@
 		"string_view": "c",
 		"initializer_list": "c",
 		"ranges": "c",
-		"span": "c"
+		"span": "c",
+		"stdio.h": "c",
+		"stdlib.h": "c"
 	}
 }
