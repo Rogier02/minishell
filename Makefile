@@ -36,6 +36,11 @@ SRCS			= 	srcs/main.c \
 					srcs/signals/handle_signals.c \
 					srcs/free/free_expansion.c \
 					srcs/free/free_parsing.c \
+					srcs/execution/execution.c \
+					srcs/execution/get_cmd_path.c \
+					srcs/execution/builtin_echo.c \
+					srcs/execution/builtin_pwd.c \
+					srcs/execution/builtin_env.c
 
 OBJ_DIR			= 	objs
 OBJ_FILES		=	$(SRCS:$(SRCS_DIR)/%.c=$(OBJ_DIR)/%.o)

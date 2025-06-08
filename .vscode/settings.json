@@ -8,6 +8,8 @@
 		"string_view": "c",
 		"initializer_list": "c",
 		"ranges": "c",
-		"span": "c"
+		"span": "c",
+		"minishell.h": "c",
+		"libft.h": "c"
 	}
 }
