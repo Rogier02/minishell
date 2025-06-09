@@ -1,42 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   handle_signals.c                                   :+:    :+:            */
+/*   signals.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/27 17:52:15 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/02 18:35:56 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/09 19:05:59 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_signals(t_minishell *minishell, int loc)
+void	shell_signals(struct sigaction *sa, t_minishell *minishell)
 {
-		(void)minishell;
-		(void)loc;
+	int	ret;
+	sa->sigaction = handle_shell_signals;
+	signal(SIGQUIT, SIG_IGN);
+	sigaction(SIGINT, sa, 0);
+	
+}
+
+void	heredoc_signal(struct sigaction *sa, t_minishell *minishell)
+{
+	
+}
+
+void	child_signals(struct sigaction *sa, t_minishell *minishell)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);	
+}
+
+void	signal_protocal(t_minishell *minishell, int location)
+{
 		struct sigaction	sa;
 
 		ft_memset(&sa, 0, sizeof(sa));
 		sa.sa_flags = SA_SIGINFO; // tells the Union to use sigaction funciton pointer
 		sigemptyset(&sa.sa_mask); // dont block signals.
 
-		// if (loc == 1)
-		// {
-		// 	execution_signal_handler(&sa);
-
-		// }
-		// if (loc == 2)
-		// {
-		// 	heredoc_signal_handler(&sa);
-		// }
-		// if (loc == 3)
-		// {
-		// 	child_process_signal_handler(&sa);
-		// }
-		// add signal handler function for execution
-		// add singal handler function for heredoc
-		// add signal handler function for child process
-		
+		if (location == main_shell)
+			shell_signals(&sa);
+		if (location == heredoc)
+			heredoc_signals(&sa);
+		if (location == child_process)
+			child_process_signals(&sa);
+		if (location == waiting_parent)
+			waiting_parent_signals(&sa);
 }

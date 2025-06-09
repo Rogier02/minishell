@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/08 18:28:53 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/09 17:20:11 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,14 @@
 
 # define UNMATCHED_QUOTES_ERR "minishell: unexpected EOF while looking for matching quote\n"
 # define MINISHELL_PROMPT "minishell: ~$"
+
+typedef	enum e_signal_locations
+{
+	main_shell,
+	heredoc,
+	child_process,
+	waiting_parent,
+};
 
 typedef enum e_token_type
 {
@@ -146,4 +154,6 @@ void	free_parsing(t_parsing *parsing);
 
 int		purge_quotes(t_parsing *p, char **str);
 
+/* signals/ */
+void	handle_shell_signals(int sig, siginfo_t *info, void *)
 #endif
