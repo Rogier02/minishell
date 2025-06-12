@@ -33,9 +33,10 @@ SRCS			= 	srcs/main.c \
 					srcs/parser/open_file.c \
 					srcs/parser/quotes.c \
 					srcs/parser/skip_whitespaces.c \
-					srcs/signals/handle_signals.c \
+					srcs/signals/signal_handlers.c \
 					srcs/free/free_expansion.c \
 					srcs/free/free_parsing.c \
+					srcs/signals/signals.c 
 
 OBJ_DIR			= 	objs
 OBJ_FILES		=	$(SRCS:$(SRCS_DIR)/%.c=$(OBJ_DIR)/%.o)

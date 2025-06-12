@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/09 17:08:44 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/09 19:01:14 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/12 14:58:44 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,7 @@ void	handle_heredoc_singals(int signal, sigino_t *info, void *ucontext)
 	(void)ucontext;
 
 	if (signal == SIGINT)
-	{
-		//close heredoc <- this means that heredoc needs to be opend to a file descriptor
-			// dont close inside the handler!! best practice to handle close and cleanup in the heredoc function.
+	{	
 		ft_putchar_fd('\n', STDOUT_FILENO);
 	}
 }

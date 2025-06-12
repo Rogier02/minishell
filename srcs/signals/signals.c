@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/27 17:52:15 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/09 19:05:59 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/12 14:47:54 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,12 @@ void	shell_signals(struct sigaction *sa, t_minishell *minishell)
 
 void	heredoc_signal(struct sigaction *sa, t_minishell *minishell)
 {
-	
+	int ret;
+
+	sa->sigaction = handle_heredoc_signals.c
+	signal(SIGQUIT, SIG_IGN);
+	sigaction(SIGINT, sa, 0);
+
 }
 
 void	child_signals(struct sigaction *sa, t_minishell *minishell)
