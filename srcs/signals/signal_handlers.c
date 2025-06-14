@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/09 17:08:44 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/12 14:58:44 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/14 15:07:05 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,14 @@ void	handle_shell_signals(int signal, siginfo_t *info, void *ucontext)
 	}
 }
 
-void	handle_heredoc_singals(int signal, sigino_t *info, void *ucontext)
+void	handle_heredoc_singals(int signal, siginfo_t *info, void *ucontext)
 {
 	(void)info;
 	(void)ucontext;
 
 	if (signal == SIGINT)
 	{	
+		g_heredoc_interrupted = 1;
 		ft_putchar_fd('\n', STDOUT_FILENO);
 	}
 }

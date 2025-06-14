@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   handle_heredoc.c                                   :+:    :+:            */
+/*   heredoc.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/25 20:18:35 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/07 19:44:27 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/14 17:38:05 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	get_heredoc_input(int heredoc_fd, char *delimiter)
 			break;
 		}
 		write(heredoc_fd, line, ft_strlen(line));
-		write(heredoc_fd, "\n", 1);
+		write(heredoc_fd, "n", 1);
 		free(line);
 	}
 }
@@ -42,12 +42,14 @@ int	save_heredoc_info(t_parsing *p)
 	if (!p->cmd_table->infile)
 	{
 		p->parser_error = "malloc failure: ";
+		unlink(p->cmd_table->infile);
 		return (-1);
 	}
 	p->cmd_table->infd = open(p->cmd_table->infile, O_RDONLY);
 	if (p->cmd_table->infd == -1)
 	{
 		p->parser_error = "open failure: ";
+		unlink(p->cmd_table->infile);
 		return (-1);
 	}
 	unlink(p->cmd_table->infile);
@@ -65,6 +67,11 @@ int handle_heredoc(t_parsing *p, char *delimiter)
 		return (-1);
 	}
 	get_heredoc_input(heredoc_fd, delimiter);
+	if (g_heredoc_interrupted == 1)
+	{
+		unlink(p->temp_file);
+		return (-1);
+	}
 	close(heredoc_fd);
 	if (p->cmd_table->infile)
 		free(p->cmd_table->infile);

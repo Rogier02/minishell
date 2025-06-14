@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/12 14:58:38 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/14 15:26:04 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define UNMATCHED_QUOTES_ERR "minishell: unexpected EOF while looking for matching quote\n"
 # define MINISHELL_PROMPT "minishell: ~$"
 
+volatile sig_atomic_t g_heredoc_interrupted = 0;
 
 typedef	enum e_signal_locations
 {
@@ -160,5 +161,6 @@ void	handle_shell_signals(int sig, siginfo_t *info, void *);
 
 /* signal/signal_handlers */
 void	handle_shell_signals(int signal, siginfo_t *info, void *ucontext);
+void	handle_heredoc_singals(int signal, siginfo_t *info, void *ucontext);
 
 #endif
