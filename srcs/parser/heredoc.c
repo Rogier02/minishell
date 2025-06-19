@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/25 20:18:35 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/14 17:38:05 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/19 19:18:21 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,11 @@ int handle_heredoc(t_parsing *p, char *delimiter)
 		unlink(p->temp_file);
 		return (-1);
 	}
+	//after_heredoc(p, heredoc_fd);
+	set_signal_protocal(p->minishell, main_shell);
+	g_heredoc_interrupted = 0;
+	if (g_heredoc_interrupted)
+		rl_redisplay();
 	close(heredoc_fd);
 	if (p->cmd_table->infile)
 		free(p->cmd_table->infile);

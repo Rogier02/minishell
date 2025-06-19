@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/14 15:26:04 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/19 16:45:44 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define UNMATCHED_QUOTES_ERR "minishell: unexpected EOF while looking for matching quote\n"
 # define MINISHELL_PROMPT "minishell: ~$"
 
-volatile sig_atomic_t g_heredoc_interrupted = 0;
+extern volatile sig_atomic_t g_heredoc_interrupted;
 
 typedef	enum e_signal_locations
 {
@@ -93,8 +93,19 @@ typedef struct s_expansion
 	
 } t_expansion;
 
+typedef struct s_minishells
+{
+	int			exit_code;
+	char		*input;
+	char		*pwd;
+	pid_t		main_process_pid;
+	t_envp		*envp;
+	t_cmd_table	*cmd_table;
+} t_minishell;
+
 typedef struct s_parsing
 {
+	t_minishell	*minishell;
 	t_cmd_table	*cmd_table;
 	t_cmd_table	*head;
 	t_cmd_table	*current;
@@ -106,16 +117,6 @@ typedef struct s_parsing
 	
 }	t_parsing;
 
-typedef struct s_minishells
-{
-	int			exit_code;
-	char		*input;
-	char		*pwd;
-	pid_t		main_process_pid;
-	t_envp		*envp;
-	t_cmd_table	*cmd_table;
-} t_minishell;
-
 /* error/ */
 void	error_and_exit(char *msg, t_minishell *minishell);
 
@@ -126,7 +127,7 @@ void	get_pwd(t_minishell *minishell);
 /* init/ */
 void	init_minishell(t_minishell *minishell, char *envp[]);
 void	init_token(t_token *token, int i);
-int		init_parsing(t_parsing *p);
+int		init_parsing(t_minishell *minishell, t_parsing *p);
 
 /* signals/ */
 void	handle_signals(t_minishell *minishell, int loc);
@@ -156,11 +157,12 @@ void	free_parsing(t_parsing *parsing);
 
 int		purge_quotes(t_parsing *p, char **str);
 
-/* signals/ */
-void	handle_shell_signals(int sig, siginfo_t *info, void *);
+/* set signals/ */
+void	set_signal_protocal(t_minishell *minishell, int location);
 
-/* signal/signal_handlers */
+/* signal_handlers */
 void	handle_shell_signals(int signal, siginfo_t *info, void *ucontext);
-void	handle_heredoc_singals(int signal, siginfo_t *info, void *ucontext);
+void	handle_heredoc_signals(int signal, siginfo_t *info, void *ucontext);
+void	handle_child_signals(int signal, siginfo_t *info, void *ucontext);
 
 #endif

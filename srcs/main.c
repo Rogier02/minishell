@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:30:13 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/08 18:30:48 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/19 16:35:47 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ static int		has_syntax_error(const char *input)
 
 	i = 0;
 	quote_flag = '\0';
+	if (ft_strlen(input) == 0 && input != NULL)
+		return (1);
 	while (input[i])
 	{	
 		if (quote_flag == '\0' && (input[i] == '\\' || input[i] == ';'))
@@ -128,6 +130,7 @@ int main(int argc, char *argv[], char *envp[])
 	}
 	//handle_signals();
 	init_minishell(&minishell, envp);
+	set_signal_protocal(&minishell, main_shell);
 	run_minishell(&minishell);
 	rl_clear_history();
 	//exit_minishell();
