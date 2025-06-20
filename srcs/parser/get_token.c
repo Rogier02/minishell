@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/05 15:53:33 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/07 13:20:33 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/20 17:02:20 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	skip_meta_characters(t_parsing *p, char *input)
 	}
 }
 
-void get_token(t_parsing *p, char *input)
+void	get_token(t_parsing *p, char *input)
 {
 	p->token->start = p->index;
 	p->token->len = 0;
@@ -45,6 +45,8 @@ void get_token(t_parsing *p, char *input)
 		check_quotes(input[p->index], &p->token->quote_flag);
 		if (input[p->index] == ' ' && p->token->quote_flag == 0)
 			break;
+		else if (input[p->index] == p->token->quote_flag)
+			break ;
 		if (is_meta_char(p, input) == 1 
 			&& p->token->quote_flag == 0 
 			&& p->token->len == 0)

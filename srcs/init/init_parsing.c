@@ -6,13 +6,13 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/05 16:08:41 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/28 17:24:12 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/19 16:43:35 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int init_parsing(t_parsing *p)
+int init_parsing(t_minishell *minishell, t_parsing *p)
 {
 	p->cmd_table = ft_calloc(1, sizeof(t_cmd_table));
 	if (!p->cmd_table)
@@ -22,6 +22,7 @@ int init_parsing(t_parsing *p)
 	p->index = 0;
 	p->temp_file = "/tmp/minishell_heredoc";
 	p->parser_error = NULL;
+	p->minishell = minishell;
 	p->token = ft_calloc(1, sizeof(t_token));
 	if (!p->token)
 		return (-1);

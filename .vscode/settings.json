@@ -9,7 +9,8 @@
 		"initializer_list": "c",
 		"ranges": "c",
 		"span": "c",
-		"minishell.h": "c",
-		"libft.h": "c"
+		"stdio.h": "c",
+		"stdlib.h": "c",
+		"minishell.h": "c"
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/28 18:13:23 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/07 16:29:28 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/19 19:17:22 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,13 @@ int	parser(t_minishell *minishell)
 {
 	t_parsing	parsing;
 
-	if (init_parsing(&parsing) == -1)
+	if (expand_input(minishell) == -1)
+	{
+		minishell->exit_code = ENOMEM;
+		return (-1);
+	}
+	//printf("expanded input %s", minishell->input);
+	if (init_parsing(minishell, &parsing) == -1)
 	{
 		minishell->exit_code = ENOMEM;
 		return (-1);

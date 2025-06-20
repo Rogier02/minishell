@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/21 15:57:41 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/07 15:48:42 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/19 16:43:14 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ static int handle_file_type(t_parsing *p, char *input)
 		return (-1);
 	}
 	if (p->previous_token->type == HERE_DOC)
+	{
+		set_signal_protocal(p->minishell, heredoc);
 		handle_heredoc(p, file_name);
+	}
 	if (open_file(p, file_name) == -1)
 		return (-1);
 	return (0);
