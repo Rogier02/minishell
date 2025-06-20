@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/25 20:18:35 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/19 19:18:21 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/20 16:22:07 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int handle_heredoc(t_parsing *p, char *delimiter)
 	int		heredoc_fd;
 
 	heredoc_fd = open(p->temp_file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	
 	if (heredoc_fd == -1)
 	{
 		p->parser_error = "minishell: heredoc";
