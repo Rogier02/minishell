@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:30:13 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/20 16:14:37 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/20 19:59:47 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void		print_cmd_table(t_cmd_table *cmd_table)
         else
             printf("  Output File: None\n");
 		if (cmd_table->append_flag == 0)
-			printf(" Append_flag: %i\n", cmd_table->append_flag);
+			printf("  Append_flag: %i\n", cmd_table->append_flag);
 		else 
 			printf("  Append_flag: 1\n");
 			
@@ -62,6 +62,7 @@ static void		print_cmd_table(t_cmd_table *cmd_table)
     }
 	printf("--- End of Command Table ---\n");
 }
+
 static int		has_syntax_error(const char *input)
 {
 	int		i;
@@ -69,8 +70,6 @@ static int		has_syntax_error(const char *input)
 
 	i = 0;
 	quote_flag = '\0';
-	if (ft_strlen(input) == 0 && input != NULL)
-		return (1);
 	while (input[i])
 	{	
 		if (quote_flag == '\0' && (input[i] == '\\' || input[i] == ';'))
@@ -78,7 +77,7 @@ static int		has_syntax_error(const char *input)
 		if (quote_flag == '\0' 
 			&& (input[i] == '\'' || input[i] == '\"'))
 			quote_flag = input[i];
-		if (quote_flag == input[i] 
+		else if (quote_flag == input[i] 
 			&& (input[i] == '\'' || input[i] == '\"'))
 			quote_flag = '\0';
 		i++;
@@ -101,13 +100,14 @@ static void		run_minishell(t_minishell *minishell)
 			ft_putstr_fd("exit\n", STDOUT_FILENO);
 			break;
 		}
+		if (ft_strlen(minishell->input) == 0 && minishell->input != NULL)
+			continue ;
+		add_history(minishell->input);
 		if (has_syntax_error(minishell->input) == 1)
 		{
 			free(minishell->input);
 			continue ;
 		}
-		if (minishell->input[0])
-			add_history(minishell->input);
 		if (parser(minishell) == -1)
 		{
 			free(minishell->input);

@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/28 18:13:23 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/19 19:17:22 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/20 20:03:01 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ t_cmd_table *parse_input(t_parsing *p, char *input)
 		get_token(p, input);
 		if (add_command(p, input) == -1)
 				return (NULL);
-		if (add_pipe(p) == -1)
+		else if (add_pipe(p) == -1)
 				return (NULL);
-		if (p->token->type == RE_APPEND || p->token->type == RE_IN
+		else if (p->token->type == RE_APPEND || p->token->type == RE_IN
 			|| p->token->type == RE_OUT || p->token->type == HERE_DOC)
 		{
 			if (add_redirect(p, input) == -1)
 				return (NULL);
 		}
-	} 
+	}
 	return (p->cmd_table);
 }
 
