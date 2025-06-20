@@ -19,7 +19,7 @@ int	builtin_echo(char **args)
 
 	i = 1;
 	newline = 1;
-	if (args[1] && !ft_strcmp(args[1], "-n"))
+	if (args[1] && !ft_strncmp(args[1], "-n", 2))
 	{
 		newline = 0;
 		i++;

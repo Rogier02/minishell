@@ -12,56 +12,57 @@
 
 #include "minishell.h"
 
-static void		print_cmd_table(t_cmd_table *cmd_table)
-{
-	int i;
+//static void		print_cmd_table(t_cmd_table *cmd_table)
+//{
+//	int i;
 
-	printf("\n--- Parsed Command Table ---\n");
-    while (cmd_table)
-    {
-        printf("Command:\n");
-        if (cmd_table->cmd)
-        {
-            i = 0;
-            while (cmd_table->cmd[i])
-            {
-                printf("  string[%d]: %s\n", i, cmd_table->cmd[i]);
-                i++;
-            }
-        }
-        else
-            printf("  No command found.\n");
+//	printf("\n--- Parsed Command Table ---\n");
+//    while (cmd_table)
+//    {
+//        printf("Command:\n");
+//        if (cmd_table->cmd)
+//        {
+//            i = 0;
+//            while (cmd_table->cmd[i])
+//            {
+//                printf("  string[%d]: %s\n", i, cmd_table->cmd[i]);
+//                i++;
+//            }
+//        }
+//        else
+//            printf("  No command found.\n");
 
-        if (cmd_table->infile)
-            printf("  Input File: %s\n", cmd_table->infile);
-        else
-            printf("  Input File: None\n");
+//        if (cmd_table->infile)
+//            printf("  Input File: %s\n", cmd_table->infile);
+//        else
+//            printf("  Input File: None\n");
 
-        if (cmd_table->outfile)
-            printf("  Output File: %s\n", cmd_table->outfile);
-        else
-            printf("  Output File: None\n");
-		if (cmd_table->append_flag == 0)
-			printf(" Append_flag: %i\n", cmd_table->append_flag);
-		else 
-			printf("  Append_flag: 1\n");
+//        if (cmd_table->outfile)
+//            printf("  Output File: %s\n", cmd_table->outfile);
+//        else
+//            printf("  Output File: None\n");
+//		if (cmd_table->append_flag == 0)
+//			printf(" Append_flag: %i\n", cmd_table->append_flag);
+//		else 
+//			printf("  Append_flag: 1\n");
 			
-        printf("  Append Mode: %s\n", cmd_table->heredoc_delim ? "Yes" : "No");
+//        printf("  Append Mode: %s\n", cmd_table->heredoc_delim ? "Yes" : "No");
 
-        if (cmd_table->heredoc_delim)
-            printf("  Heredoc Delimiter: %s\n", cmd_table->heredoc_delim);
-        else
-            printf("  Heredoc Delimiter: None\n");
+//        if (cmd_table->heredoc_delim)
+//            printf("  Heredoc Delimiter: %s\n", cmd_table->heredoc_delim);
+//        else
+//            printf("  Heredoc Delimiter: None\n");
 
-        printf("  Input FD: %d\n", cmd_table->infd);
-        printf("  Output FD: %d\n", cmd_table->outfd);
+//        printf("  Input FD: %d\n", cmd_table->infd);
+//        printf("  Output FD: %d\n", cmd_table->outfd);
 
-        cmd_table = cmd_table->next;
-        if (cmd_table)
-            printf("\n--- Next Command ---\n");
-    }
-	printf("--- End of Command Table ---\n");
-}
+//        cmd_table = cmd_table->next;
+//        if (cmd_table)
+//            printf("\n--- Next Command ---\n");
+//    }
+//	printf("--- End of Command Table ---\n");
+//}
+
 static int		has_syntax_error(const char *input)
 {
 	int		i;
@@ -113,8 +114,8 @@ static void		run_minishell(t_minishell *minishell)
 			free(minishell->input);
 			continue ;
 		}
-		print_cmd_table(minishell->cmd_table);
-		//execution(minishell);
+		//print_cmd_table(minishell->cmd_table);
+		execution(minishell);
 		free(minishell->input);
 	}
 }

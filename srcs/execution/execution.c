@@ -14,33 +14,23 @@
 
 #include "minishell.h"
 
-char	ft_strcmp(const char *s1, const char *s2)
-{
-	while (*s1 && *s2 && *s1 == *s2)
-	{
-		s1++;
-		s2++;
-	}
-	return (*(unsigned char *)s1 - *(unsigned char *)s2);
-}
-
 static int	is_builtin(char *cmd)
 {
 	if (!cmd)
 		return (0);
-	if (!ft_strcmp(cmd, "echo"))
+	if (!ft_strncmp(cmd, "echo", 4))
 		return (1);
-	if (!ft_strcmp(cmd, "cd"))
+	if (!ft_strncmp(cmd, "cd", 2))
 		return (1);
-	if (!ft_strcmp(cmd, "pwd"))
+	if (!ft_strncmp(cmd, "pwd", 3))
 		return (1);
-	if (!ft_strcmp(cmd, "export"))
+	if (!ft_strncmp(cmd, "export", 6))
 		return (1);
-	if (!ft_strcmp(cmd, "unset"))
+	if (!ft_strncmp(cmd, "unset", 5))
 		return (1);
-	if (!ft_strcmp(cmd, "env"))
+	if (!ft_strncmp(cmd, "env", 3))
 		return (1);
-	if (!ft_strcmp(cmd, "exit"))
+	if (!ft_strncmp(cmd, "exit", 4))
 		return (1);
 	return (0);
 }
@@ -50,17 +40,17 @@ static int	run_builtin(t_minishell *minishell)
 	char	**cmd;
 
 	cmd = minishell->cmd_table->cmd;
-	if (!ft_strcmp(cmd[0], "echo"))
+	if (!ft_strncmp(cmd[0], "echo", 4))
 		return (builtin_echo(cmd));
 	// if (!ft_strcmp(cmd[0], "cd"))
 	//	//return (builtin_cd(cmd));
-	if (!ft_strcmp(cmd[0], "pwd"))
+	if (!ft_strncmp(cmd[0], "pwd", 3))
 		return (builtin_pwd());
 	// if (!ft_strcmp(cmd[0], "export"))
 	//	//return (builtin_export(cmd));
 	// if (!ft_strcmp(cmd[0], "unset"))
 	//	//return (builtin_unset(cmd));
-	if (!ft_strcmp(cmd[0], "env"))
+	if (!ft_strncmp(cmd[0], "env", 3))
 		return (builtin_env(minishell));
 	// if (!ft_strcmp(cmd[0], "exit"))
 	//	//return (builtin_exit(cmd));

@@ -12,6 +12,11 @@ INCLUDES		=	-I ./includes
 SRCS_DIR		= 	srcs
 SRCS			= 	srcs/main.c \
 					srcs/error/error.c \
+					srcs/execution/builtin_echo.c \
+					srcs/execution/builtin_env.c \
+					srcs/execution/builtin_pwd.c \
+					srcs/execution/execution.c \
+					srcs/execution/get_cmd_path.c \
 					srcs/init/get_envp.c \
 					srcs/init/get_pwd.c \
 					srcs/init/init_minishell.c \
