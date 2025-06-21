@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/05 16:08:41 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/19 16:43:35 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/21 15:34:05 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int init_parsing(t_minishell *minishell, t_parsing *p)
 	p->temp_file = "/tmp/minishell_heredoc";
 	p->parser_error = NULL;
 	p->minishell = minishell;
+	p->heredoc_expand = false;
 	p->token = ft_calloc(1, sizeof(t_token));
 	if (!p->token)
 		return (-1);

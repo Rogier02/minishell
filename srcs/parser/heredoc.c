@@ -6,13 +6,13 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/25 20:18:35 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/20 16:22:07 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/21 17:23:20 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	get_heredoc_input(int heredoc_fd, char *delimiter)
+void	get_heredoc_input(t_parsing *p, int heredoc_fd, char *delimiter)
 {
 	char *line;
 
@@ -25,6 +25,8 @@ void	get_heredoc_input(int heredoc_fd, char *delimiter)
 															STDERR_FILENO);
 			break;
 		}
+		if (p->heredoc_expand == true)
+			expand_variables_in_line(&line, p->minishell->envp);
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
 		{
 			free(line);
@@ -67,7 +69,7 @@ int handle_heredoc(t_parsing *p, char *delimiter)
 		p->parser_error = "minishell: heredoc";
 		return (-1);
 	}
-	get_heredoc_input(heredoc_fd, delimiter);
+	get_heredoc_input(p, heredoc_fd, delimiter);
 	if (g_heredoc_interrupted == 1)
 	{
 		unlink(p->temp_file);

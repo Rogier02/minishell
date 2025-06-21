@@ -1,21 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   check_quotes.c                                     :+:    :+:            */
+/*    execution.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/04/28 19:46:06 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/21 15:43:14 by rgoossen      ########   odam.nl         */
+/*   Created: 2025/06/21 14:22:22 by rgoossen      #+#    #+#                 */
+/*   Updated: 2025/06/21 15:16:37 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	check_quotes(char c, char *quote_flag)
+void	execution(t_minishell *minishell)
 {
-	if (*quote_flag == '\0' && (c == '\'' || c == '\"'))
-		*quote_flag = c;
-	else if (*quote_flag != '\0' && c == *quote_flag)
-		*quote_flag = '\0';
+	int			wstatus;
+	int			exit_status;
+	int			pid;
+	t_child_p	*previous;
+
+	wstatus = -1;
+	exit_status = -1;
+	pid = 0;
+	while (minishell->cmd_current)
+	{
+		
+	}
+	
+	// while we have command tables we loop.
+	// if the command table has command information filled.
+	// 			then we execute the command table. ->
+	// else we set that exit code to 1
+	//		then the current cmd_table to next.
+	
+	
 }

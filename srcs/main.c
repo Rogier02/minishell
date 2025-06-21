@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:30:13 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/20 19:59:47 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/21 19:12:49 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ static int		has_syntax_error(const char *input)
 		ft_putstr_fd("minishell: syntax error: unclosed quote\n", STDERR_FILENO);
 		return (1);
 	}
+	advanced_syntax_check(input);
 	return (0);
 }
 
@@ -113,7 +114,7 @@ static void		run_minishell(t_minishell *minishell)
 			free(minishell->input);
 			continue ;
 		}
-		print_cmd_table(minishell->cmd_table);
+		print_cmd_table(minishell->cmd_head);
 		//execution(minishell);
 		free(minishell->input);
 	}

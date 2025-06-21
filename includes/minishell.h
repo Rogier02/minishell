@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/19 16:45:44 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/21 16:17:45 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@
 
 extern volatile sig_atomic_t g_heredoc_interrupted;
 
+typedef enum e_pipe_end
+{
+	READ_END,
+	WRITE_END
+} t_pipe_end;
+
 typedef	enum e_signal_locations
 {
 	main_shell,
@@ -52,6 +58,13 @@ typedef enum e_token_type
 	RE_APPEND,
 	HERE_DOC	
 } t_token_type;
+
+typedef struct	s_child_p
+{
+	int		pid;
+	struct	s_child_p;
+	
+} t_child_p;
 
 typedef struct  s_token
 {
@@ -90,6 +103,7 @@ typedef struct s_expansion
 	int		var_name_len;
 	t_envp	*envp_copy;
 	int		exit_code_copy;
+	bool	encountered_heredoc;
 	
 } t_expansion;
 
@@ -100,7 +114,10 @@ typedef struct s_minishells
 	char		*pwd;
 	pid_t		main_process_pid;
 	t_envp		*envp;
-	t_cmd_table	*cmd_table;
+	t_cmd_table *cmd_head;
+	t_cmd_table *cmd_current;
+	t_child_p	*child;
+	
 } t_minishell;
 
 typedef struct s_parsing
@@ -114,6 +131,7 @@ typedef struct s_parsing
 	int			index;
 	char		*temp_file;
 	char		*parser_error;
+	bool		*heredoc_expand;
 	
 }	t_parsing;
 
@@ -150,6 +168,7 @@ int			append_exit_code(t_expansion *expan, int *i);
 int			append_variable(t_expansion *expan, char *input, int *i);
 void		check_quotes(char c, char *quote_flag);
 int			expand_input(t_minishell *minishell);
+int			append_heredoc(char *input, t_expansion *expan, int *i);
 
 /* free/ */
 void	free_expansion(t_expansion *expan);

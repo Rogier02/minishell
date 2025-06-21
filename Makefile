@@ -23,6 +23,7 @@ SRCS			= 	srcs/main.c \
 					srcs/expansion/append_exit_code.c \
 					srcs/expansion/append_variable.c \
 					srcs/expansion/check_quotes.c \
+					srcs/expansion/append_heredoc.c \
 					srcs/parser/parser.c \
 					srcs/parser/add_command.c \
 					srcs/parser/add_pipe.c \
