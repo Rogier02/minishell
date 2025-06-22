@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/25 20:18:35 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/21 17:23:20 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/22 19:20:54 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	get_heredoc_input(t_parsing *p, int heredoc_fd, char *delimiter)
 			break;
 		}
 		if (p->heredoc_expand == true)
-			expand_variables_in_line(&line, p->minishell->envp);
+			//expand_variables_in_line(&line, p->minishell->envp);
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
 		{
 			free(line);

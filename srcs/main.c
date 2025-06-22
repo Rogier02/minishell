@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:30:13 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/21 19:12:49 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/22 19:12:42 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void		print_cmd_table(t_cmd_table *cmd_table)
 	printf("--- End of Command Table ---\n");
 }
 
-static int		has_syntax_error(const char *input)
+static int		has_syntax_error(char *input)
 {
 	int		i;
 	char	quote_flag;
@@ -87,7 +87,8 @@ static int		has_syntax_error(const char *input)
 		ft_putstr_fd("minishell: syntax error: unclosed quote\n", STDERR_FILENO);
 		return (1);
 	}
-	advanced_syntax_check(input);
+	if (advanced_syntax_check(input) == -1)
+		return (1);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/21 16:17:45 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/22 19:21:20 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef enum e_token_type
 typedef struct	s_child_p
 {
 	int		pid;
-	struct	s_child_p;
+	struct	s_child_p *next;
 	
 } t_child_p;
 
@@ -131,9 +131,19 @@ typedef struct s_parsing
 	int			index;
 	char		*temp_file;
 	char		*parser_error;
-	bool		*heredoc_expand;
+	bool		heredoc_expand;
 	
 }	t_parsing;
+
+typedef struct s_lexing
+{
+	t_token_type	type;
+	int				len;
+	int				start;
+	char			quote_flag;
+	struct s_lexing	*next;
+
+} t_lexing;
 
 /* error/ */
 void	error_and_exit(char *msg, t_minishell *minishell);
@@ -183,5 +193,10 @@ void	set_signal_protocal(t_minishell *minishell, int location);
 void	handle_shell_signals(int signal, siginfo_t *info, void *ucontext);
 void	handle_heredoc_signals(int signal, siginfo_t *info, void *ucontext);
 void	handle_child_signals(int signal, siginfo_t *info, void *ucontext);
+
+/* syntax */
+int			is_delimiter(char c);
+int			advanced_syntax_check(char *input);
+t_lexing	*lexical_analysis(char *input);
 
 #endif

@@ -37,7 +37,10 @@ SRCS			= 	srcs/main.c \
 					srcs/signals/signal_handlers.c \
 					srcs/signals/signals.c  \
 					srcs/free/free_expansion.c \
-					srcs/free/free_parsing.c 
+					srcs/free/free_parsing.c \
+					srcs/syntax/lexer.c \
+					srcs/syntax/advanced_syntax_check.c \
+					srcs/syntax/is_delimiter.c
 
 OBJ_DIR			= 	objs
 OBJ_FILES		=	$(SRCS:$(SRCS_DIR)/%.c=$(OBJ_DIR)/%.o)
