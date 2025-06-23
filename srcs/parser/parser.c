@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/28 18:13:23 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/21 14:51:26 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/23 17:06:00 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	parser(t_minishell *minishell)
 		return (-1);
 	}
 	minishell->cmd_head = parse_input(&parsing, minishell->input);
-	if (!minishell->cmd_head) // ?
+	if (!minishell->cmd_head)
 	{
 		//free_parsing(parsing);
 		ft_putstr_fd(parsing.parser_error, STDERR_FILENO);

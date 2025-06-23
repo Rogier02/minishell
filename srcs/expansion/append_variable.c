@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 13:08:08 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/03 16:25:05 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/23 12:20:56 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ int	append_variable(t_expansion *expan, char *input, int *i)
 		return (-1);
 	expan->var_name_len = ft_strlen(expan->var_name);
 	head = expan->envp_copy;
-	//print_envp(head);
 	while (head)
 	{
 		if (variable_located(expan, head) == 0)

@@ -1,16 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   lexer.c                                            :+:    :+:            */
+/*   tokenizer.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/22 14:32:35 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/22 19:23:26 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/23 17:29:13 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	is_delimiter(char c)
+{
+	return (strchr(" \t\n|<>", c) != NULL);
+}
 
 static	t_token_type get_type(char *input, t_lexing *token)
 {
@@ -33,13 +38,13 @@ static void	get_redirect_token(char *input, t_lexing *token, int *i)
 	if ((input[*i] == '>' && input[*i + 1] == '>')
 		|| (input[*i] == '<' && input[*i + 1] == '<'))
 	{
-		i += 2;
+		*i += 2;
 		token->len = 2;
 		return ;
 	}
 	else 
 	{
-		i += 1;
+		*i += 1;
 		token->len = 1;
 	}
 }
@@ -73,7 +78,7 @@ static t_lexing	*get_next_token(char *input, int *i)
 	return (new_token);
 }
 
-t_lexing	*lexical_analysis(char *input)
+t_lexing	*tokenizer(char *input)
 {
 	int			i;
 	t_lexing	*current;
@@ -85,12 +90,16 @@ t_lexing	*lexical_analysis(char *input)
 	if (!current)
 		return (NULL);
 	head = current;
+	current->previous = NULL;
 	while (input[i])
 	{	
 		current->next = get_next_token(input, &i);
 		if (!current->next)
+		{
 			return (NULL);
+		}
+		current->next->previous = current; 
 		current = current->next;
 	}
-	return (NULL);
+	return (head);
 }

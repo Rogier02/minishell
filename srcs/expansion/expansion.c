@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/28 18:40:39 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/21 16:23:22 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/23 19:45:29 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,7 @@ int	handle_expansion(t_expansion *expan, char *input, int *i)
 				return (-1);
 		}
 		else if (append_variable(expan, input, i) == -1)
-		{
 			return (-1);
-		}
 	}
 	return (0);
 }
@@ -68,10 +66,11 @@ static void init_expansion(t_minishell *mshell, t_expansion *expan, int *i)
 	expan->var_name_len = 0;
 	expan->envp_copy = mshell->envp;
 	expan->exit_code_copy = mshell->exit_code;
+	expan->encountered_heredoc = 0;
 	*i = 0;
 }
 
-int expand_input(t_minishell *mshell)
+int expand_input(t_minishell *mshell, )
 {
 	t_expansion	expan;
 	int	i;
@@ -80,12 +79,7 @@ int expand_input(t_minishell *mshell)
 	while(mshell->input[i])
 	{
 		check_quotes(mshell->input[i], &expan.quote_flag);
-		if (append_heredoc(mshell->input, &expan, &i) == -1)
-		{
-				mshell->exit_code = ENOMEM;
-				return (free_expansion(&expan), -1);
-		}
-		else if (handle_expansion(&expan, mshell->input, &i) == -1)
+		if (handle_expansion(&expan, mshell->input, &i) == -1)
 		{
 			mshell->exit_code = ENOMEM;
 			return (free_expansion(&expan), -1);

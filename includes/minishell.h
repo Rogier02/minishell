@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/22 19:21:20 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/23 19:48:21 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,23 @@
 # define UNMATCHED_QUOTES_ERR "minishell: unexpected EOF while looking for matching quote\n"
 # define MINISHELL_PROMPT "minishell: ~$"
 
+# define ERR_MSG_NL "minishell: syntax error near unexpected token `newline'\n"
+# define ERR_MSG_REIN "minishell: syntax error near unexpected token `<'\n"
+# define ERR_MSG_REOUT "minishell: syntax error near unexpected token `>'\n"
+# define ERR_MSG_HEREDOC "minishell: syntax error near unexpected token `<<'\n"
+# define ERR_MSG_REAPPEND "minishell: syntax error near unexpected token `>>'\n"
+# define ERR_MSG_PIPE "minishell: syntax error near unexpected token `|'\n"
+
 extern volatile sig_atomic_t g_heredoc_interrupted;
+
+typedef enum e_syntax_err
+{
+	ERR_NL,
+	ERR_REIN,
+	ERR_REOUT,
+	ERR_HEREDOC,
+	ERR_REAPPEND
+} t_syntax_err;
 
 typedef enum e_pipe_end
 {
@@ -46,7 +62,7 @@ typedef	enum e_signal_locations
 	main_shell,
 	heredoc,
 	child_process,
-	waiting_parent,
+	waiting_parent
 } t_signal_locations;
 
 typedef enum e_token_type
@@ -140,8 +156,14 @@ typedef struct s_lexing
 	t_token_type	type;
 	int				len;
 	int				start;
+	//int				heredoc_flag;
+	//int				append_flag;
+	//int				expan_flag;
 	char			quote_flag;
+	char			*value;
 	struct s_lexing	*next;
+	struct s_lexing *previous;
+	t_syntax_err	syntax_err;
 
 } t_lexing;
 
@@ -195,8 +217,9 @@ void	handle_heredoc_signals(int signal, siginfo_t *info, void *ucontext);
 void	handle_child_signals(int signal, siginfo_t *info, void *ucontext);
 
 /* syntax */
-int			is_delimiter(char c);
-int			advanced_syntax_check(char *input);
-t_lexing	*lexical_analysis(char *input);
+int			lexical_parser(t_minishell *mshell);
+int			syntax_check(char *input, t_lexing *token_list);
+t_lexing	*tokenizer(char *input);
+int			get_substrings(char *input, t_minishell *mshell, t_lexing *tokens);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:30:13 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/22 19:12:42 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/23 18:01:05 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,12 +105,7 @@ static void		run_minishell(t_minishell *minishell)
 		if (ft_strlen(minishell->input) == 0 && minishell->input != NULL)
 			continue ;
 		add_history(minishell->input);
-		if (has_syntax_error(minishell->input) == 1)
-		{
-			free(minishell->input);
-			continue ;
-		}
-		if (parser(minishell) == -1)
+		if (lexical_parser(minishell->input) == -1)
 		{
 			free(minishell->input);
 			continue ;
