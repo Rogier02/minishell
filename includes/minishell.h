@@ -121,19 +121,19 @@ void							error_and_exit(char *msg,
 									t_minishell *minishell);
 
 /* execution */
-int								execution(t_minishell *msh);
-int								builtin_cd(t_minishell *minishell, char **args);
-int								builtin_echo(char **args);
-int								builtin_export(t_minishell *minishell,
+int								executor(t_minishell *msh);
+int								ft_cd(t_minishell *minishell, char **args);
+int								ft_echo(char **args);
+int								ft_export(t_minishell *minishell,
 									char **args);
-int								builtin_env(t_minishell *minishell,
+int								ft_env(t_minishell *minishell,
 									char **args);
-int								builtin_exit(t_minishell *minishell,
+int								ft_exit(t_minishell *minishell,
 									char **args);
-int								builtin_pwd(void);
-int								builtin_unset(t_minishell *minishell,
+int								ft_pwd(void);
+int								ft_unset(t_minishell *minishell,
 									char **args);
-char							*get_cmd_path(char *cmd, t_envp *envp);
+int								exec_cmd(t_minishell *msh);
 
 /* get/ */
 void							get_envp(t_minishell *minishell, char *envp[]);

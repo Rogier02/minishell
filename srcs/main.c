@@ -114,7 +114,7 @@ static void		run_minishell(t_minishell *minishell)
 			continue ;
 		}
 		//print_cmd_table(minishell->cmd_table);
-		execution(minishell);
+		executor(minishell);
 		free(minishell->input);
 	}
 }

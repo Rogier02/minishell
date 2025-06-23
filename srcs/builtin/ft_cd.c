@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   builtin_cd.c                                       :+:    :+:            */
+/*   ft_cd.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
@@ -75,7 +75,7 @@ static int	cd_target(t_envp *env, char **args, char **target)
 	return (0);
 }
 
-int	builtin_cd(t_minishell *minishell, char **args)
+int	ft_cd(t_minishell *minishell, char **args)
 {
 	char	cwd[4096];
 	char	*target;

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   builtin_export.c                                   :+:    :+:            */
+/*   ft_export.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
@@ -101,7 +101,7 @@ static void	export_add(t_envp **env, char *key, char *value)
 	}
 }
 
-int	builtin_export(t_minishell *minishell, char **args)
+int	ft_export(t_minishell *minishell, char **args)
 {
 	int		i;
 	char	*eq;

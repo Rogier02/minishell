@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   builtin_unset.c                                    :+:    :+:            */
+/*   ft_unset.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
@@ -47,7 +47,7 @@ static void	mini_remove_env(char *str, t_envp **env)
 	}
 }
 
-int	builtin_unset(t_minishell *minishell, char **args)
+int	ft_unset(t_minishell *minishell, char **args)
 {
 	int		i;
 	t_envp	*env;

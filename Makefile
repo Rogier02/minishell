@@ -12,15 +12,15 @@ INCLUDES		=	-I ./includes
 SRCS_DIR		= 	srcs
 SRCS			= 	srcs/main.c \
 					srcs/error/error.c \
-					srcs/execution/builtin_cd.c \
-					srcs/execution/builtin_echo.c \
-					srcs/execution/builtin_env.c \
-					srcs/execution/builtin_exit.c \
-					srcs/execution/builtin_export.c \
-					srcs/execution/builtin_pwd.c \
-					srcs/execution/builtin_unset.c \
-					srcs/execution/execution.c \
-					srcs/execution/get_cmd_path.c \
+					srcs/builtin/ft_cd.c \
+					srcs/builtin/ft_echo.c \
+					srcs/builtin/ft_env.c \
+					srcs/builtin/ft_exit.c \
+					srcs/builtin/ft_export.c \
+					srcs/builtin/ft_pwd.c \
+					srcs/builtin/ft_unset.c \
+					srcs/execution/exec_cmd.c \
+					srcs/execution/executor.c \
 					srcs/init/get_envp.c \
 					srcs/init/get_pwd.c \
 					srcs/init/init_minishell.c \

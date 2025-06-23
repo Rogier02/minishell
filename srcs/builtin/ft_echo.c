@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   builtin_echo.c                                     :+:    :+:            */
+/*   ft_echo.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
@@ -30,7 +30,7 @@ static int	is_all_n(const char *str)
 	return (1);
 }
 
-int	builtin_echo(char **args)
+int	ft_echo(char **args)
 {
 	int	i;
 	int	n_flag;

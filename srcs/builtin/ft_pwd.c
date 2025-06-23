@@ -1,37 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   builtin_env.c                                      :+:    :+:            */
+/*   ft_pwd.c                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/06/08 23:03:57 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/06/08 23:03:57 by mahkilic      ########   odam.nl         */
+/*   Created: 2025/06/08 23:00:15 by mahkilic      #+#    #+#                 */
+/*   Updated: 2025/06/08 23:00:15 by mahkilic      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_env(t_minishell *minishell, char **args)
+int	ft_pwd(void)
 {
-	t_envp	*env;
+	char	*cwd;
 
-	if (args && args[1])
+	cwd = getcwd(NULL, 0);
+	if (cwd != NULL)
 	{
-		ft_putstr_fd("env: '", 2);
-		ft_putstr_fd(args[1], 2);
-		ft_putstr_fd("': No such file or directory\n", 2);
-		return (127);
+		ft_putstr_fd(cwd, 1);
+		ft_putstr_fd("\n", 1);
+		free(cwd);
+		return (0);
 	}
-	env = minishell->envp;
-	while (env)
-	{
-		if (env->value && ft_strchr(env->value, '='))
-		{
-			ft_putstr_fd(env->value, 1);
-			ft_putstr_fd("\n", 1);
-		}
-		env = env->next;
-	}
-	return (0);
+	ft_putstr_fd("pwd: error.\n", STDERR_FILENO);
+	return (1);
 }

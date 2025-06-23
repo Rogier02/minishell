@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   builtin_exit.c                                     :+:    :+:            */
+/*   ft_exit.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
@@ -59,7 +59,7 @@ static void	exit_error(char *str)
 	exit(255);
 }
 
-int	builtin_exit(t_minishell *minishell, char **args)
+int	ft_exit(t_minishell *minishell, char **args)
 {
 	long long	error;
 	int			exit_status;
