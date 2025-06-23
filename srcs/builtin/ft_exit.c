@@ -6,7 +6,7 @@
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/23 19:54:06 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/06/23 19:54:06 by mahkilic      ########   odam.nl         */
+/*   Updated: 2025/06/24 00:57:06 by mahkilic      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,6 @@ static void	exit_with_stat(int exit_status, int status)
 	if (WIFEXITED(status))
 		exit_status = WEXITSTATUS(status);
 	exit(exit_status);
-}
-
-static void	exit_error(char *str)
-{
-	ft_putstr_fd("exit\n", 2);
-	ft_putstr_fd("minishell: exit: ", 2);
-	ft_putstr_fd(str, 2);
-	ft_putstr_fd(": numeric argument required\n", 2);
-	exit(255);
 }
 
 int	ft_exit(t_minishell *minishell, char **args)
