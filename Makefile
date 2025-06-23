@@ -68,6 +68,7 @@ $(OBJ_DIR)/%.o	: $(SRCS_DIR)/%.c
 clean			: 
 				@$(MAKE) -C $(LIBFT_DIR) clean
 				$(RM) %.o $(OBJ_FILES)
+				$(RM) -r $(OBJ_DIR)
 
 fclean			: clean
 				@$(MAKE) -C $(LIBFT_DIR) fclean
