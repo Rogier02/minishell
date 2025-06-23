@@ -6,7 +6,7 @@
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/08 18:11:36 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/06/08 18:11:36 by mahkilic      ########   odam.nl         */
+/*   Updated: 2025/06/24 01:43:37 by mahkilic      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	run_builtin(t_minishell *minishell)
 	char	**cmd;
 
 	cmd = minishell->cmd_table->cmd;
-	if (!ft_strncmp(cmd[0], "echo", 4))
+	if (!ft_strncmp(cmd[0], "echo", 5))
 		return (ft_echo(cmd));
 	if (!ft_strncmp(cmd[0], "cd", 3))
 		return (ft_cd(minishell, cmd));
