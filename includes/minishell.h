@@ -122,9 +122,17 @@ void							error_and_exit(char *msg,
 
 /* execution */
 int								execution(t_minishell *msh);
+int								builtin_cd(t_minishell *minishell, char **args);
 int								builtin_echo(char **args);
-int								builtin_env(t_minishell *minishell);
+int								builtin_export(t_minishell *minishell,
+									char **args);
+int								builtin_env(t_minishell *minishell,
+									char **args);
+int								builtin_exit(t_minishell *minishell,
+									char **args);
 int								builtin_pwd(void);
+int								builtin_unset(t_minishell *minishell,
+									char **args);
 char							*get_cmd_path(char *cmd, t_envp *envp);
 
 /* get/ */

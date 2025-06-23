@@ -12,10 +12,17 @@
 
 #include "minishell.h"
 
-int	builtin_env(t_minishell *minishell)
+int	builtin_env(t_minishell *minishell, char **args)
 {
 	t_envp	*env;
 
+	if (args && args[1])
+	{
+		ft_putstr_fd("env: '", 2);
+		ft_putstr_fd(args[1], 2);
+		ft_putstr_fd("': No such file or directory\n", 2);
+		return (127);
+	}
 	env = minishell->envp;
 	while (env)
 	{
@@ -28,4 +35,3 @@ int	builtin_env(t_minishell *minishell)
 	}
 	return (0);
 }
-

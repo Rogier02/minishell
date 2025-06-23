@@ -40,18 +40,18 @@ static int	run_builtin(t_minishell *minishell)
 	cmd = minishell->cmd_table->cmd;
 	if (!ft_strncmp(cmd[0], "echo", 4))
 		return (builtin_echo(cmd));
-	// if (!ft_strcmp(cmd[0], "cd"))
-	//	//return (builtin_cd(cmd));
+	if (!ft_strncmp(cmd[0], "cd", 3))
+		return (builtin_cd(minishell, cmd));
 	if (!ft_strncmp(cmd[0], "pwd", 3))
 		return (builtin_pwd());
-	// if (!ft_strcmp(cmd[0], "export"))
-	//	//return (builtin_export(cmd));
-	// if (!ft_strcmp(cmd[0], "unset"))
-	//	//return (builtin_unset(cmd));
+	if (!ft_strncmp(cmd[0], "export", 7))
+		return (builtin_export(minishell, cmd));
+	if (!ft_strncmp(cmd[0], "unset", 6))
+		return (builtin_unset(minishell, cmd));
 	if (!ft_strncmp(cmd[0], "env", 3))
-		return (builtin_env(minishell));
-	// if (!ft_strcmp(cmd[0], "exit"))
-	//	//return (builtin_exit(cmd));
+		return (builtin_env(minishell, cmd));
+	if (!ft_strncmp(cmd[0], "exit", 5))
+		return (builtin_exit(minishell, cmd));
 	return (0);
 }
 
