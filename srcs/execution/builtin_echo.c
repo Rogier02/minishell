@@ -12,16 +12,34 @@
 
 #include "minishell.h"
 
+static int	is_all_n(const char *str)
+{
+	int	j;
+
+	if (!str || str[0] != '-')
+		return (0);
+	j = 1;
+	if (str[1] != 'n')
+		return (0);
+	while (str[j])
+	{
+		if (str[j] != 'n')
+			return (0);
+		j++;
+	}
+	return (1);
+}
+
 int	builtin_echo(char **args)
 {
 	int	i;
-	int	newline;
+	int	n_flag;
 
 	i = 1;
-	newline = 1;
-	if (args[1] && !ft_strncmp(args[1], "-n", 2))
+	n_flag = 0;
+	while (args[i] && is_all_n(args[i]))
 	{
-		newline = 0;
+		n_flag = 1;
 		i++;
 	}
 	while (args[i])
@@ -31,7 +49,7 @@ int	builtin_echo(char **args)
 			ft_putstr_fd(" ", 1);
 		i++;
 	}
-	if (newline)
+	if (!n_flag)
 		ft_putstr_fd("\n", 1);
 	return (0);
 }
