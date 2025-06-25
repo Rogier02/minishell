@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/25 15:28:17 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/25 16:47:30 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ typedef enum e_token_type
 	RE_IN,
 	PIPE,
 	RE_APPEND,
-	HERE_DOC	
+	HERE_DOC
 } t_token_type;
 
 typedef struct	s_child_p
@@ -196,7 +196,7 @@ void			get_token(t_parsing *p, char *input);
 
 /* epansion */
 int			append_char(t_minishell *minishell, t_expansion *expan, char c);
-int			append_exit_code(t_minishell *minishell, t_expansion *expan, int *i);
+int			append_exit_code(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i);
 int			append_variable(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i);
 void		check_quotes(char c, char *quote_flag);
 int			expand_input(t_minishell *minishell);
@@ -221,5 +221,6 @@ int			lexical_parser(t_minishell *mshell);
 int			syntax_check(char *input, t_lexing *token_list);
 t_lexing	*tokenizer(char *input);
 int			get_substrings(char *input, t_minishell *mshell, t_lexing *tokens);
+int			tilda_expansion(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i);
 
 #endif

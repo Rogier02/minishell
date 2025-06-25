@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 13:18:23 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/25 15:32:06 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/25 16:33:17 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	append_exit_code(t_minishell *minishell, t_expansion *expan, t_lexing *token
 	char	*exit_code_copy;
 	char	*temp;
 
-	if (is_exit_code(token->value, token->quote_flag, i) == false);
+	if (is_exit_code(token->value, token->quote_flag, *i) == false)
 		return (0);
 	exit_code_copy = ft_itoa(minishell->exit_code);
 	if (exit_code_copy == NULL)

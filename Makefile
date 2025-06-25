@@ -15,14 +15,8 @@ SRCS			= 	srcs/main.c \
 					srcs/init/get_envp.c \
 					srcs/init/get_pwd.c \
 					srcs/init/init_minishell.c \
-					srcs/init/init_singals.c \
 					srcs/init/init_parsing.c \
 					srcs/init/init_token.c \
-					srcs/expansion/expansion.c \
-					srcs/expansion/append_char.c \
-					srcs/expansion/append_exit_code.c \
-					srcs/expansion/append_variable.c \
-					srcs/expansion/check_quotes.c \
 					srcs/parser/parser.c \
 					srcs/parser/add_command.c \
 					srcs/parser/add_pipe.c \
@@ -37,9 +31,16 @@ SRCS			= 	srcs/main.c \
 					srcs/signals/signals.c  \
 					srcs/free/free_expansion.c \
 					srcs/free/free_parsing.c \
-					srcs/lexer/tokenizer.c \
+					srcs/lexer/append_char.c \
+					srcs/lexer/append_exit_code.c \
+					srcs/lexer/append_variable.c \
+					srcs/lexer/check_quotes.c \
+					srcs/lexer/expansion.c \
+					srcs/lexer/get_substrings.c \
+					srcs/lexer/syntax_check.c \
 					srcs/lexer/lexical_parser.c \
-					srcs/lexer/is_delimiter.c
+					srcs/lexer/tokenizer.c \
+					srcs/lexer/tilda_expansion.c
 
 OBJ_DIR			= 	objs
 OBJ_FILES		=	$(SRCS:$(SRCS_DIR)/%.c=$(OBJ_DIR)/%.o)

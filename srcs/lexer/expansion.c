@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/23 18:37:10 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/25 15:26:03 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/25 16:47:19 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ static int	expand_token(t_minishell *minishell, t_lexing *token)
 	while (token->value[i])
 	{
 		check_quotes(token->value[i], token->quote_flag);
-		if (tilda_expansion(minishell, expan, token))
+		if (tilda_expansion(minishell, expan, token, &i))
 			break ;
 		else if (expand(minishell, expan, token, &i) == -1)
 			return (-1);
-		else if (append_char(minishell, expan, token->value[i]) == -1);
+		else if (append_char(minishell, expan, token->value[i]) == -1)
 			break ;
 		i++;
 	}
@@ -63,6 +63,17 @@ static int	expand_token(t_minishell *minishell, t_lexing *token)
 		return (-1);
 	free(token->value);
 	token->value = expan->expanded_input;
+	return (0);
+}
+
+int	is_redirect(t_token_type type)
+{
+	if (type == HERE_DOC 
+		|| type == RE_APPEND 
+		|| type == RE_IN 
+		|| type == RE_OUT
+		|| type == PIPE)
+		return (1);
 	return (0);
 }
 
@@ -75,7 +86,7 @@ int	expansion(t_minishell *minishell, t_lexing *token)
 			token = token->next;
 			continue ;
 		}
-		if (expand_token(minishell, token->value) == -1)
+		if (expand_token(minishell, token) == -1)
 			   return (-1);
 		token = token->next;
 	}

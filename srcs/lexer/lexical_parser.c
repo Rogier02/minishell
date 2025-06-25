@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/22 14:10:00 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/25 15:20:52 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/25 16:27:56 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	print_token_list(t_lexing *token_list, char *input)
         token_list = token_list->next;
     }
 }
+
 void	print_token_values(t_lexing *token_list)
 {
     int i = 0;
@@ -46,10 +47,39 @@ void	print_token_values(t_lexing *token_list)
     }
 }
 
+static int		has_unclosed_quotes(char *input)
+{
+	int		i;
+	char	quote_flag;
+
+	i = 0;
+	quote_flag = '\0';
+	while (input[i])
+	{	
+		if (quote_flag == '\0' && (input[i] == '\\' || input[i] == ';'))
+			return (1);
+		if (quote_flag == '\0' 
+			&& (input[i] == '\'' || input[i] == '\"'))
+			quote_flag = input[i];
+		else if (quote_flag == input[i] 
+			&& (input[i] == '\'' || input[i] == '\"'))
+			quote_flag = '\0';
+		i++;
+	}
+	if (quote_flag != '\0')
+	{
+		ft_putstr_fd("minishell: syntax error: unclosed quote\n", STDERR_FILENO);
+		return (1);
+	}
+	return (0);
+}
+
 int	lexical_parser(t_minishell *minishell)
 {
 	t_lexing	*token_list;
 	
+	if (has_unclosed_quotes(minishell->input) == -1)
+		return (-1);
 	token_list = tokenizer(minishell->input);
 	print_token_list(token_list, minishell->input);
 	if (token_list == NULL)

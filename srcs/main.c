@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:30:13 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/23 18:01:05 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/25 16:28:16 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static void		print_cmd_table(t_cmd_table *cmd_table)
         }
         else
             printf("  No command found.\n");
-
         if (cmd_table->infile)
             printf("  Input File: %s\n", cmd_table->infile);
         else
@@ -63,34 +62,6 @@ static void		print_cmd_table(t_cmd_table *cmd_table)
 	printf("--- End of Command Table ---\n");
 }
 
-static int		has_syntax_error(char *input)
-{
-	int		i;
-	char	quote_flag;
-
-	i = 0;
-	quote_flag = '\0';
-	while (input[i])
-	{	
-		if (quote_flag == '\0' && (input[i] == '\\' || input[i] == ';'))
-			return (1);
-		if (quote_flag == '\0' 
-			&& (input[i] == '\'' || input[i] == '\"'))
-			quote_flag = input[i];
-		else if (quote_flag == input[i] 
-			&& (input[i] == '\'' || input[i] == '\"'))
-			quote_flag = '\0';
-		i++;
-	}
-	if (quote_flag != '\0')
-	{
-		ft_putstr_fd("minishell: syntax error: unclosed quote\n", STDERR_FILENO);
-		return (1);
-	}
-	if (advanced_syntax_check(input) == -1)
-		return (1);
-	return (0);
-}
 
 static void		run_minishell(t_minishell *minishell)
 {
@@ -105,7 +76,7 @@ static void		run_minishell(t_minishell *minishell)
 		if (ft_strlen(minishell->input) == 0 && minishell->input != NULL)
 			continue ;
 		add_history(minishell->input);
-		if (lexical_parser(minishell->input) == -1)
+		if (lexical_parser(minishell) == -1)
 		{
 			free(minishell->input);
 			continue ;
