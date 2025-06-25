@@ -6,31 +6,13 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/28 18:40:39 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/23 19:45:29 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/25 15:29:26 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static bool	is_isolated(char *original_input, char quote_flag, int i)
-{
-	if (quote_flag == '\"' 
-		&& (original_input[i + 1] == ' '
-			|| original_input[i + 1] == '\0'
-			|| original_input[i + 1] == '\"'))
-		return(true);
-	else if (original_input[i + 1] == ' ' 
-			|| original_input[i + 1] == '\0')
-		return (true);
-	return (false);
-}
 
-static bool	is_exit_code(char *original_input, char quote_flag, int i)
-{
-	if (quote_flag != '\'' && original_input[i + 1] == '?')
-		return (true);
-	return (false);
-}
 
 int	handle_expansion(t_expansion *expan, char *input, int *i)
 {
@@ -70,7 +52,7 @@ static void init_expansion(t_minishell *mshell, t_expansion *expan, int *i)
 	*i = 0;
 }
 
-int expand_input(t_minishell *mshell, )
+int expand_input(t_minishell *mshell, char input)
 {
 	t_expansion	expan;
 	int	i;

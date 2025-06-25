@@ -6,13 +6,13 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 13:18:58 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/02 17:20:40 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/25 15:14:40 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	append_char(t_expansion *expan, char c)
+int	append_char(t_minishell *minishell, t_expansion *expan, char c)
 {
 	char	*new_str;
 	int		len;
@@ -24,7 +24,11 @@ int	append_char(t_expansion *expan, char c)
 		len = ft_strlen(expan->expanded_input);
 	new_str = malloc(sizeof(char) * (len + 2));
 	if (!new_str)
+	{
+		minishell->exit_code = ENOMEM;
+		ft_putstr_fd("malloc failure: \n", STDERR_FILENO);
 		return (-1); 
+	}
 	if (expan->expanded_input != NULL)
 		new_str = ft_memcpy(new_str, expan->expanded_input, len);
 	new_str[len] = c;

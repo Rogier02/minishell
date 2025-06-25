@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/23 19:48:21 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/25 15:28:17 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,9 +195,9 @@ void			get_token(t_parsing *p, char *input);
 
 
 /* epansion */
-int			append_char(t_expansion *expan, char c);
-int			append_exit_code(t_expansion *expan, int *i);
-int			append_variable(t_expansion *expan, char *input, int *i);
+int			append_char(t_minishell *minishell, t_expansion *expan, char c);
+int			append_exit_code(t_minishell *minishell, t_expansion *expan, int *i);
+int			append_variable(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i);
 void		check_quotes(char c, char *quote_flag);
 int			expand_input(t_minishell *minishell);
 int			append_heredoc(char *input, t_expansion *expan, int *i);

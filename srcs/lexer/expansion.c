@@ -6,13 +6,40 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/23 18:37:10 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/23 20:18:38 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/25 15:26:03 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	expand_token(t_minishell *minishell, t_lexing *token)
+static int	only_dollar_sign(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i)
+{
+	if (token->quote_flag == '\"' 
+		&& (token->value[*i + 1] == '\"' || token->value[*i + 1] == ' '))
+		if (append_char(minishell, expan, token->value[*i]) == -1)
+			return (-1);
+	else if (token->len == 1)
+		if (append_char(minishell, expan, token->value[*i]) == -1)
+			return (-1);
+}
+
+
+static int	expand(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i)
+{
+	if (token->value[*i] == '$' && token->quote_flag != '\'')
+	{
+		if (only_dollar_sign(minishell, expan, token, i) == -1)
+			return (0);
+		else if (append_exit_code(minishell, expan, i) == -1)
+			return (-1);
+		else if (append_variable(minishell, expan, token->value, i) == -1)
+			return (-1);
+		
+	}
+	return (0);
+}
+
+static int	expand_token(t_minishell *minishell, t_lexing *token)
 {
 	int	i;
 	t_expansion *expan;
@@ -20,19 +47,21 @@ int	expand_token(t_minishell *minishell, t_lexing *token)
 	expan = ft_calloc(1, sizeof(t_expansion));
 	if (!expan)
 		return (-1);
+	i = 0;
 	while (token->value[i])
 	{
 		check_quotes(token->value[i], token->quote_flag);
 		if (tilda_expansion(minishell, expan, token))
 			break ;
-		else if (variable_expansion())
+		else if (expand(minishell, expan, token, &i) == -1)
+			return (-1);
 		else if (append_char(minishell, expan, token->value[i]) == -1);
 			break ;
 		i++;
 	}
-	free(token->value);
 	if (!expan->expanded_input)
 		return (-1);
+	free(token->value);
 	token->value = expan->expanded_input;
 	return (0);
 }
@@ -41,18 +70,14 @@ int	expansion(t_minishell *minishell, t_lexing *token)
 {
 	while(token)
 	{
-		if (is_redirect(token->type))
+		if (is_redirect(token->type) || token->previous->type == HERE_DOC)
 		{
 			token = token->next;
 			continue ;
 		}
-		else if (token->previous && token->previous->type == HERE_DOC)
-		{
-			token = token->next;
-			continue ;
-		}
-		else if (expand_token(minishell, token) == -1)
-			return (-1);
+		if (expand_token(minishell, token->value) == -1)
+			   return (-1);
 		token = token->next;
 	}
+	return (0);
 }

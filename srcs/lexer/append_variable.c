@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 13:08:08 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/23 12:20:56 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/25 15:28:26 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,12 @@ void	print_envp(t_envp *envp)
 	}
 }
 
-int	append_variable(t_expansion *expan, char *input, int *i)
+int	append_variable(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i)
 {
 	t_envp	*head;
 	char	*temp;
 	
-	expan->var_name = get_variable_name(input, expan->quote_flag, *i);
+	expan->var_name = get_variable_name(token->value, expan->quote_flag, *i);
 	if (expan->var_name == NULL)
 		return (-1);
 	expan->var_name_len = ft_strlen(expan->var_name);
