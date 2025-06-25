@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/25 16:47:30 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/25 19:47:11 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,4 +223,8 @@ t_lexing	*tokenizer(char *input);
 int			get_substrings(char *input, t_minishell *mshell, t_lexing *tokens);
 int			tilda_expansion(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i);
 
+
+char	*expand_oldpwd(t_minishell *minishell);
+char	*expand_pwd(t_minishell *minishell);
+char	*expand_home(t_minishell *minishell);
 #endif
