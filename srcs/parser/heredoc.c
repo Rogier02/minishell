@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/25 20:18:35 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/22 19:20:54 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/26 15:02:24 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	get_heredoc_input(t_parsing *p, int heredoc_fd, char *delimiter)
 			break;
 		}
 		write(heredoc_fd, line, ft_strlen(line));
-		write(heredoc_fd, "n", 1);
+		write(heredoc_fd, "\n", 1);
 		free(line);
 	}
 }
