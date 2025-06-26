@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/25 19:47:11 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/26 17:42:25 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,4 +227,9 @@ int			tilda_expansion(t_minishell *minishell, t_expansion *expan, t_lexing *toke
 char	*expand_oldpwd(t_minishell *minishell);
 char	*expand_pwd(t_minishell *minishell);
 char	*expand_home(t_minishell *minishell);
+
+char	*get_variable_name(char *input, char quote_flag, int i);
+int		*variable_located(t_expansion *expan, t_envp *head);
+int		expand_variable(char *envp_value, t_expansion *expan);
+
 #endif
