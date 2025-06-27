@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/25 19:26:43 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/25 19:41:57 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/27 15:44:18 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*expand_pwd(t_minishell *minishell)
 char	*expand_oldpwd(t_minishell *minishell)
 {
 	t_envp	*head;
-	char	oldpwd;
+	char	*oldpwd;
 
 	head = minishell->envp;
 	while (head)

@@ -6,13 +6,11 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 13:08:08 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/26 17:37:59 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/27 15:44:40 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
 
 void	print_envp(t_envp *envp)
 {

@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/22 14:10:00 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/25 16:27:56 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/27 15:48:20 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,14 @@ int	lexical_parser(t_minishell *minishell)
 	}
 	if (syntax_check(minishell->input, token_list) == -1)
 	 	return (-1);
+	fprintf(STDERR_FILENO, "hello");
 	if (get_substrings(minishell->input, minishell, token_list) == -1)
 	 	return (-1);
 	print_token_values(token_list);
 	if (expansion(minishell, token_list) == -1)
 		return (-1);
 	print_token_values(token_list);
-	if (populate_command_data(minishell, token_list) == -1)
+	//if (populate_command_data(minishell, token_list) == -1)
 	//clean_up_(token_list);
 	return (0);
 }

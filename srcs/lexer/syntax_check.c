@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/23 14:02:40 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/25 16:24:24 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/27 15:24:03 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static int	check_redir(char *input, t_lexing *token)
 {
 	char *temp;
 	
+	temp = NULL;
 	if ((token->type == RE_APPEND || token->type == RE_OUT
 		|| token->type == RE_IN || token->type == HERE_DOC) 
 		&& token->next->type == WORD)
@@ -70,7 +71,7 @@ int	syntax_check(char *input, t_lexing *token_list)
 	current = token_list;
 	while (current)
 	{
-		if (check_redir(input, current) == -1);
+		if (check_redir(input, current) == -1)
 		{
 			ft_putstr_fd("minishell: syntax error\n", STDERR_FILENO);
 			return (-1);

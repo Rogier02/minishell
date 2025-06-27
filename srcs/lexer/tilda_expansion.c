@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/25 16:41:46 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/26 15:00:46 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/27 15:27:11 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	append_home(t_minishell *minishell, t_expansion *expan)
 	char	*temp;
 		
 	head = minishell->envp;
-	home = get_home(minishell->envp);
+	home = expand_home(minishell);
 	if (!home)
 		return (-1);
 	temp = ft_strjoin(expan->expanded_input, home);

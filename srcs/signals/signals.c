@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/27 17:52:15 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/19 18:51:51 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/27 15:49:04 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	shell_signals(struct sigaction *sa, t_minishell *minishell)
 
 	(void)minishell;
 	sa->sa_sigaction = handle_shell_signals;
-	signal(SIGQUIT, SIG_IGN);
+	//signal(SIGQUIT, SIG_IGN);
 	sigaction(SIGINT, sa, 0);
 	
 }

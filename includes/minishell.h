@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/26 17:42:25 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/27 15:45:52 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ typedef struct s_parsing
 	char		*temp_file;
 	char		*parser_error;
 	bool		heredoc_expand;
-	
+
 }	t_parsing;
 
 typedef struct s_lexing
@@ -195,12 +195,9 @@ void			get_token(t_parsing *p, char *input);
 
 
 /* epansion */
-int			append_char(t_minishell *minishell, t_expansion *expan, char c);
-int			append_exit_code(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i);
-int			append_variable(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i);
 void		check_quotes(char c, char *quote_flag);
-int			expand_input(t_minishell *minishell);
-int			append_heredoc(char *input, t_expansion *expan, int *i);
+//int			expand_input(t_minishell *minishell);
+//int			append_heredoc(char *input, t_expansion *expan, int *i);
 
 /* free/ */
 void	free_expansion(t_expansion *expan);
@@ -224,12 +221,18 @@ int			get_substrings(char *input, t_minishell *mshell, t_lexing *tokens);
 int			tilda_expansion(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i);
 
 
-char	*expand_oldpwd(t_minishell *minishell);
-char	*expand_pwd(t_minishell *minishell);
-char	*expand_home(t_minishell *minishell);
+// lexical parser
 
-char	*get_variable_name(char *input, char quote_flag, int i);
-int		*variable_located(t_expansion *expan, t_envp *head);
-int		expand_variable(char *envp_value, t_expansion *expan);
+char		*expand_oldpwd(t_minishell *minishell);
+char		*expand_pwd(t_minishell *minishell);
+char		*expand_home(t_minishell *minishell);
+int			append_char(t_minishell *minishell, t_expansion *expan, char c);
+int			append_exit_code(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i);
+int			append_variable(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i);
+
+char		*get_variable_name(char *input, char quote_flag, int i);
+int			variable_located(t_expansion *expan, t_envp *head);
+int			expand_variable(char *envp_value, t_expansion *expan);
+int			expansion(t_minishell *minishell, t_lexing *token);
 
 #endif
