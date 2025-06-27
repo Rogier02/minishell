@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/27 15:45:52 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/27 18:55:19 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ typedef struct s_cmd_table
 typedef struct s_expansion
 {
 	char	*expanded_input;
-	char	quote_flag;
+	//char	quote_flag;
 	char	*var_name;
 	char	*var_expanded;
 	int		var_name_len;

@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/23 14:02:40 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/27 15:24:03 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/27 15:59:33 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	syntax_check(char *input, t_lexing *token_list)
 			//error code sould be 2 if there is a syntax error;
 			return (-1);
 		}
+		current = current->next;
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/22 14:10:00 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/27 15:48:20 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/27 16:08:09 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,14 @@ void	print_token_list(t_lexing *token_list, char *input)
     }
 }
 
-void	print_token_values(t_lexing *token_list)
+void	print_token_values(t_lexing *token_list, int loc)
 {
     int i = 0;
     t_lexing *current = token_list; // Use a temp pointer
+	if (loc == 1)
+		printf("\n\n-------before expansion--------\n");
+	if (loc == 2)
+		printf("\n\n-------after expansion---------\n");
     while (current)
     {
         printf("Token %d value: '", i++);
@@ -89,13 +93,12 @@ int	lexical_parser(t_minishell *minishell)
 	}
 	if (syntax_check(minishell->input, token_list) == -1)
 	 	return (-1);
-	fprintf(STDERR_FILENO, "hello");
 	if (get_substrings(minishell->input, minishell, token_list) == -1)
 	 	return (-1);
-	print_token_values(token_list);
+	print_token_values(token_list, 1);
 	if (expansion(minishell, token_list) == -1)
 		return (-1);
-	print_token_values(token_list);
+	print_token_values(token_list, 2);
 	//if (populate_command_data(minishell, token_list) == -1)
 	//clean_up_(token_list);
 	return (0);
