@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/27 18:55:19 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/28 16:55:28 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ typedef struct s_lexing
 	//int				expan_flag;
 	char			quote_flag;
 	char			*value;
+	char			*expanded_value;
 	struct s_lexing	*next;
 	struct s_lexing *previous;
 	t_syntax_err	syntax_err;
@@ -218,7 +219,7 @@ int			lexical_parser(t_minishell *mshell);
 int			syntax_check(char *input, t_lexing *token_list);
 t_lexing	*tokenizer(char *input);
 int			get_substrings(char *input, t_minishell *mshell, t_lexing *tokens);
-int			tilda_expansion(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i);
+int			tilde_expansion(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i);
 
 
 // lexical parser

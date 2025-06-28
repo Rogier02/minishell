@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 13:08:08 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/27 22:25:35 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/28 14:02:17 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,6 @@ int	append_variable(t_minishell *minishell, t_expansion *expan, t_lexing *token,
     if (append_expanded_variable(expan) == -1)
         return (-1);
 
-    (*i) += (expan->var_name_len + 1);
+    (*i) += expan->var_name_len;
     return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/22 14:10:00 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/27 16:08:09 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/28 15:40:43 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,20 @@
 void	print_token_list(t_lexing *token_list, char *input)
 {
     int i = 0;
-    while (token_list)
+	t_lexing *current = token_list;
+    while (current)
     {
         printf("Token %d:\n", i++);
-        printf("  Type: %d\n", token_list->type);
-        printf("  Start: %d\n", token_list->start);
-        printf("  Len: %d\n", token_list->len);
-        //printf("  End: %d\n", token_list->end);
-        printf("  Quote flag: %d\n", token_list->quote_flag);
+        printf("  Type: %d\n", current->type);
+        printf("  Start: %d\n", current->start);
+        printf("  Len: %d\n", current->len);
+        //printf("  End: %d\n", current->end);
+        printf("  Quote flag: %d\n", current->quote_flag);
         printf("  Value: '");
-        for (int j = 0; j < token_list->len; j++)
-            putchar(input[token_list->start + j]);
+        for (int j = 0; j < current->len; j++)
+            putchar(input[current->start + j]);
         printf("'\n");
-        token_list = token_list->next;
+        current = current->next;
     }
 }
 
@@ -35,10 +36,10 @@ void	print_token_values(t_lexing *token_list, int loc)
 {
     int i = 0;
     t_lexing *current = token_list; // Use a temp pointer
-	if (loc == 1)
-		printf("\n\n-------before expansion--------\n");
-	if (loc == 2)
-		printf("\n\n-------after expansion---------\n");
+    if (loc == 1)
+        printf("\n\n-------before expansion--------\n");
+    if (loc == 2)
+        printf("\n\n-------after expansion---------\n");
     while (current)
     {
         printf("Token %d value: '", i++);
@@ -46,6 +47,11 @@ void	print_token_values(t_lexing *token_list, int loc)
             printf("%s", current->value);
         else if (current->len == 0)
             printf("(empty)");
+        printf("', expanded: '");
+        if (current->expanded_value)
+            printf("%s", current->expanded_value);
+        else
+            printf("(none)");
         printf("'\n");
         current = current->next;
     }

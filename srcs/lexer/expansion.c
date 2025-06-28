@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/23 18:37:10 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/27 22:19:38 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/28 16:55:19 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ static int	expand(t_minishell *minishell, t_expansion *expan, t_lexing *token, i
 			return (-1);
 		else if (append_variable(minishell, expan, token, i) == -1)
 			return (-1);
+		return (1);
 	}
+	if (append_char(minishell, expan, token->value[*i]) == -1)
+		return (-1);
 	return (0);
 }
 
@@ -62,21 +65,15 @@ static int	expand_token(t_minishell *minishell, t_lexing *token)
 	while (token->value[i])
 	{
 		check_quotes(token->value[i], &token->quote_flag);
-		if (tilda_expansion(minishell, expan, token, &i))
+		if (tilde_expansion(minishell, expan, token, &i))
 			break ;
 		else if (expand(minishell, expan, token, &i) == -1)
 			return (-1);
-		else 
-		{
-			if (append_char(minishell, expan, token->value[i]) == -1)
-			break ;
-		}
 		i++;
 	}
 	if (!expan->expanded_input)
 		return (-1);
-	free(token->value);
-	token->value = expan->expanded_input;
+	token->expanded_value = expan->expanded_input;
 	return (0);
 }
 

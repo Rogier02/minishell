@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   tilda_expansion.c                                  :+:    :+:            */
+/*   tilde_expansion.c                                  :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/25 16:41:46 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/27 15:27:11 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/28 17:23:56 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	append_home(t_minishell *minishell, t_expansion *expan)
+int	append_home(t_minishell *minishell, t_expansion *expan)
 {
 	t_envp	*head;
 	char	*home;
@@ -34,7 +34,7 @@ static int	append_home(t_minishell *minishell, t_expansion *expan)
 	return (0);
 }
 
-static int	expand_home_then_pwd(t_minishell *minishell, t_expansion *expan)
+int	expand_home_then_pwd(t_minishell *minishell, t_expansion *expan)
 {
 	char	*pwd;
 	char	*temp;
@@ -56,6 +56,7 @@ static int	expand_home_then_pwd(t_minishell *minishell, t_expansion *expan)
 	return (0);	
 }
 
+
 static int	expand_home_then_oldpwd(t_minishell *minishell, t_expansion *expan)
 {	
 	char	*oldpwd;
@@ -63,9 +64,9 @@ static int	expand_home_then_oldpwd(t_minishell *minishell, t_expansion *expan)
 	
 	if (append_home(minishell, expan) == -1)
 		return (-1);
-	oldpwd = expand_oldpwd(minishell);
+		oldpwd = expand_oldpwd(minishell);
 	if (!oldpwd)
-		return (-1);
+	return (-1);
 	temp = ft_strjoin(expan->expanded_input, oldpwd);
 	if (!temp)
 	{
@@ -79,28 +80,51 @@ static int	expand_home_then_oldpwd(t_minishell *minishell, t_expansion *expan)
 	return (0);	
 }
 
-int	tilda_expansion(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i)
+static int	expand_tilde_home(t_minishell *minishell, t_expansion *expan, t_lexing *token)
 {
-	if (token->value[*i] == '~' 
-		&& token->quote_flag == '\0' && *i == 0)
+	if (token->len == 1)
 	{
-		if (token->value[*i + 1] == '+' 
-			&& (token->value[*i + 2] == '/' || token->value[*i + 1] == '\0'))
-		{
-			if (expand_home_then_pwd(minishell, expan) == -1)
-				return (-1);
-		}
-		else if (token->value[*i + 1] == '-' 
-			&& (token->value[*i + 2] == '/' || token->value[*i + 1] == '\0'))
-		{
-			if (expand_home_then_oldpwd(minishell, expan) == -1)
-				return (-1);
-		}
-		else if (token->value[*i + 1] == '/' || token->value[*i + 1] == '\0')
-		{
-			if (append_home(minishell, expan) == -1)
-				return (-1);
-		}
+		
+	}
+	return (0);
+}
+
+static int	expand_tilde_short(t_minishell *minishell, t_expansion *expan, t_lexing *token)
+{
+	if (token->len == 2)
+	{
+		
+	}
+	return (0);
+}
+static int	expand_tilde_special_slash(t_minishell *minishell, t_expansion *expan, t_lexing *token)
+{
+	if (token->len == 3)
+	{
+		
+	}
+	return (0);
+}
+
+static int expand_tilde_path(t_minishell *minishell, t_expansion *expan, t_lexing *token)
+{
+	if (token->len)
+
+}
+
+int	tilde_expansion(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i)
+{
+	if (token->quote_flag == '\0' && token->value[0] == '~')
+	{
+		if (expand_tilde_home(minishell, expan, token) == -1)
+			return (-1);
+		if (expand_tilde_short(minishell, expan, token) == -1)
+			return (-1);
+		if (expand_tilde_special_slash(minishell, expan, token) == -1)
+			return (-1);
+		if (expand_tilde_path(minishell, expan, token) == -1)
+			return (-1);
+		return (1);
 	}
 	return (0);
 }

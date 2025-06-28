@@ -42,7 +42,7 @@ SRCS			= 	srcs/main.c \
 					srcs/lexer/get_substrings.c \
 					srcs/lexer/syntax_check.c \
 					srcs/lexer/lexical_parser.c \
-					srcs/lexer/tilda_expansion.c \
+					srcs/lexer/tilde_expansion.c \
 					srcs/lexer/tokenizer.c
 
 OBJ_DIR			= 	objs
