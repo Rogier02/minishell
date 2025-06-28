@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/28 16:55:28 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/28 18:45:03 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,13 +224,12 @@ int			tilde_expansion(t_minishell *minishell, t_expansion *expan, t_lexing *toke
 
 // lexical parser
 
-char		*expand_oldpwd(t_minishell *minishell);
-char		*expand_pwd(t_minishell *minishell);
-char		*expand_home(t_minishell *minishell);
+int			append_pwd(t_minishell *minishell, t_expansion *expan);
+int			append_oldpwd(t_minishell *minishell, t_expansion *expan);
+int			append_home(t_minishell *minishell, t_expansion *expan);
 int			append_char(t_minishell *minishell, t_expansion *expan, char c);
 int			append_exit_code(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i);
 int			append_variable(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i);
-
 char		*get_variable_name(char *input, char quote_flag, int i);
 int			variable_located(t_expansion *expan, t_envp *head);
 int			expand_variable(char *envp_value, t_expansion *expan);

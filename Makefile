@@ -31,18 +31,20 @@ SRCS			= 	srcs/main.c \
 					srcs/signals/signals.c  \
 					srcs/free/free_expansion.c \
 					srcs/free/free_parsing.c \
-					srcs/lexer/append_char.c \
-					srcs/lexer/append_exit_code.c \
-					srcs/lexer/append_variable.c \
-					srcs/lexer/append_variable_2.c \
+
+					srcs/lexer/expansion/append_char.c \
+					srcs/lexer/expansion/append_exit_code.c \
+					srcs/lexer/expansion/append_home.c \
+					srcs/lexer/expansion/append_pwd.c \
+					srcs/lexer/expansion/append_variable_2.c \
+					srcs/lexer/expansion/append_variable.c \
+					srcs/lexer/expansion/expansion.c \
+					srcs/lexer/expansion/tilde_expansion.c \
+					
 					srcs/lexer/check_quotes.c \
-					srcs/lexer/expand_home.c \
-					srcs/lexer/expand_pwd.c \
-					srcs/lexer/expansion.c \
 					srcs/lexer/get_substrings.c \
 					srcs/lexer/syntax_check.c \
 					srcs/lexer/lexical_parser.c \
-					srcs/lexer/tilde_expansion.c \
 					srcs/lexer/tokenizer.c
 
 OBJ_DIR			= 	objs
