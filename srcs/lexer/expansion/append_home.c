@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/25 19:13:57 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/28 18:37:49 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/28 20:50:06 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ char	*expand_home(t_minishell *minishell)
 	char	*home;
 
 	head = minishell->envp;
+	home = NULL;
 	while (head)
 	{
-		if (ft_strncmp(head->value, "HOME=", 5))
+		if (!ft_strncmp(head->value, "HOME=", 5))
 		{
 			home = ft_strdup(head->value + 5);
 			if (home == NULL)
@@ -29,6 +30,7 @@ char	*expand_home(t_minishell *minishell)
 				error_and_exit("malloc failure\n", minishell);
 				return (NULL);
 			}
+			return (home);
 		}
 		head = head->next;
 	}

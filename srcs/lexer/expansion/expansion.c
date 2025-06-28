@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/23 18:37:10 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/28 19:09:20 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/28 21:06:57 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	only_dollar_sign(t_minishell *minishell, t_expansion *expan, t_lexing
 
 static int	expand(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i)
 {
-	if (token->value[*i] == '$' && token->quote_flag != '\'')
+	if (token->value[*i] && token->value[*i] == '$' && token->quote_flag != '\'')
 	{
 		if (only_dollar_sign(minishell, expan, token, i) == -1)
 			return (-1);
@@ -70,6 +70,8 @@ static int	expand_token(t_minishell *minishell, t_lexing *token)
 			break ;
 		else if (expand(minishell, expan, token, &i) == -1)
 			return (-1);
+		if (token->value[i] == '\0')
+			continue ;
 		i++;
 	}
 	if (!expan->expanded_input)
