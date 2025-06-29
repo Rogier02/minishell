@@ -1,32 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   get_pwd.c                                          :+:    :+:            */
+/*   handle_quotes.c                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/04/27 16:16:25 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/29 19:47:47 by rgoossen      ########   odam.nl         */
+/*   Created: 2025/06/29 15:46:23 by rgoossen      #+#    #+#                 */
+/*   Updated: 2025/06/29 17:38:55 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	get_pwd(t_minishell *minishell)
+int	handle_quotes(t_lexing *token)
 {
-	t_envp	*head;
-	
-	head = minishell->envp;
-	while (head != NULL)
+	(void)token;
+	if (token->contains_quotes)
 	{
-		//printf("hello\n");
-		if (ft_strncmp(head->value, "PWD=", 4) == 0)
-		{
-			minishell->pwd = ft_strdup(head->value + 4);
-			if (minishell->pwd == NULL)
-				error_and_exit("malloc failure\n", minishell);
-			break;
-		}
-		head = head->next;
+		
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/25 20:18:35 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/26 15:02:24 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/29 18:55:48 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	save_heredoc_info(t_parsing *p)
 	return(0);
 }
 
-int handle_heredoc(t_parsing *p, char *delimiter)
+int andle_heredoc(t_parsing *p, char *delimiter)
 {
 	int		heredoc_fd;
 

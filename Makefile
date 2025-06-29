@@ -39,11 +39,16 @@ SRCS			= 	srcs/main.c \
 					srcs/lexer/expansion/append_variable.c \
 					srcs/lexer/expansion/expansion.c \
 					srcs/lexer/expansion/tilde_expansion.c \
+					srcs/lexer/populate_data/populate_command_data.c \
 					srcs/lexer/check_quotes.c \
-					srcs/lexer/get_substrings.c \
-					srcs/lexer/syntax_check.c \
+					srcs/lexer/substrings/get_substrings.c \
+					srcs/lexer/syntax_checker/syntax_check.c \
 					srcs/lexer/lexical_parser.c \
-					srcs/lexer/tokenizer.c
+					srcs/lexer/is_redirect.c \
+					srcs/lexer/tokenize/tokenizer.c \
+					srcs/lexer/tokenize/is_delimiter.c \
+					srcs/lexer/tokenize/get_token_type.c \
+					srcs/lexer/tokenize/get_next_token.c 
 
 OBJ_DIR			= 	objs
 OBJ_FILES		=	$(SRCS:$(SRCS_DIR)/%.c=$(OBJ_DIR)/%.o)

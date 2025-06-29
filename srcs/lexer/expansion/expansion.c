@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/23 18:37:10 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/28 21:06:57 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/29 14:53:32 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,17 +80,6 @@ static int	expand_token(t_minishell *minishell, t_lexing *token)
 	return (0);
 }
 
-int	is_redirect(t_token_type type)
-{
-	if (type == HERE_DOC 
-		|| type == RE_APPEND 
-		|| type == RE_IN 
-		|| type == RE_OUT
-		|| type == PIPE)
-		return (1);
-	return (0);
-}
-
 int	expansion(t_minishell *minishell, t_lexing *token)
 {
 	while(token)
@@ -98,6 +87,12 @@ int	expansion(t_minishell *minishell, t_lexing *token)
 		if (is_redirect(token->type) 
 			|| (token->previous && token->previous->type == HERE_DOC))
 		{
+			token->expanded_value = ft_strdup(token->value);
+			if (!token->expanded_value)
+			{
+				ft_putstr_fd("malloc failure :\n", STDERR_FILENO);
+				return (-1);
+			}
 			token = token->next;
 			continue ;
 		}

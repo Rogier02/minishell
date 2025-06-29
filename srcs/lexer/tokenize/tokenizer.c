@@ -1,32 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   get_pwd.c                                          :+:    :+:            */
+/*   tokenizer.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/04/27 16:16:25 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/29 19:47:47 by rgoossen      ########   odam.nl         */
+/*   Created: 2025/06/22 14:32:35 by rgoossen      #+#    #+#                 */
+/*   Updated: 2025/06/29 15:37:19 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	get_pwd(t_minishell *minishell)
+t_lexing	*tokenizer(char *input)
 {
-	t_envp	*head;
+	int			i;
+	t_lexing	*current;
+	t_lexing	*head;
 	
-	head = minishell->envp;
-	while (head != NULL)
-	{
-		//printf("hello\n");
-		if (ft_strncmp(head->value, "PWD=", 4) == 0)
+	i = 0;
+	skip_whitespaces(input, &i);
+	current = get_next_token(input, &i);
+	if (!current)
+		return (NULL);
+	head = current;
+	current->previous = NULL;
+	while (input[i])
+	{	
+		current->next = get_next_token(input, &i);
+		if (!current->next)
 		{
-			minishell->pwd = ft_strdup(head->value + 4);
-			if (minishell->pwd == NULL)
-				error_and_exit("malloc failure\n", minishell);
-			break;
+			return (NULL);
 		}
-		head = head->next;
+		current->next->previous = current; 
+		current = current->next;
 	}
+	return (head);
 }

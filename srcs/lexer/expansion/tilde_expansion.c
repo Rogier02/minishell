@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/25 16:41:46 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/28 21:09:19 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/29 12:40:16 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,9 @@ int	tilde_expansion(t_minishell *minishell, t_expansion *expan, t_lexing *token,
 			return (-1);
 		if (expand_tilde_short(minishell, expan, token, i) == -1)
 			return (-1);
-		// if (expand_tilde_special_slash(minishell, expan, token) == -1)
-		// 	return (-1);
 		if (expand_tilde_path(minishell, expan, token, i) == -1)
 			return (-1);
 		return (1);
 	}
 	return (0);
 }
-

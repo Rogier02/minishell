@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/28 18:45:03 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/06/29 20:25:20 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,23 @@ typedef struct s_envp
 	struct s_envp *next;
 } t_envp;
 
+typedef struct s_file_type
+{
+	char	*name;
+	int		type_flag;
+} t_file_type;
+
 typedef struct s_cmd_table
 {
 	char					**cmd;
-	char					*infile;
-	char					*outfile;
+	t_file_type				*infile;
+	t_file_type				*outfile;
+	//char					*infile;
+	//char		s			*outfile;
 	int						infd;
 	int						outfd;
 	int						append_flag;
+	int						hereddoc_flag;
 	char					*heredoc_delim;
 	struct s_cmd_table		*next;
 
@@ -164,12 +173,14 @@ typedef struct s_lexing
 	char			*expanded_value;
 	struct s_lexing	*next;
 	struct s_lexing *previous;
+	bool			contains_quotes;
 	t_syntax_err	syntax_err;
 
 } t_lexing;
 
 /* error/ */
 void	error_and_exit(char *msg, t_minishell *minishell);
+int		error_malloc_failure(t_minishell *minishell);
 
 /* get/ */
 void	get_envp(t_minishell *minishell, char *envp[]);
@@ -231,8 +242,16 @@ int			append_char(t_minishell *minishell, t_expansion *expan, char c);
 int			append_exit_code(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i);
 int			append_variable(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i);
 char		*get_variable_name(char *input, char quote_flag, int i);
-int			variable_located(t_expansion *expan, t_envp *head);
-int			expand_variable(char *envp_value, t_expansion *expan);
-int			expansion(t_minishell *minishell, t_lexing *token);
+int				variable_located(t_expansion *expan, t_envp *head);
+int				expand_variable(char *envp_value, t_expansion *expan);
+int				expansion(t_minishell *minishell, t_lexing *token);
+
+int				is_redirect(t_token_type type);
+int				is_delimiter(char c);
+t_token_type 	get_type(char *input, t_lexing *token);
+t_lexing		*get_next_token(char *input, int *i);
+
+int			handle_redirect(t_minishell *minishell, t_lexing *token);
+int			handle_command(t_minishell *minishell, t_lexing *token);
 
 #endif

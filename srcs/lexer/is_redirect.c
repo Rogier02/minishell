@@ -1,32 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   get_pwd.c                                          :+:    :+:            */
+/*   is_redirect.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/04/27 16:16:25 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/29 19:47:47 by rgoossen      ########   odam.nl         */
+/*   Created: 2025/06/29 14:19:38 by rgoossen      #+#    #+#                 */
+/*   Updated: 2025/06/29 14:19:49 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include  "minishell.h"
 
-void	get_pwd(t_minishell *minishell)
+int	is_redirect(t_token_type type)
 {
-	t_envp	*head;
-	
-	head = minishell->envp;
-	while (head != NULL)
-	{
-		//printf("hello\n");
-		if (ft_strncmp(head->value, "PWD=", 4) == 0)
-		{
-			minishell->pwd = ft_strdup(head->value + 4);
-			if (minishell->pwd == NULL)
-				error_and_exit("malloc failure\n", minishell);
-			break;
-		}
-		head = head->next;
-	}
+	if (type == HERE_DOC 
+		|| type == RE_APPEND 
+		|| type == RE_IN 
+		|| type == RE_OUT
+		|| type == PIPE)
+		return (1);
+	return (0);
 }

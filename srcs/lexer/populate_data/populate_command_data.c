@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   get_pwd.c                                          :+:    :+:            */
+/*   populate_command_data.c                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/04/27 16:16:25 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/29 19:47:47 by rgoossen      ########   odam.nl         */
+/*   Created: 2025/06/29 14:07:43 by rgoossen      #+#    #+#                 */
+/*   Updated: 2025/06/29 18:11:14 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	get_pwd(t_minishell *minishell)
+int	populate_command_data(t_minishell *minishell, t_lexing *token_list)
 {
-	t_envp	*head;
-	
-	head = minishell->envp;
-	while (head != NULL)
+	t_lexing *current;
+
+	current = token_list;
+	while (current)
 	{
-		//printf("hello\n");
-		if (ft_strncmp(head->value, "PWD=", 4) == 0)
-		{
-			minishell->pwd = ft_strdup(head->value + 4);
-			if (minishell->pwd == NULL)
-				error_and_exit("malloc failure\n", minishell);
-			break;
-		}
-		head = head->next;
+		if (handle_redirect(minishell, current) == - 1)
+			return (-1);
+		if (handle_pipe(minishell, current) == -1)
+			return (-1);
+		if (handle_command(minishell, current) == -1)
+			return (-1);
+		current = current->next;
 	}
+	return (0);
 }
