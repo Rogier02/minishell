@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:30:13 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/21 23:59:09 by mahkilic      ########   odam.nl         */
+/*   Updated: 2025/07/03 00:58:04 by mahkilic      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@
 // 	printf("--- End of Command Table ---\n");
 // }
 
-//static void	test_executor_out_redir(t_minishell *minishell)
-//{
+// static void	test_executor_out_redir(t_minishell *minishell)
+// {
 //    t_cmd_table *cmd1 = calloc(1, sizeof(t_cmd_table));
 
 //    // Command: ls > out.txt
@@ -79,10 +79,10 @@
 //    minishell->cmd_table = cmd1;
 
 //    executor(minishell);
-//}
+// }
 
-//static void	test_executor_in_redir(t_minishell *minishell)
-//{
+// static void	test_executor_in_redir(t_minishell *minishell)
+// {
 //    t_cmd_table *cmd1 = calloc(1, sizeof(t_cmd_table));
 
 //    // Command: cat < in.txt
@@ -96,10 +96,10 @@
 //    minishell->cmd_table = cmd1;
 
 //    executor(minishell);
-//}
+// }
 
-//static void	test_executor_in_out_redir(t_minishell *minishell)
-//{
+// static void	test_executor_in_out_redir(t_minishell *minishell)
+// {
 //    t_cmd_table *cmd1 = calloc(1, sizeof(t_cmd_table));
 
 //    // Command: cat < in.txt > out.txt
@@ -115,10 +115,10 @@
 //    minishell->cmd_table = cmd1;
 
 //    executor(minishell);
-//}
+// }
 
-//static void	test_executor_pipe_redir(t_minishell *minishell)
-//{
+// static void	test_executor_pipe_redir(t_minishell *minishell)
+// {
 //    t_cmd_table *cmd1 = calloc(1, sizeof(t_cmd_table));
 //    t_cmd_table *cmd2 = calloc(1, sizeof(t_cmd_table));
 
@@ -141,10 +141,10 @@
 //    minishell->cmd_table = cmd1;
 
 //    executor(minishell);
-//}
+// }
 
-//static void	test_executor(t_minishell *minishell)
-//{
+// static void	test_executor(t_minishell *minishell)
+// {
 //    t_cmd_table *cmd1 = calloc(1, sizeof(t_cmd_table));
 //    t_cmd_table *cmd2 = calloc(1, sizeof(t_cmd_table));
 
@@ -164,7 +164,7 @@
 //    minishell->cmd_table = cmd1;
 
 //    executor(minishell);
-//}
+// }
 
 static int		has_syntax_error(const char *input)
 {
@@ -233,10 +233,10 @@ int main(int argc, char *argv[], char *envp[])
 	}
 	//handle_signals();
 	init_minishell(&minishell, envp);
-	//test_executor_out_redir(&minishell);
-	//test_executor_in_redir(&minishell);
-	//test_executor_in_out_redir(&minishell);
-	//test_executor_pipe_redir(&minishell);
+	// test_executor_out_redir(&minishell);
+	// test_executor_in_redir(&minishell);
+	// test_executor_in_out_redir(&minishell);
+	// test_executor_pipe_redir(&minishell);
 	run_minishell(&minishell);
 	set_signal_protocal(&minishell, main_shell);
 	rl_clear_history();

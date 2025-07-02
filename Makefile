@@ -20,6 +20,7 @@ SRCS			= 	srcs/main.c \
 					srcs/builtin/ft_pwd.c \
 					srcs/builtin/ft_unset.c \
 					srcs/execution/exec_cmd.c \
+					srcs/execution/exec_loop.c \
 					srcs/execution/executor.c \
 					srcs/init/get_envp.c \
 					srcs/init/get_pwd.c \

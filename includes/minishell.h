@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/19 16:45:44 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/03 01:04:21 by mahkilic      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ int								ft_pwd(void);
 int								ft_unset(t_minishell *minishell,
 									char **args);
 int								exec_cmd(t_minishell *msh);
+int								exec_loop(t_minishell *minishell);
 
 /* get/ */
 void							get_envp(t_minishell *minishell, char *envp[]);
