@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/29 20:25:20 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/05 18:14:46 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,29 +145,11 @@ typedef struct s_minishells
 	
 } t_minishell;
 
-typedef struct s_parsing
-{
-	t_minishell	*minishell;
-	t_cmd_table	*cmd_table;
-	t_cmd_table	*head;
-	t_cmd_table	*current;
-	t_token		*token;
-	t_token		*previous_token;
-	int			index;
-	char		*temp_file;
-	char		*parser_error;
-	bool		heredoc_expand;
-
-}	t_parsing;
-
 typedef struct s_lexing
 {
 	t_token_type	type;
 	int				len;
 	int				start;
-	//int				heredoc_flag;
-	//int				append_flag;
-	//int				expan_flag;
 	char			quote_flag;
 	char			*value;
 	char			*expanded_value;
@@ -189,21 +171,19 @@ void	get_pwd(t_minishell *minishell);
 /* init/ */
 void	init_minishell(t_minishell *minishell, char *envp[]);
 void	init_token(t_token *token, int i);
-int		init_parsing(t_minishell *minishell, t_parsing *p);
 
 /* signals/ */
 void	handle_signals(t_minishell *minishell, int loc);
 
 /* parser/ */
-int				parser(t_minishell *minishell);
-int				add_command(t_parsing *p, char *input);
-int				add_pipe(t_parsing *p);
-int				add_redirect(t_parsing *p, char *input);
-int				handle_heredoc(t_parsing *p, char *delimiter);
-int				open_file(t_parsing *p, char *file);
+// int				parser(t_minishell *minishell);
+// int				add_command(t_parsing *p, char *input);
+// int				add_pipe(t_parsing *p);
+// int				add_redirect(t_parsing *p, char *input);
+// int				open_file(t_parsing *p, char *file);
 void			skip_whitespaces(char *input, int *index);
-t_token_type 	get_token_type(char * input, t_token *token);	
-void			get_token(t_parsing *p, char *input);
+// t_token_type 	get_token_type(char * input, t_token *token);	
+// void			get_token(t_parsing *p, char *input);
 
 
 /* epansion */
@@ -213,9 +193,8 @@ void		check_quotes(char c, char *quote_flag);
 
 /* free/ */
 void	free_expansion(t_expansion *expan);
-void	free_parsing(t_parsing *parsing);
-
-int		purge_quotes(t_parsing *p, char **str);
+void		free_cmd_table(t_cmd_table *cmd_table);
+void	free_minishell(t_minishell *minishell);
 
 /* set signals/ */
 void	set_signal_protocal(t_minishell *minishell, int location);
@@ -254,4 +233,8 @@ t_lexing		*get_next_token(char *input, int *i);
 int			handle_redirect(t_minishell *minishell, t_lexing *token);
 int			handle_command(t_minishell *minishell, t_lexing *token);
 
+int		populate_command_data(t_minishell *minishell, t_lexing *token_list);
+int 	handle_pipe(t_minishell *minishell, t_lexing *token);
+int	handle_quotes(t_lexing *token);
+int	handle_heredoc(t_minishell *minishell, t_lexing *token);
 #endif

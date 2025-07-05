@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/29 17:39:00 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/29 21:14:41 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/05 15:45:29 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static int	read_heredoc(t_minishell *minishell, int heredoc_fd, char *heredoc_fi
 {
 	char	*line;
 
+	(void)minishell;
+	(void)heredoc_file;
 	while (1)
 	{
 		line = readline("> ");
@@ -25,8 +27,8 @@ static int	read_heredoc(t_minishell *minishell, int heredoc_fd, char *heredoc_fi
 															STDERR_FILENO);
 			break;
 		}
-		if (token->contains_quotes)
-			expand_heredoc();
+		// if (token->contains_quotes)
+		// 	expand_heredoc();
 		if (!ft_strncmp(line, token->expanded_value, \
 									ft_strlen(token->expanded_value)))
 		{
@@ -55,7 +57,7 @@ static int	create_file_name(t_minishell *minishell, char *heredoc_file, char *te
 static int	clean_up_heredoc(t_minishell *minishell, int heredoc_fd, char *heredoc_file)
 {
 	close(heredoc_fd);
-	unlink(heredoc_fd);
+	unlink(heredoc_file);
 	free(heredoc_file);
 	minishell->exit_code = 130;
 	return (-1);
@@ -69,14 +71,14 @@ int	add_heredoc(t_minishell *minishell, char *heredoc_file, int heredoc_fd)
 	if (!minishell->cmd_current->infile->name)
 	{
 		close(heredoc_fd);
-		unlink(heredoc_fd);
+		unlink(heredoc_file);
 		free(heredoc_file);
 		minishell->exit_code = ENOMEM;
 		return (-1);
 	}
-	minishell->cmd_current->infile->type_flag == HERE_DOC;
+	minishell->cmd_current->infile->type_flag = HERE_DOC;
 	close(heredoc_fd);
-	unlink(heredoc_fd);
+	unlink(heredoc_file);
 	return (0);
 }
 

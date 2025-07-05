@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/29 15:36:11 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/29 15:45:25 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/05 16:49:29 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,29 @@ static void	get_redirect_token(char *input, t_lexing *token, int *i)
 		token->len = 1;
 	}
 }
-static int		init_new_token(t_lexing *new_token, int i)
+static t_lexing	*init_new_token(int i)
 {
-	new_token = ft_calloc(1, sizeof(t_lexing));
+	t_lexing *new_token;
+
+	new_token = malloc(sizeof(t_lexing));
 	if (!new_token)
-		return (NULL); 
+		return (NULL);
 	new_token->start = i;
 	new_token->len = 0;
-	new_token->quote_flag = '\0';
+	new_token->quote_flag = 0;
+	new_token->contains_quotes = 0;
+	new_token->expanded_value = NULL;
+	new_token->type = 0;
+	new_token->next = NULL;
+	return (new_token);
 }
 
 t_lexing	*get_next_token(char *input, int *i)
 {
 	t_lexing	*new_token;
 
-	if (!init_new_token(new_token, *i))
+	new_token = init_new_token(*i);
+	if (!new_token)
 		return (NULL); 
 	while (input[*i])
 	{

@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/28 13:37:59 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/05/28 13:49:55 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/05 16:13:09 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 void skip_whitespaces(char *input, int *index)
 {
 	while (input[*index] && input[*index] == ' ')
-		(*index)++;
+		(*index) += 1;
 }
 

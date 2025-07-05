@@ -15,22 +15,12 @@ SRCS			= 	srcs/main.c \
 					srcs/init/get_envp.c \
 					srcs/init/get_pwd.c \
 					srcs/init/init_minishell.c \
-					srcs/init/init_parsing.c \
 					srcs/init/init_token.c \
-					srcs/parser/parser.c \
-					srcs/parser/add_command.c \
-					srcs/parser/add_pipe.c \
-					srcs/parser/add_redirect.c \
-					srcs/parser/heredoc.c \
-					srcs/parser/get_token.c \
-					srcs/parser/get_token_type.c \
-					srcs/parser/open_file.c \
-					srcs/parser/quotes.c \
-					srcs/parser/skip_whitespaces.c \
 					srcs/signals/signal_handlers.c \
 					srcs/signals/signals.c  \
 					srcs/free/free_expansion.c \
-					srcs/free/free_parsing.c \
+					srcs/free/free_minishell.c \
+					srcs/free/free_cmd_table.c \
 					srcs/lexer/expansion/append_char.c \
 					srcs/lexer/expansion/append_exit_code.c \
 					srcs/lexer/expansion/append_home.c \
@@ -39,16 +29,22 @@ SRCS			= 	srcs/main.c \
 					srcs/lexer/expansion/append_variable.c \
 					srcs/lexer/expansion/expansion.c \
 					srcs/lexer/expansion/tilde_expansion.c \
-					srcs/lexer/populate_data/populate_command_data.c \
-					srcs/lexer/check_quotes.c \
 					srcs/lexer/substrings/get_substrings.c \
 					srcs/lexer/syntax_checker/syntax_check.c \
+					srcs/lexer/check_quotes.c \
 					srcs/lexer/lexical_parser.c \
 					srcs/lexer/is_redirect.c \
+					srcs/lexer/skip_whitespaces.c \
 					srcs/lexer/tokenize/tokenizer.c \
 					srcs/lexer/tokenize/is_delimiter.c \
 					srcs/lexer/tokenize/get_token_type.c \
-					srcs/lexer/tokenize/get_next_token.c 
+					srcs/lexer/tokenize/get_next_token.c \
+					srcs/lexer/populate_data/handle_command.c \
+					srcs/lexer/populate_data/handle_heredoc.c \
+					srcs/lexer/populate_data/handle_pipe.c \
+					srcs/lexer/populate_data/handle_quotes.c \
+					srcs/lexer/populate_data/handle_redirect.c \
+					srcs/lexer/populate_data/populate_command_data.c
 
 OBJ_DIR			= 	objs
 OBJ_FILES		=	$(SRCS:$(SRCS_DIR)/%.c=$(OBJ_DIR)/%.o)

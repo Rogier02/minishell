@@ -6,11 +6,27 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/22 14:10:00 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/29 14:43:09 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/05 16:59:42 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	clean_up_(t_lexing *head)
+{
+	    t_lexing *tmp;
+
+    while (head)
+    {
+        tmp = head->next;
+        if (head->value)
+            free(head->value);
+        if (head->expanded_value)
+            free(head->expanded_value);
+        free(head);
+        head = tmp;
+    }
+}
 
 void	print_token_list(t_lexing *token_list, char *input)
 {
@@ -105,8 +121,8 @@ int	lexical_parser(t_minishell *minishell)
 	if (expansion(minishell, token_list) == -1)
 		return (-1);
 	print_token_values(token_list, 2);
-	//if (populate_command_data(minishell, token_list) == -1)
-	//clean_up_(token_list);
+	if (populate_command_data(minishell, token_list) == -1)
+		clean_up_(token_list);
 	return (0);
 }
 

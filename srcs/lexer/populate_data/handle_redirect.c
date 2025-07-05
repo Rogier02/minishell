@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/29 15:56:34 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/29 20:07:31 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/05 18:32:34 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int get_append(t_minishell *minishell, t_lexing *token)
 			ft_putstr_fd("malloc failure :\n", 2);
 			return (-1);
 		}
-		minishell->cmd_current->outfile->type_flag == RE_APPEND;
+		minishell->cmd_current->outfile->type_flag = RE_APPEND;
 	}
 	return (0);
 }
@@ -37,14 +37,17 @@ static int get_outfile(t_minishell *minishell, t_lexing *token)
 	{
 		if (minishell->cmd_current->outfile->name)
 			free(minishell->cmd_current->outfile->name);
+		minishell->cmd_current->outfile->name = \
+											ft_strdup(token->expanded_value);
 		if (!minishell->cmd_current->outfile->name)
 		{
 			minishell->exit_code = ENOMEM;
 			ft_putstr_fd("malloc failure :\n", 2);
 			return (-1);
 		}
-		minishell->cmd_current->outfile->type_flag == RE_OUT;
+		minishell->cmd_current->outfile->type_flag = RE_OUT;
 	}
+	return (0);
 }
 
 static int get_infile(t_minishell *minishell, t_lexing *token)
@@ -61,7 +64,7 @@ static int get_infile(t_minishell *minishell, t_lexing *token)
 			ft_putstr_fd("malloc failure :\n", 2);
 			return (-1);
 		}
-		minishell->cmd_current->infile->type_flag == RE_IN;
+		minishell->cmd_current->infile->type_flag = RE_IN;
 	}	
 	return (0);
 }
@@ -79,7 +82,7 @@ static int get_file_name(t_minishell *minishell, t_lexing *token)
 
 int	handle_redirect(t_minishell *minishell, t_lexing *token)
 {
-	if (token->type == is_redirect(token->type))
+	if (is_redirect(token->type))
 	{
 		token = token->next;
 		if (token->type != WORD)
