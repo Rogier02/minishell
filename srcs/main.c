@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:30:13 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/05 18:56:24 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/06 08:31:32 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,33 @@ static void		reset_data(t_minishell *minishell)
 	minishell->cmd_current = minishell->cmd_head;
 }
 
+static int		has_unclosed_quotes(char *input)
+{
+	int		i;
+	char	quote_flag;
+
+	i = 0;
+	quote_flag = '\0';
+	while (input[i])
+	{	
+		if (quote_flag == '\0' && (input[i] == '\\' || input[i] == ';'))
+			return (-1);
+		if (quote_flag == '\0' 
+			&& (input[i] == '\'' || input[i] == '\"'))
+			quote_flag = input[i];
+		else if (quote_flag == input[i] 
+			&& (input[i] == '\'' || input[i] == '\"'))
+			quote_flag = '\0';
+		i++;
+	}
+	if (quote_flag != '\0')
+	{
+		ft_putstr_fd("minishell: syntax error: unclosed quote\n", STDERR_FILENO);
+		return (-1);
+	}
+	return (0);
+}
+
 static void		run_minishell(t_minishell *minishell)
 {
 	while (1)
@@ -84,11 +111,13 @@ static void		run_minishell(t_minishell *minishell)
 		if (!minishell->input)
 		{
 			ft_putstr_fd("exit\n", STDOUT_FILENO);
-			break;
+			break ;
 		}
 		if (ft_strlen(minishell->input) == 0 && minishell->input != NULL)
 			continue ;
 		add_history(minishell->input);
+		if (has_unclosed_quotes(minishell->input) == -1)
+			continue ;
 		if (lexical_parser(minishell) == -1)
 		{
 			free_minishell(minishell);
