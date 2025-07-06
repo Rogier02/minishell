@@ -6,7 +6,7 @@
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/23 19:05:44 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/07/06 11:30:05 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/06 12:33:03 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int	ft_cd(t_minishell *minishell, char **args)
 		ft_putstr_fd("minishell: cd: ", 2);
 		ft_putstr_fd(target, 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
+		minishell->exit_code = 1;
 		return (1);
 	}
 	update_pwd_oldpwd(env, cwd);
