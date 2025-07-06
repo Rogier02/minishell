@@ -1,5 +1,5 @@
 NAME 				= libft.a
-CFLAGS  			= -Wall -Wextra -Werror -g
+# CFLAGS  			= -Wall -Wextra -Werror -g
 CC 					= cc
 RM					= rm -rf
 AR					= ar rcs

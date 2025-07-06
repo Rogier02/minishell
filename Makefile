@@ -12,6 +12,15 @@ INCLUDES		=	-I ./includes
 SRCS_DIR		= 	srcs
 SRCS			= 	srcs/main.c \
 					srcs/error/error.c \
+					srcs/builtin/ft_cd.c \
+					srcs/builtin/ft_echo.c \
+					srcs/builtin/ft_env.c \
+					srcs/builtin/ft_exit.c \
+					srcs/builtin/ft_export.c \
+					srcs/builtin/ft_pwd.c \
+					srcs/builtin/ft_unset.c \
+					srcs/execution/exec_cmd.c \
+					srcs/execution/executor.c \
 					srcs/init/get_envp.c \
 					srcs/init/get_pwd.c \
 					srcs/init/init_minishell.c \
@@ -67,6 +76,7 @@ $(OBJ_DIR)/%.o	: $(SRCS_DIR)/%.c
 clean			: 
 				@$(MAKE) -C $(LIBFT_DIR) clean
 				$(RM) %.o $(OBJ_FILES)
+				$(RM) -r $(OBJ_DIR)
 
 fclean			: clean
 				@$(MAKE) -C $(LIBFT_DIR) fclean

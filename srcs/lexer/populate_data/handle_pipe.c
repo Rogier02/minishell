@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/29 17:37:24 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/29 19:54:23 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/06 10:25:48 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int handle_pipe(t_minishell *minishell, t_lexing *token)
 			minishell->exit_code = ENOMEM;
 			return (-1);
 		}
-		token = token->next;
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 13:18:23 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/25 16:33:17 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/06 09:43:10 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,19 @@
 
 static bool	is_exit_code(char *original_input, char quote_flag, int i)
 {
-	if (quote_flag != '\'' && original_input[i + 1] == '?')
+	// Only expand if next char is '?'
+	if (original_input[i + 1] != '?')
+		return (false);
+	// Never expand inside single quotes
+	if (quote_flag == '\'')
+		return (false);
+	// Always expand inside double quotes
+	if (quote_flag == '\"')
 		return (true);
+	// Not quoted: only expand if at start of string
+	if (i == 0)
+		return (true);
+	// Otherwise, do not expand
 	return (false);
 }
 
@@ -24,7 +35,7 @@ int	append_exit_code(t_minishell *minishell, t_expansion *expan, t_lexing *token
 	char	*exit_code_copy;
 	char	*temp;
 
-	if (is_exit_code(token->value, token->quote_flag, *i) == false)
+	if (!is_exit_code(token->value, token->quote_flag, *i))
 		return (0);
 	exit_code_copy = ft_itoa(minishell->exit_code);
 	if (exit_code_copy == NULL)
@@ -40,5 +51,6 @@ int	append_exit_code(t_minishell *minishell, t_expansion *expan, t_lexing *token
 	free(expan->expanded_input);
 	expan->expanded_input = temp;
 	(*i) += 1;
+	free(exit_code_copy);
 	return (0);
 }

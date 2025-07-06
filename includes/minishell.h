@@ -6,31 +6,30 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/06 08:15:25 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/06 10:42:03 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <string.h>
-# include <fcntl.h>
-# include <signal.h>
+# include "../libft/incl/libft.h"
 # include <errno.h>
+# include <fcntl.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
 # include <stdbool.h>
-
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
+# include <unistd.h>
 
-# include <readline/readline.h>
-# include <readline/history.h>
-
-# include "../libft/incl/libft.h"
-
-# define UNMATCHED_QUOTES_ERR "minishell: unexpected EOF while looking for matching quote\n"
+# define UNMATCHED_QUOTES_ERR \
+	"minishell: unexpected EOF while looking \
+for matching quote\n"
 # define MINISHELL_PROMPT "minishell: ~$"
 
 # define ERR_MSG_NL "minishell: syntax error near unexpected token `newline'\n"
@@ -40,7 +39,7 @@
 # define ERR_MSG_REAPPEND "minishell: syntax error near unexpected token `>>'\n"
 # define ERR_MSG_PIPE "minishell: syntax error near unexpected token `|'\n"
 
-extern volatile sig_atomic_t g_heredoc_interrupted;
+extern volatile sig_atomic_t	g_heredoc_interrupted;
 
 typedef enum e_syntax_err
 {
@@ -84,12 +83,12 @@ typedef struct	s_child_p
 
 typedef struct  s_token
 {
-	t_token_type	type;
-	int				len;
-	int				start;
-	int				end;
-	char			quote_flag;
-} t_token;
+	t_token_type				type;
+	int							len;
+	int							start;
+	int							end;
+	char						quote_flag;
+}								t_token;
 
 typedef struct s_envp
 {
@@ -118,7 +117,7 @@ typedef struct s_cmd_table
 	char					*heredoc_delim;
 	struct s_cmd_table		*next;
 
-} t_cmd_table;
+}								t_cmd_table;
 
 typedef struct s_expansion
 {
@@ -161,19 +160,39 @@ typedef struct s_lexing
 
 } t_lexing;
 
-/* error/ */
+// builtin functions
+
+int	ft_cd(t_minishell *minishell, char **args);
+int	ft_unset(t_minishell *minishell, char **args);
+int	ft_pwd(void);
+int	ft_export(t_minishell *minishell, char **args);
+int	ft_exit(t_minishell *minishell, char **args);
+int	ft_env(t_minishell *minishell, char **args);
+int	ft_echo(char **args);
+
+// error funcitons
+
 void	error_and_exit(char *msg, t_minishell *minishell);
 int		error_malloc_failure(t_minishell *minishell);
 
-/* get/ */
+// execution funcitons
+
+int	exec_cmd(t_minishell *msh);
+int	executor(t_minishell *msh);
+
+// free functions
+
+void	free_cmd_table(t_cmd_table *cmd_table);
+void 	free_expansion(t_expansion *expan); // ? am i usining this?
+void	free_minishell(t_minishell *minishell);
+
+// init functions
 void	get_envp(t_minishell *minishell, char *envp[]);
 char	*get_pwd(t_minishell *minishell);
-
-/* init/ */
 void	init_minishell(t_minishell *minishell, char *envp[]);
 void	init_token(t_token *token, int i);
 
-/* signals/ */
+// signal funcitons
 void	handle_signals(t_minishell *minishell, int loc);
 
 /* parser/ */
@@ -198,12 +217,16 @@ void		free_cmd_table(t_cmd_table *cmd_table);
 void	free_minishell(t_minishell *minishell);
 
 /* set signals/ */
-void	set_signal_protocal(t_minishell *minishell, int location);
+void							set_signal_protocal(t_minishell *minishell,
+									int location);
 
 /* signal_handlers */
-void	handle_shell_signals(int signal, siginfo_t *info, void *ucontext);
-void	handle_heredoc_signals(int signal, siginfo_t *info, void *ucontext);
-void	handle_child_signals(int signal, siginfo_t *info, void *ucontext);
+void							handle_shell_signals(int signal,
+									siginfo_t *info, void *ucontext);
+void							handle_heredoc_signals(int signal,
+									siginfo_t *info, void *ucontext);
+void							handle_child_signals(int signal,
+									siginfo_t *info, void *ucontext);
 
 /* syntax */
 int			lexical_parser(t_minishell *mshell);
@@ -227,6 +250,7 @@ int				expand_variable(t_envp *envp, t_expansion *expan);
 int				expansion(t_minishell *minishell, t_lexing *token);
 
 int				is_redirect(t_token_type type);
+int				is_redirect_or_pipe(t_token_type type);
 int				is_delimiter(char c);
 t_token_type 	get_type(char *input, t_lexing *token);
 t_lexing		*get_next_token(char *input, int *i);
@@ -238,4 +262,9 @@ int		populate_command_data(t_minishell *minishell, t_lexing *token_list);
 int 	handle_pipe(t_minishell *minishell, t_lexing *token);
 int	handle_quotes(t_lexing *token);
 int	handle_heredoc(t_minishell *minishell, t_lexing *token);
+
+
+
+
+
 #endif

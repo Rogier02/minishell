@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 13:08:08 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/06 07:12:08 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/06 11:01:26 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,22 +59,25 @@ static int	append_expanded_variable(t_expansion *expan)
 
 int	append_variable(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i)
 {
-    expan->var_name = get_variable_name(token->value, token->quote_flag, *i);
-    if (!expan->var_name)
-        return (-1);
-    expan->var_name_len = ft_strlen(expan->var_name);
-
-    if (find_and_expand_variable(expan) == -1)
-    {
-        minishell->exit_code = ENOMEM;
-        return (-1);
-    }
-    if (append_expanded_variable(expan) == -1)
+	if (token->value[*i] && token->value[*i] == '$' && token->quote_flag != '\'')
 	{
-		minishell->exit_code = ENOMEM;
-        return (-1);
+		expan->var_name = get_variable_name(token->value, token->quote_flag, *i);
+		if (!expan->var_name)
+			return (-1);
+		expan->var_name_len = ft_strlen(expan->var_name);
+	
+		if (find_and_expand_variable(expan) == -1)
+		{
+			minishell->exit_code = ENOMEM;
+			return (-1);
+		}
+		if (append_expanded_variable(expan) == -1)
+		{
+			minishell->exit_code = ENOMEM;
+			return (-1);
+		}
+		(*i) += expan->var_name_len;
+		return (0);
 	}
-
-    (*i) += expan->var_name_len;
-    return (0);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/23 18:37:10 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/06 07:57:24 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/06 10:38:26 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	expansion(t_minishell *minishell, t_lexing *token)
 {
 	while(token)
 	{
-		if (is_redirect(token->type) 
+		if (is_redirect_or_pipe(token->type)
 			|| (token->previous && token->previous->type == HERE_DOC))
 		{
 			token->expanded_value = ft_strdup(token->value);
