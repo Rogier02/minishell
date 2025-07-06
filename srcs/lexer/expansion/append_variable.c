@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 13:08:08 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/28 14:02:17 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/06 07:12:08 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	find_and_expand_variable(t_expansion *expan)
     {
         if (variable_located(expan, head) == 0)
         {
-            if (expand_variable(head->value, expan) == -1)
+            if (expand_variable(head, expan) == -1)
                 return (-1);
             break;
         }
@@ -70,7 +70,10 @@ int	append_variable(t_minishell *minishell, t_expansion *expan, t_lexing *token,
         return (-1);
     }
     if (append_expanded_variable(expan) == -1)
+	{
+		minishell->exit_code = ENOMEM;
         return (-1);
+	}
 
     (*i) += expan->var_name_len;
     return (0);

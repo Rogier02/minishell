@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/22 14:10:00 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/05 16:59:42 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/06 01:22:57 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static int		has_unclosed_quotes(char *input)
 	while (input[i])
 	{	
 		if (quote_flag == '\0' && (input[i] == '\\' || input[i] == ';'))
-			return (1);
+			return (-1);
 		if (quote_flag == '\0' 
 			&& (input[i] == '\'' || input[i] == '\"'))
 			quote_flag = input[i];
@@ -95,7 +95,7 @@ static int		has_unclosed_quotes(char *input)
 	if (quote_flag != '\0')
 	{
 		ft_putstr_fd("minishell: syntax error: unclosed quote\n", STDERR_FILENO);
-		return (1);
+		return (-1);
 	}
 	return (0);
 }

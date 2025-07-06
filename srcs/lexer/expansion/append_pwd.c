@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/25 19:26:43 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/05 15:10:26 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/06 08:17:14 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ char	*expand_pwd(t_minishell *minishell)
 {
 	char	*pwd;
 
-	get_pwd(minishell);
-	pwd = ft_strdup(minishell->pwd);
+	pwd = get_pwd(minishell);
 	if (!pwd)
 	{
 		minishell->exit_code = ENOMEM;

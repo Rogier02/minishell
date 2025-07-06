@@ -63,6 +63,7 @@ SRC_FILES			= $(addprefix $(SRC_CLASS)/, \
 					ft_strmapi.c \
 					ft_striteri.c \
 					ft_strtol.c \
+					ft_strcmp.c \
 					ft_char_count.c ) \
 					$(addprefix $(SRC_LIST)/, \
 					ft_lstnew.c \

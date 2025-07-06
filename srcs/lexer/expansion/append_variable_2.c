@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/26 17:36:04 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/26 17:39:41 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/06 07:05:09 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,16 @@ char	*get_variable_name(char *input, char quote_flag, int i)
 	return (variable_name);
 }
 
-int	variable_located(t_expansion *expan, t_envp *head)
+int		variable_located(t_expansion *expan, t_envp *head)
 {
-	if (ft_strncmp(head->value, expan->var_name, expan->var_name_len) == 0)
+	if (ft_strcmp(head->key, expan->var_name) == 0) 
 		return (0);
 	return (1);
 }
 
-int expand_variable(char *envp_value, t_expansion *expan)
+int expand_variable(t_envp *envp, t_expansion *expan)
 {
-	expan->var_expanded = ft_substr(envp_value, expan->var_name_len + 1, \
-		ft_strlen(envp_value) - expan->var_name_len - 1);
+	expan->var_expanded = ft_strdup(envp->value);
 	if (!expan->var_expanded)
 		return (-1);
 	return(0);

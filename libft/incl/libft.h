@@ -6,7 +6,7 @@
 /*   By: rgoossen <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/14 14:48:19 by rgoossen      #+#    #+#                 */
-/*   Updated: 2024/05/18 20:04:13 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/06 06:48:18 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ char	**ft_split(char const *s, char c);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 size_t	ft_char_count(char *str, char c);
+int		ft_strcmp(const char *s1, const char *s2);
 
 /* memory */
 void	*ft_memchr(const void *str, int c, size_t n);

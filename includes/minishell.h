@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/05 18:14:46 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/06 08:15:25 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@ typedef struct  s_token
 
 typedef struct s_envp
 {
-	char *value;
+	char	*value;
+	char	*key;
 	struct s_envp *next;
 } t_envp;
 
@@ -166,7 +167,7 @@ int		error_malloc_failure(t_minishell *minishell);
 
 /* get/ */
 void	get_envp(t_minishell *minishell, char *envp[]);
-void	get_pwd(t_minishell *minishell);
+char	*get_pwd(t_minishell *minishell);
 
 /* init/ */
 void	init_minishell(t_minishell *minishell, char *envp[]);
@@ -222,7 +223,7 @@ int			append_exit_code(t_minishell *minishell, t_expansion *expan, t_lexing *tok
 int			append_variable(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i);
 char		*get_variable_name(char *input, char quote_flag, int i);
 int				variable_located(t_expansion *expan, t_envp *head);
-int				expand_variable(char *envp_value, t_expansion *expan);
+int				expand_variable(t_envp *envp, t_expansion *expan);
 int				expansion(t_minishell *minishell, t_lexing *token);
 
 int				is_redirect(t_token_type type);

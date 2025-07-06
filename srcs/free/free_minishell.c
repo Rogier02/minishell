@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/05 18:09:18 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/05 18:11:53 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/06 07:59:32 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,4 @@ void	free_minishell(t_minishell *minishell)
         free_envp_list(minishell->envp);
     if (minishell->cmd_head)
         free_cmd_table(minishell->cmd_head);
-    // Free other dynamically allocated fields if present
-    free(minishell);
 }

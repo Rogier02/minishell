@@ -1,38 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   get_pwd.c                                          :+:    :+:            */
+/*   ft_strcmp.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/04/27 16:16:25 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/06 08:19:13 by rgoossen      ########   odam.nl         */
+/*   Created: 2025/07/06 06:47:07 by rgoossen      #+#    #+#                 */
+/*   Updated: 2025/07/06 06:48:01 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-char	*get_pwd(t_minishell *minishell)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	t_envp	*head;
-	char 	*pwd;
-	
-	head = minishell->envp;
-	while (head != NULL)
-	{
-		//printf("hello\n");
-		if (ft_strcmp(head->key, "PWD") == 0)
-		{
-			pwd = ft_strdup(head->value);
-			if (pwd == NULL)
-			{
-				error_and_exit("malloc failure\n", minishell);
-				break;
-			}
-			return (pwd);
-		}
-		head = head->next;
-	}
-	return(NULL);
-
+    while (*s1 && (*s1 == *s2))
+    {
+        s1++;
+        s2++;
+    }
+    return ((unsigned char)*s1 - (unsigned char)*s2);
 }
