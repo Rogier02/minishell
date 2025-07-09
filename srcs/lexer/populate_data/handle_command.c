@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/29 15:55:27 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/05 18:38:39 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/09 16:05:05 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@
 // 		return (-1);
 // 	return (0);
 // }
+
+void 	init_fds(t_cmd_table *cmd_table)
+{
+	cmd_table->infd = -1;
+	cmd_table->outfd = -1;
+}
 
 static int add_command_to_table(t_minishell *minishell, t_lexing *token)
 {
@@ -77,6 +83,7 @@ int handle_command(t_minishell *minishell, t_lexing *token)
 				return (-1);
 			if (minishell->cmd_current->cmd == NULL)
 			{
+				init_fds(minishell->cmd_current); // TODO: maybe fix, not very pretty?
 				create_new_command_array(minishell, token);
 				if (!minishell->cmd_current->cmd)
 					return (-1);

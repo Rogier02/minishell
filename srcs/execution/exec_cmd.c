@@ -6,7 +6,7 @@
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/23 21:23:38 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/07/06 09:02:12 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/09 16:17:54 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	exec_cmd(t_minishell *msh)
 		if (cmd_path)
 			execve(cmd_path, msh->cmd_head->cmd, envp_arr);
 		ft_putstr_fd("minishell: command not found: ", 2);
-		ft_putstr_fd(msh->cmd_head->cmd[0], 2);
+		ft_putstr_fd(msh->cmd_head->cmd[0], 2)
 		ft_putstr_fd("\n", 2);
 		exit(127);
 	}

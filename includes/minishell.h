@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/06 10:42:03 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/09 15:52:46 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <unistd.h>
+
 
 # define UNMATCHED_QUOTES_ERR \
 	"minishell: unexpected EOF while looking \
@@ -112,8 +113,8 @@ typedef struct s_cmd_table
 	//char		s			*outfile;
 	int						infd;
 	int						outfd;
-	int						append_flag;
-	int						hereddoc_flag;
+	// int						append_flag;
+	// int						hereddoc_flag;
 	char					*heredoc_delim;
 	struct s_cmd_table		*next;
 

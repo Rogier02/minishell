@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:34:37 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/06 08:20:47 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/09 16:01:47 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,4 @@ void	init_minishell(t_minishell *minishell, char *envp[])
 	minishell->cmd_current->outfile = ft_calloc(1, sizeof(t_file_type));
 	if (!minishell->cmd_current->outfile)
 		error_and_exit("malloc failure\n", minishell);
-
 }
