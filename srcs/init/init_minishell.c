@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:34:37 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/09 16:01:47 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/10 12:28:17 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ void	init_minishell(t_minishell *minishell, char *envp[])
 	minishell->child = NULL;
 	minishell->input = NULL;
 	minishell->exit_code = 0;
+	minishell->child = ft_calloc(1, sizeof(t_child_p));
+	if (minishell->child)
+		error_and_exit("malloc failure: failed to allocate children\n", minishell);
 	minishell->cmd_head = ft_calloc(1, sizeof(t_cmd_table));
 	if (minishell->cmd_head == NULL)
 		error_and_exit("malloc failure\n", minishell);

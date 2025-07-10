@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/09 15:52:46 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/10 12:38:05 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,18 +107,14 @@ typedef struct s_file_type
 typedef struct s_cmd_table
 {
 	char					**cmd;
+	char					*heredoc_delim;
 	t_file_type				*infile;
 	t_file_type				*outfile;
-	//char					*infile;
-	//char		s			*outfile;
 	int						infd;
 	int						outfd;
-	// int						append_flag;
-	// int						hereddoc_flag;
-	char					*heredoc_delim;
+	int						pipe_fd[2];
 	struct s_cmd_table		*next;
-
-}								t_cmd_table;
+} t_cmd_table;
 
 typedef struct s_expansion
 {
@@ -136,9 +132,10 @@ typedef struct s_expansion
 typedef struct s_minishells
 {
 	int			exit_code;
-	char		*input;
+	int			original_stdout;
+	int			original_stdin;
 	char		*pwd;
-	pid_t		main_process_pid;
+	char		*input;
 	t_envp		*envp;
 	t_cmd_table *cmd_head;
 	t_cmd_table *cmd_current;
