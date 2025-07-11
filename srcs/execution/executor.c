@@ -6,7 +6,7 @@
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/08 18:11:36 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/07/10 15:55:21 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/11 16:51:14 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,19 @@ void	run_execution_process(t_minishell *minishell, pid_t *pid, int *statuscode)
 		if (pipe(minishell->cmd_current->next->pipe_fd) == -1)
 			return ; // TODO: correct error handling.		
 	}
-	// if there is no next cmd struct/pipe and cmd_current is equal to cmd_head.
-		// check for and execute builtins.
-			// run_builtins(); < needs a check for builtins.
-		// restore fds if need be. 
+		// if no pipe. check for, and run builtins.
+	if (execute_builtins() == 1)
+	{
+		// if there is no next cmd struct/pipe and cmd_current is equal to cmd_head.
+			// check for and execute builtins.
+				// run_builtins(); < needs a check for builtins.
+			// restore fds if need be. 
+		restore_fds();
+		set_signal_protocal(minishell, execution);
+	}
+	if (execute_external_commands() == 1)
+		
+		// if no builtins were executed or there is a pipe. we run
 			// if (minishell.original_stdin has been changed. IE is greater than 0
 				// restore original_stdin to the STDIN_FILENO
 					// check for dup failure ^
@@ -60,32 +69,31 @@ void	run_execution_process(t_minishell *minishell, pid_t *pid, int *statuscode)
 					//check for close failure ^
 				// set original_stdout to -2
 	
-	// if the given command is not a builtin and there is a pipe (cmd_table.next). 
-		// the program should fork. 
-			// check for fork failure.
-		// if the pid == 0
-			// handle redirects
-				// check if there are outfiles or infiles.
-					// if there are available files. then open the files. 
-					// dupe the files to the in and out fds.
-					// close the appropriate fds after duping.
-			// if  current_cmd != cmd
-				// dupe the read
-					// if pipe_fd[READ] exits and infd is less than 1
-						// if dup2(pipe_fd[READ], STDIN_FILENO) == -1
-							//handle_error.
-					// if pipe_fd[READ] 
-						// if close(pipe_fd[READ] == -1)
-							// handle error
-			// if there is a pipe
-				// dupe the write.
-					// if pipe_fd[WRITE] exits and outfd is less than 1
-						// if dup2(pipe_fd[WRITE], STDOUT_FILENO) == -1
-							//handle_error.
-					// if pipe_fd[WRITE] 
-						// if close(pipe_fd[WRITE] == -1)
-							// handle error
-							
+		// if the given command is not a builtin and there is a pipe (cmd_table.next). 
+			// the program should fork. 
+				// check for fork failure.
+			// if the pid == 0
+				// handle redirects
+					// check if there are outfiles or infiles.
+						// if there are available files. then open the files. 
+						// dupe the files to the in and out fds.
+						// close the appropriate fds after duping.
+				// if  current_cmd != cmd
+					// dupe the read
+						// if pipe_fd[READ] exits and infd is less than 1
+							// if dup2(pipe_fd[READ], STDIN_FILENO) == -1
+								//handle_error.
+						// if pipe_fd[READ] 
+							// if close(pipe_fd[READ] == -1)
+								// handle error
+				// if there is a pipe
+					// dupe the write.
+						// if pipe_fd[WRITE] exits and outfd is less than 1
+							// if dup2(pipe_fd[WRITE], STDOUT_FILENO) == -1
+								//handle_error.
+						// if pipe_fd[WRITE] 
+							// if close(pipe_fd[WRITE] == -1)
+								// handle error
 			// run child process to execute commands.
 				// check builtin fds?
 				

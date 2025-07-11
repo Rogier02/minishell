@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/10 12:38:05 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/11 15:59:17 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@ for matching quote\n"
 # define ERR_MSG_REAPPEND "minishell: syntax error near unexpected token `>>'\n"
 # define ERR_MSG_PIPE "minishell: syntax error near unexpected token `|'\n"
 
+# define o_failure -2
+# define default 0
+# define o_success 2
+
 extern volatile sig_atomic_t	g_heredoc_interrupted;
 
 typedef enum e_syntax_err
@@ -62,7 +66,8 @@ typedef	enum e_signal_locations
 	main_shell,
 	heredoc,
 	child_process,
-	waiting_parent
+	waiting_parent,
+	execution
 } t_signal_locations;
 
 typedef enum e_token_type
@@ -134,6 +139,7 @@ typedef struct s_minishells
 	int			exit_code;
 	int			original_stdout;
 	int			original_stdin;
+	int			execution_status;
 	char		*pwd;
 	char		*input;
 	t_envp		*envp;
