@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/11 15:59:17 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/12 16:22:48 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,12 @@ for matching quote\n"
 # define ERR_MSG_REAPPEND "minishell: syntax error near unexpected token `>>'\n"
 # define ERR_MSG_PIPE "minishell: syntax error near unexpected token `|'\n"
 
-# define o_failure -2
-# define default 0
-# define o_success 2
+# define DEFAULT 0
+# define O_FAILURE -1
+# define O_SUCCESS 2
+
+# define CHILD_PROCESS 0
+# define FORK_FAILURE -1
 
 extern volatile sig_atomic_t	g_heredoc_interrupted;
 
@@ -117,7 +120,6 @@ typedef struct s_cmd_table
 	t_file_type				*outfile;
 	int						infd;
 	int						outfd;
-	int						pipe_fd[2];
 	struct s_cmd_table		*next;
 } t_cmd_table;
 
@@ -140,6 +142,7 @@ typedef struct s_minishells
 	int			original_stdout;
 	int			original_stdin;
 	int			execution_status;
+	int			pipe_fd[2];
 	char		*pwd;
 	char		*input;
 	t_envp		*envp;

@@ -6,55 +6,31 @@
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/08 18:11:36 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/07/11 16:51:14 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/12 19:49:12 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	run_builtin(t_minishell *minishell)
+void	run_execution_process(t_minishell *minishell, int *pid, int *statuscode)
 {
-	char	**cmd;
-
-	cmd = minishell->cmd_head->cmd;
-	if (!cmd || !cmd[0])
-		return (0);
-	if (!ft_strncmp(cmd[0], "echo", 5))
-		return (ft_echo(cmd), 1);
-	if (!ft_strncmp(cmd[0], "cd", 3))
-		return (ft_cd(minishell, cmd), 1);
-	if (!ft_strncmp(cmd[0], "pwd", 3))
-		return (ft_pwd(), 1);
-	if (!ft_strncmp(cmd[0], "export", 7))
-		return (ft_export(minishell, cmd), 1);
-	if (!ft_strncmp(cmd[0], "unset", 6))
-		return (ft_unset(minishell, cmd), 1);
-	if (!ft_strncmp(cmd[0], "env", 3))
-		return (ft_env(minishell, cmd), 1);
-	if (!ft_strncmp(cmd[0], "exit", 5))
-		return (ft_exit(minishell, cmd), 1);
-	return (0);
-}
-
-void	run_execution_process(t_minishell *minishell, pid_t *pid, int *statuscode)
-{
+	int	result;
+	
+	if (!minishell->cmd_head->next && check_for_builtins(minishell))
+	{
+		exec_single_builtin(minishell);
+		restore_fds(minishell);
+		set_signal_protocal(minishell, execution);
+		return ;
+	}
 	if (minishell->cmd_current->next)
 	{
-		if (pipe(minishell->cmd_current->next->pipe_fd) == -1)
-			return ; // TODO: correct error handling.		
+		if (pipe(minishell->pipe_fd) == -1)
+			return ; // TODO: correct error handling.
+		handle_pipe_fds(minishell);
+		execute_externals_and_pipes(minishell, pid);
 	}
-		// if no pipe. check for, and run builtins.
-	if (execute_builtins() == 1)
-	{
-		// if there is no next cmd struct/pipe and cmd_current is equal to cmd_head.
-			// check for and execute builtins.
-				// run_builtins(); < needs a check for builtins.
-			// restore fds if need be. 
-		restore_fds();
-		set_signal_protocal(minishell, execution);
-	}
-	if (execute_external_commands() == 1)
-		
+	set_signal_protocal(minishell, execution);
 		// if no builtins were executed or there is a pipe. we run
 			// if (minishell.original_stdin has been changed. IE is greater than 0
 				// restore original_stdin to the STDIN_FILENO
@@ -152,11 +128,6 @@ int	executor(t_minishell *minishell)
 			//	restore fds
 		 	// run_builtin. + esstablish the correct ins and outs. dup2 for output etc.
 		// else
-		pid = fork();
-		if (pid == -1)
-			return (-1);
-		if (pid == 0)
-			exec_child(minishell);
 	}
 	wait_for_child_proccesses();
 	return (exec_cmd(minishell));
