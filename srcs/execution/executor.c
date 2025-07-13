@@ -6,7 +6,7 @@
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/08 18:11:36 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/07/12 19:49:12 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/13 17:30:19 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@ void	run_execution_process(t_minishell *minishell, int *pid, int *statuscode)
 	
 	if (!minishell->cmd_head->next && check_for_builtins(minishell))
 	{
-		exec_single_builtin(minishell);
-		restore_fds(minishell);
+		if (exec_single_builtin(minishell) == -1)
+			return (-1);
+		restore_std(minishell);
 		set_signal_protocal(minishell, execution);
 		return ;
 	}
@@ -27,23 +28,11 @@ void	run_execution_process(t_minishell *minishell, int *pid, int *statuscode)
 	{
 		if (pipe(minishell->pipe_fd) == -1)
 			return ; // TODO: correct error handling.
-		handle_pipe_fds(minishell);
+		redirect_pipes(minishell);
 		execute_externals_and_pipes(minishell, pid);
+		// TODO: add child pid to minishell.childs struct
 	}
 	set_signal_protocal(minishell, execution);
-		// if no builtins were executed or there is a pipe. we run
-			// if (minishell.original_stdin has been changed. IE is greater than 0
-				// restore original_stdin to the STDIN_FILENO
-					// check for dup failure ^
-				// close original_stdin
-					//check for close failure ^
-				// set original_stdin to -2
-			// if (minishell.original_stdout has been changed. IE is greater than 0)
-				// restore original_stdout to the STDOUT_FILENO
-					//check for dup failure ^
-				// close original_stdin
-					//check for close failure ^
-				// set original_stdout to -2
 	
 		// if the given command is not a builtin and there is a pipe (cmd_table.next). 
 			// the program should fork. 
@@ -129,6 +118,7 @@ int	executor(t_minishell *minishell)
 		 	// run_builtin. + esstablish the correct ins and outs. dup2 for output etc.
 		// else
 	}
-	wait_for_child_proccesses();
+	if (ret != FAILED_PIPE)
+		wait_for_child_proccesses();
 	return (exec_cmd(minishell));
 }

@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/12 16:22:48 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/13 17:41:53 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,7 +271,16 @@ int	handle_quotes(t_lexing *token);
 int	handle_heredoc(t_minishell *minishell, t_lexing *token);
 
 
-
-
+// exectution
+int		executor(t_minishell *minishell);
+int		check_for_builtins(t_minishell *minishell);
+int		run_builtin(t_minishell *minishell);
+void	execute_externals_and_pipes(t_minishell *minishell, int *pid);
+int		exec_single_builtin(t_minishell *minishell);
+int		open_infile(t_minishell *minishell);
+int 	open_outfile(t_minishell *minishell);
+int		redirect_pipes(t_minishell *minishell);
+int		restore_std(t_minishell *minishell);
+void	run_child(t_minishell *minishell);
 
 #endif

@@ -8,7 +8,7 @@ AR				= 	ar rcs
 LIBFT_DIR		= 	libft
 LIBFT_A			= 	libft/libft.a
 
-INCLUDES		=	-I ./includes
+INCLUDES		=	-I	./includes
 SRCS_DIR		= 	srcs
 SRCS			= 	srcs/main.c \
 					srcs/error/error.c \
@@ -53,7 +53,16 @@ SRCS			= 	srcs/main.c \
 					srcs/lexer/populate_data/handle_pipe.c \
 					srcs/lexer/populate_data/handle_quotes.c \
 					srcs/lexer/populate_data/handle_redirect.c \
-					srcs/lexer/populate_data/populate_command_data.c
+					srcs/lexer/populate_data/populate_command_data.c \
+					srcs/execution/exec_builtin.c \
+					srcs/execution/exec_externals.c \
+					srcs/execution/exec_single_builtin.c \
+					srcs/execution/executor.c \
+					srcs/execution/open_infile.c \
+					srcs/execution/open_outfile.c \
+					srcs/execution/redirect_pipes.c \
+					srcs/execution/restore_std.c \
+					srcs/execution/run_child.c
 
 OBJ_DIR			= 	objs
 OBJ_FILES		=	$(SRCS:$(SRCS_DIR)/%.c=$(OBJ_DIR)/%.o)

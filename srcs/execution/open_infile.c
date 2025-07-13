@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   handle_redirects.c                                 :+:    :+:            */
+/*   open_infile.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/07/12 16:13:52 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/12 16:43:56 by rgoossen      ########   odam.nl         */
+/*   Created: 2025/07/13 16:41:15 by rgoossen      #+#    #+#                 */
+/*   Updated: 2025/07/13 17:08:23 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	redirect_output()
+int	open_infile(t_minishell *minishell)
 {
-
-}
-
-void	redirect_input(t_minishell *minishell)
-{
-
-}
-
-int	handle_redirects(t_minishell *minishell)
-{
-	if (minishell->cmd_current->outfile)
-		redirect_output();
 	if (minishell->cmd_current->infile)
-		redirect_input();
-}
+	{
+		if (minishell->cmd_current->infd != -1)
+		{
+			if (close(minishell->cmd_current->infd) == -1)
+			return (perror("minishell: close: failed to close infd"), -1);
+			minishell->cmd_current->infd = -1;
+		}
+		minishell->cmd_current->infd = \
+			open(minishell->cmd_current->infile->name, O_RDONLY);
+		if (minishell->cmd_current->infd == -1)
+			return (perror("minishell: open: failed to open infd"), -1);
+	}
+	return (0);
+}	
