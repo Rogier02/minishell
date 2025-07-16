@@ -6,7 +6,7 @@
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/08 18:11:36 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/07/13 18:42:01 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/16 15:48:33 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,6 @@ int	executor(t_minishell *minishell)
 		minishell->cmd_current = minishell->cmd_current->next;
 	}
 	if (ret != FAILED_PIPE)
-		wait_for_child_proccesses();
+		wait_for_child_proccesses(minishell);
 	return (exec_cmd(minishell));
 }

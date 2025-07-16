@@ -1,40 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   close_fds.c                                        :+:    :+:            */
+/*   free_children.c                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/07/13 13:51:46 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/16 17:49:33 by rgoossen      ########   odam.nl         */
+/*   Created: 2025/07/16 17:36:17 by rgoossen      #+#    #+#                 */
+/*   Updated: 2025/07/16 17:40:46 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	close_fds(int count, ...)
+void	recess(t_child_p *child)
 {
-	va_list args;
-	int		fd;
-	int		i;
-	int		ret;
-
-	i = 0;
-	ret = 1;
-	va_start(args, count);
-	while(i < count)
+	t_child_p *next;
+	
+	while (child)
 	{
-		fd = va_arg(args, int);
-		if (fd >= 0)
-		{
-			if (close(fd) == -1)
-			{
-				perror("minishell: close\n");
-				ret = -1;
-			}
-		}
-		i++;
+		next = child->next;
+		free(child);
+		child = next;
 	}
-	va_end(args);
-	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/05 18:12:30 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/05 18:12:49 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/16 17:53:49 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,13 @@ static void		free_file_struct(t_file_type *file)
 
 void		free_cmd_table(t_cmd_table *cmd_table)
 {
-	int i;
 	t_cmd_table *tmp;
 
 	while (cmd_table)
 	{
 		tmp = cmd_table->next;
         if (cmd_table->cmd)
-        {
-            i = 0;
-            while (cmd_table->cmd[i])
-            {
-                free(cmd_table->cmd[i]);
-                i++;
-            }
-            free(cmd_table->cmd);
-        }
+			ft_free_array(cmd_table->cmd);
         if (cmd_table->infile)
 			free_file_struct(cmd_table->infile);
         if (cmd_table->outfile)

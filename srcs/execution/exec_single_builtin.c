@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/11 18:50:52 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/13 17:27:23 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/16 13:14:21 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int collect_original_fds(t_minishell *minishell)
 {
-	minishell->original_stdin; = dup(STDIN_FILENO);
+	minishell->original_stdin = dup(STDIN_FILENO);
 	if (minishell->original_stdin == -1)
 		return (perror("failed to dup original stdin"), -1);
 	minishell->original_stdout; = dup(STDOUT_FILENO);
@@ -44,7 +44,7 @@ static int redirect_fds(t_minishell *minishell)
 		if (dup2(minishell->cmd_current->outfd, STDOUT_FILENO) == -1)
 			return (perror("failed to dup outfd to STDOUT"), -1);
 	}
-	return (0)
+	return (0);
 }
 
 int	exec_single_builtin(t_minishell *minishell)

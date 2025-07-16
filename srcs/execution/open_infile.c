@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/13 16:41:15 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/13 17:08:23 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/16 15:50:48 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	open_infile(t_minishell *minishell)
 		if (minishell->cmd_current->infd != -1)
 		{
 			if (close(minishell->cmd_current->infd) == -1)
-			return (perror("minishell: close: failed to close infd"), -1);
+				return (perror("minishell: close: failed to close infd"), -1);
 			minishell->cmd_current->infd = -1;
 		}
 		minishell->cmd_current->infd = \
