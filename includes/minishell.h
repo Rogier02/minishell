@@ -283,4 +283,8 @@ int		redirect_pipes(t_minishell *minishell);
 int		restore_std(t_minishell *minishell);
 void	run_child(t_minishell *minishell);
 
+// path utilities
+char	**env_list_to_array(t_envp *envp);
+char	*find_cmd_path(char *cmd, t_envp *envp);
+
 #endif

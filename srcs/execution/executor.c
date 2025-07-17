@@ -12,51 +12,52 @@
 
 #include "minishell.h"
 
-void	run_execution_process(t_minishell *minishell, int *pid, int *statuscode)
-{
-	int	result;
-	
+static int	run_execution_process(t_minishell *minishell, int *pid, int *statuscode)
+{	
 	if (!minishell->cmd_head->next && check_for_builtins(minishell))
 	{
 		if (exec_single_builtin(minishell) == -1)
-			return (-1); // free
+			return (-1);
 		restore_std(minishell);
 		set_signal_protocal(minishell, execution);
-		return ;
+		return (0);  // Success
 	}
 	if (minishell->cmd_current->next)
 	{
 		if (pipe(minishell->pipe_fd) == -1)
-			return ; // TODO: correct error handling.
+			return (-1);
 		redirect_pipes(minishell);
 		execute_externals_and_pipes(minishell, pid);
-		// TODO: add child pid to minishell.childs struct
 	}
 	set_signal_protocal(minishell, execution);
+	return (0);  // Success
 }
 
 int	executor(t_minishell *minishell)
 {
-	int			wstatus;
 	int			statuscode;
 	pid_t		pid;
-	t_child_p	*last_child_p;
+	int			execution_result;
 
-	wstatus = -1;
-	statuscode = -1;
+	statuscode = 0;
 	pid = 0;
-	last_child_p = NULL;
-	
-	// TODO: add check for valid data. IE is there cmd data?
 	while (minishell->cmd_current)
 	{
 		if (minishell->cmd_current->cmd)
-			run_execution_process(minishell, &pid, &statuscode);
+		{
+			execution_result = run_execution_process(minishell, &pid, &statuscode);
+			if (execution_result == -1)
+			{
+				// Error occurred - set exit code but continue
+				minishell->exit_code = 1;
+			}
+		}
 		else
-			statuscode = 1;
+			minishell->exit_code = 1;
 		minishell->cmd_current = minishell->cmd_current->next;
 	}
-	if (ret != FAILED_PIPE)
-		wait_for_child_proccesses(minishell);
-	return (exec_cmd(minishell));
+	wachter(minishell);
+	// Always return to main loop - don't exit shell on command failure
+	return (0);
 }
+

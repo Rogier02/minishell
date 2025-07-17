@@ -14,8 +14,7 @@
 
 void error_and_exit(char *msg, t_minishell *minishell)
 {
-	(void)minishell;
-	//free_all(minishell);
+	free_minishell(minishell);
 	perror(msg);
-	exit(EXIT_FAILURE);
+	exit(minishell->exit_code);
 }

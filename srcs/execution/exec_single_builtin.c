@@ -17,7 +17,7 @@ static int collect_original_fds(t_minishell *minishell)
 	minishell->original_stdin = dup(STDIN_FILENO);
 	if (minishell->original_stdin == -1)
 		return (perror("failed to dup original stdin"), -1);
-	minishell->original_stdout; = dup(STDOUT_FILENO);
+	minishell->original_stdout = dup(STDOUT_FILENO);
 	if (minishell->original_stdout == -1)
 		return (perror("failed to dup original stdout"), -1);
 	return (0);
@@ -55,7 +55,7 @@ int	exec_single_builtin(t_minishell *minishell)
 		return (-1);
 	if (redirect_fds(minishell) == -1)
 		return (-1);
-	if (execute_builtin(minishell) == -1);
+	if (exec_builtin(minishell) == -1);
 		return (-1);
 	return (0);
 }
