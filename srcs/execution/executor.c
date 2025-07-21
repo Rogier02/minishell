@@ -6,7 +6,7 @@
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/08 18:11:36 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/07/16 15:48:33 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/21 18:05:00 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static int	run_execution_process(t_minishell *minishell, int *pid, int *statuscode)
 {	
+	(void) statuscode;
 	if (!minishell->cmd_head->next && check_for_builtins(minishell))
 	{
 		if (exec_single_builtin(minishell) == -1)

@@ -42,12 +42,19 @@ static int	read_heredoc(t_minishell *minishell, int heredoc_fd, char *heredoc_fi
 	return (0);
 }
 
-static int	create_file_name(t_minishell *minishell, char *heredoc_file, char *temp_file, int heredoc_count)
+static int	create_file_name(t_minishell *minishell, char **heredoc_file, char *temp_file, int heredoc_count)
 {
-	heredoc_file = ft_strjoin(temp_file, ft_itoa(heredoc_count));
-	if (!heredoc_file)
+	char *count_str = ft_itoa(heredoc_count);
+	if (!count_str)
 	{
-		ft_putstr_fd("malloc failure :\n", STDERR_FILENO);
+		minishell->exit_code = ENOMEM;
+		return (-1);
+	}
+	*heredoc_file = ft_strjoin(temp_file, count_str);
+	free(count_str);
+	if (!*heredoc_file)
+	{
+		ft_putstr_fd("malloc failure\n", STDERR_FILENO);
 		minishell->exit_code = ENOMEM;
 		return (-1);
 	}
@@ -94,16 +101,20 @@ int	handle_heredoc(t_minishell *minishell, t_lexing *token)
 	if (token->previous->type == HERE_DOC)
 	{
 		heredoc_count += 1;
-		if (create_file_name(minishell, heredoc_file, temp_file, heredoc_count) == -1)
+		if (create_file_name(minishell, &heredoc_file, temp_file, heredoc_count) == -1)
 			return (-1);
 		heredoc_fd = open(heredoc_file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		if (heredoc_fd == -1)
-			return (free(heredoc_file), -1);
+		{
+			free(heredoc_file);
+			return (-1);
+		}
 		read_heredoc(minishell, heredoc_fd, heredoc_file, token);
 		if (g_heredoc_interrupted == 1)
 			return (clean_up_heredoc(minishell, heredoc_fd, heredoc_file));
 		if (add_heredoc(minishell, heredoc_file, heredoc_fd) == -1)
 			return (-1);
+		free(heredoc_file);
 	}
 	return (0);
 }

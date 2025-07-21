@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/11 18:50:52 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/16 13:14:21 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/21 19:45:02 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,16 @@ static int collect_original_fds(t_minishell *minishell)
 
 static int	open_files_to_fds(t_minishell *minishell)
 {
-	if (open_infile(minishell) == -1)
-		return (-1);
-	if (open_outfile(minishell) == -1)
-		return (-1);
+	if (minishell->cmd_current->infile)
+	{
+		if (open_infile(minishell) == -1)
+			return (-1);
+	}
+	if (minishell->cmd_current->outfile)
+	{
+		if (open_outfile(minishell) == -1)
+			return (-1);
+	}
 	return (0);
 }
 
@@ -51,11 +57,11 @@ int	exec_single_builtin(t_minishell *minishell)
 {
 	if (collect_original_fds(minishell) == -1)
 		return (-1);
-	if (open_files_to_fds(minishell) == -1);
+	if (open_files_to_fds(minishell) == -1)
 		return (-1);
 	if (redirect_fds(minishell) == -1)
 		return (-1);
-	if (exec_builtin(minishell) == -1);
+	if (exec_builtin(minishell) == -1)
 		return (-1);
 	return (0);
 }

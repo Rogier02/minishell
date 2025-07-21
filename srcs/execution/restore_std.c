@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/12 13:49:01 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/13 17:40:00 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/21 18:06:37 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static int	restore_stdin(t_minishell *minishell)
 	if (close(minishell->original_stdin) == O_FAILURE)
 		return (perror("failed to close originall stdin"), -1);
 	minishell->original_stdin = -2;	
+	return (0);
 }
 
 static int	restore_stdout(t_minishell *minishell)
@@ -28,6 +29,7 @@ static int	restore_stdout(t_minishell *minishell)
 	if (close(minishell->original_stdout) == O_FAILURE)
 		return (perror("failed to close original stdout"), -1);
 	minishell->original_stdout = -2;
+	return (0);
 }
 
 int	restore_std(t_minishell *minishell)
@@ -42,4 +44,5 @@ int	restore_std(t_minishell *minishell)
 		if (restore_stdout(minishell) == -1)
 			return (-1);
 	}
+	return (0);
 }

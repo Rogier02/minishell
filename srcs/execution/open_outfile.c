@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/13 14:14:57 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/13 17:19:56 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/21 19:42:03 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static int	open_append(t_minishell *minishell)
 {
-	if (minishell->cmd_current->outfile->type_flag == RE_APPEND)
+	if (minishell->cmd_current->outfile->type_flag == RE_APPEND
+		&& minishell->cmd_current->outfile->name)
 	{
 		if (minishell->cmd_current->outfd != -1)
 		{
@@ -32,7 +33,8 @@ static int	open_append(t_minishell *minishell)
 }
 static int	open_truncate(t_minishell *minishell)
 {
-	if (minishell->cmd_current->outfile->type_flag != RE_APPEND)
+	if (minishell->cmd_current->outfile->type_flag != RE_OUT
+		&& minishell->cmd_current->outfile->name)
 	{
 		if (minishell->cmd_current->outfd != -1)
 		{
@@ -55,4 +57,5 @@ int open_outfile(t_minishell *minishell)
 		return (-1);
 	if (open_append(minishell) == -1)
 		return (-1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/17 00:00:00 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/21 18:15:46 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ void	execute_externals_and_pipes(t_minishell *minishell, int *pid);
 int		executor(t_minishell *minishell);
 int		open_infile(t_minishell *minishell);
 int		open_outfile(t_minishell *minishell);
-int		redirect_pipes(t_minishell *minishell);
+void	redirect_pipes(t_minishell *minishell);
 int		restore_std(t_minishell *minishell);
 void	run_child(t_minishell *minishell);
 void	wachter(t_minishell *minishell);
@@ -224,6 +224,7 @@ void	print_token_list(t_lexing *token_list, char *input);
 void	print_token_values(t_lexing *token_list, int loc);
 
 /* Tokenizer */
+t_lexing		*get_next_token(char *input, int *i);
 t_token_type	get_type(char *input, t_lexing *token);
 int				is_delimiter(char c);
 int				is_redirect(t_token_type type);
