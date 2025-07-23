@@ -27,6 +27,7 @@ SRCS			= 	srcs/main.c \
                     srcs/execution/executor.c \
                     srcs/execution/open_infile.c \
                     srcs/execution/open_outfile.c \
+					srcs/execution/path_utils_2.c \
                     srcs/execution/path_utils.c \
                     srcs/execution/redirect_pipes.c \
                     srcs/execution/restore_std.c \

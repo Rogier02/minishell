@@ -6,49 +6,21 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/17 00:00:00 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/17 00:00:00 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/23 18:23:11 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**env_list_to_array(t_envp *envp)
-{
-	int		count;
-	t_envp	*tmp;
-	char	**arr;
-	int		i;
-
-	count = 0;
-	tmp = envp;
-	while (tmp)
-	{
-		count++;
-		tmp = tmp->next;
-	}
-	arr = malloc(sizeof(char *) * (count + 1));
-	if (!arr)
-		return (NULL);
-	tmp = envp;
-	i = 0;
-	while (tmp)
-	{
-		arr[i++] = tmp->value;
-		tmp = tmp->next;
-	}
-	arr[i] = NULL;
-	return (arr);
-}
-
 static char	*get_path_value(t_envp *envp)
 {
-	while (envp)
-	{
-		if (ft_strncmp(envp->value, "PATH=", 5) == 0)
-			return (envp->value + 5);
-		envp = envp->next;
-	}
-	return (NULL);
+    while (envp)
+    {
+        if (ft_strncmp(envp->key, "PATH", 4) == 0 && envp->key[4] == '\0')
+            return (envp->value);
+        envp = envp->next;
+    }
+    return (NULL);
 }
 
 char	*find_cmd_path(char *cmd, t_envp *envp)

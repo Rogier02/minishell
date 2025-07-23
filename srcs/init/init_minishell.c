@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:34:37 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/21 18:18:03 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/23 17:59:01 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	init_minishell(t_minishell *minishell, char *envp[])
 	minishell->child = NULL;
 	minishell->input = NULL;
 	minishell->exit_code = 0;
+	minishell->original_stdout = -2;
+	minishell->original_stdin = -2;
 	minishell->execution_status = 0;
 	minishell->child = ft_calloc(1, sizeof(t_child_p));
 	if (!minishell->child)

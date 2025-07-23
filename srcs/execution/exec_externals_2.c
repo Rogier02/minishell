@@ -1,23 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   run_child.c                                        :+:    :+:            */
+/*   exec_externals_2.c                                 :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/12 14:05:25 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/16 19:15:20 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/23 18:21:20 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int	exit_child(t_minishell *minishell, int exit_code)
+{
+	free_minishell(minishell);
+	exit(exit_code);
+}
+
 static int	redirect_output(t_minishell *minishell)
 {
 	if (open_outfile(minishell) == -1)
 		return (-1);
-	if (dup2(minishell->cmd_current->outfd, STDOUT_FILENO) == -1)
-		return (-1);
+	if (minishell->cmd_current->outfd != -1)
+	{
+		if (dup2(minishell->cmd_current->outfd, STDOUT_FILENO) == -1)
+			return (-1);
+	}
 	return (0);
 }
 
@@ -25,8 +34,11 @@ static int	redirect_input(t_minishell *minishell)
 {
 	if (open_infile(minishell) == -1)
 		return (-1);
-	if (dup2(minishell->cmd_current->infd, STDIN_FILENO) == -1)
-		return (-1);
+	if (minishell->cmd_current->infd != -1)
+	{
+		if (dup2(minishell->cmd_current->infd, STDIN_FILENO) == -1)
+			return (-1);
+	}
 	return (0);
 }
 
@@ -63,5 +75,11 @@ void	run_child(t_minishell *minishell)
 		error_and_exit("failed to redirect the outfile", minishell);
 	if (redirect_input(minishell) == -1)
 		error_and_exit("failed to redirect the infile", minishell);
+	
+	if (check_for_builtins(minishell))
+	{
+		exec_builtin(minishell);
+		exit_child(minishell, minishell->exit_code);  // Use the actual exit code
+	}
 	exec_child(minishell);
 }

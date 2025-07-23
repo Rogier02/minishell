@@ -6,47 +6,48 @@
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/08 18:11:36 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/07/21 18:05:00 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/23 19:50:10 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	run_execution_process(t_minishell *minishell, int *pid, int *statuscode)
+static int	run_execution_process(t_minishell *minishell, int *pid, int *pipefd)
 {	
-	(void) statuscode;
 	if (!minishell->cmd_head->next && check_for_builtins(minishell))
 	{
 		if (exec_single_builtin(minishell) == -1)
 			return (-1);
 		restore_std(minishell);
 		set_signal_protocal(minishell, execution);
-		return (0);  // Success
+		return (0);
 	}
-	if (minishell->cmd_current->next)
+	else
 	{
-		if (pipe(minishell->pipe_fd) == -1)
-			return (-1);
-		redirect_pipes(minishell);
+		if (minishell->cmd_current->next && pipe(pipefd) == -1)
+		{
+			if (pipe(pipefd) == -1)
+				return (-1);
+			redirect_pipes(minishell, pipefd);
+		}
 		execute_externals_and_pipes(minishell, pid);
 	}
 	set_signal_protocal(minishell, execution);
-	return (0);  // Success
+	return (0);
 }
 
 int	executor(t_minishell *minishell)
 {
-	int			statuscode;
 	pid_t		pid;
 	int			execution_result;
+	int			*pipefd[2];
 
-	statuscode = 0;
 	pid = 0;
 	while (minishell->cmd_current)
 	{
 		if (minishell->cmd_current->cmd)
 		{
-			execution_result = run_execution_process(minishell, &pid, &statuscode);
+			execution_result = run_execution_process(minishell, &pid, pipefd);
 			if (execution_result == -1)
 			{
 				// Error occurred - set exit code but continue

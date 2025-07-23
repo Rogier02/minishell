@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/29 14:07:43 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/05 17:25:57 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/23 15:50:03 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ int	populate_command_data(t_minishell *minishell, t_lexing *token_list)
 			return (-1);
 		current = current->next;
 	}
+	minishell->cmd_current = minishell->cmd_head;
 	return (0);
 }

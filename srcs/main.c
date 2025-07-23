@@ -6,64 +6,64 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:30:13 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/21 19:33:06 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/23 19:46:29 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void		print_cmd_table(t_cmd_table *cmd_table)
-{
-	int i;
-	t_cmd_table *temp;
+// static void		print_cmd_table(t_cmd_table *cmd_table)
+// {
+// 	int i;
+// 	t_cmd_table *temp;
 
-	temp = cmd_table;
-	printf("\n--- Parsed Command Table ---\n");
-   while (temp)
-   {
-       printf("Command:\n");
-       if (temp->cmd)
-       {
-           i = 0;
-           while (temp->cmd[i])
-           {
-               printf("  string[%d]: %s\n", i, temp->cmd[i]);
-               i++;
-           }
-       }
-       else
-           printf("  No command found.\n");
+// 	temp = cmd_table;
+// 	printf("\n--- Parsed Command Table ---\n");
+//    while (temp)
+//    {
+//        printf("Command:\n");
+//        if (temp->cmd)
+//        {
+//            i = 0;
+//            while (temp->cmd[i])
+//            {
+//                printf("  string[%d]: %s\n", i, temp->cmd[i]);
+//                i++;
+//            }
+//        }
+//        else
+//            printf("  No command found.\n");
 
-       if (temp->infile)
-           printf("  Input File: %s\n", temp->infile->name);
-       else
-           printf("  Input File: None\n");
+//        if (temp->infile)
+//            printf("  Input File: %s\n", temp->infile->name);
+//        else
+//            printf("  Input File: None\n");
 
-        if (temp->outfile)
-            printf("  Output File: %s\n", temp->outfile->name);
-        else
-            printf("  Output File: None\n");
-		if (temp->outfile && temp->outfile->type_flag == RE_APPEND)
-			printf("  Append_flag: %i\n", temp->outfile->type_flag);
-		else 
-			printf("  Append_flag: No\n");
+//         if (temp->outfile)
+//             printf("  Output File: %s\n", temp->outfile->name);
+//         else
+//             printf("  Output File: None\n");
+// 		if (temp->outfile && temp->outfile->type_flag == RE_APPEND)
+// 			printf("  Append_flag: %i\n", temp->outfile->type_flag);
+// 		else 
+// 			printf("  Append_flag: No\n");
 			
-       printf("  Append Mode: %s\n", temp->heredoc_delim ? "Yes" : "No");
+//        printf("  Append Mode: %s\n", temp->heredoc_delim ? "Yes" : "No");
 
-       if (temp->heredoc_delim)
-           printf("  Heredoc Delimiter: %s\n", temp->heredoc_delim);
-       else
-           printf("  Heredoc Delimiter: None\n");
+//        if (temp->heredoc_delim)
+//            printf("  Heredoc Delimiter: %s\n", temp->heredoc_delim);
+//        else
+//            printf("  Heredoc Delimiter: None\n");
 
-       printf("  Input FD: %d\n", temp->infd);
-       printf("  Output FD: %d\n", temp->outfd);
+//        printf("  Input FD: %d\n", temp->infd);
+//        printf("  Output FD: %d\n", temp->outfd);
 
-        temp = temp->next;
-        if (temp)
-            printf("\n--- Next Command ---\n");
-    }
-	printf("--- End of Command Table ---\n");
-}
+//         temp = temp->next;
+//         if (temp)
+//             printf("\n--- Next Command ---\n");
+//     }
+// 	printf("--- End of Command Table ---\n");
+// }
 
 static int		has_syntax_error(const char *input)
 {
@@ -104,6 +104,20 @@ static void		reset_data(t_minishell *minishell)
 		exit(ENOMEM);
 	}
 	minishell->cmd_current = minishell->cmd_head;
+	minishell->cmd_current->infile = ft_calloc(1, sizeof(t_file_type));
+	if (!minishell->cmd_current->infile)
+	{
+		free_minishell(minishell);
+		exit(ENOMEM);
+	}
+	minishell->cmd_current->outfile = ft_calloc(1, sizeof(t_file_type));
+	if (!minishell->cmd_current->outfile)
+	{
+		free_minishell(minishell);
+		exit(ENOMEM);
+	}
+	minishell->cmd_current->infd = -1;
+	minishell->cmd_current->outfd = -1;
 }
 
 static void		run_minishell(t_minishell *minishell)
@@ -115,7 +129,7 @@ static void		run_minishell(t_minishell *minishell)
 		{
 			ft_putstr_fd("exit\n", STDOUT_FILENO);
 			break;
-		}
+		} 
 		if (ft_strlen(minishell->input) == 0 && minishell->input != NULL)
 			continue ;
 		add_history(minishell->input);
@@ -129,7 +143,7 @@ static void		run_minishell(t_minishell *minishell)
 			free_minishell(minishell);
 			exit(ENOMEM);
 		}
-		print_cmd_table(minishell->cmd_head);
+		//print_cmd_table(minishell->cmd_head);
 		executor(minishell);
 		reset_data(minishell);
 		free(minishell->input);
