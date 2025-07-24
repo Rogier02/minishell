@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/23 19:50:53 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/24 16:46:30 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ void	execute_externals_and_pipes(t_minishell *minishell, int *pid);
 int		executor(t_minishell *minishell);
 int		open_infile(t_minishell *minishell);
 int		open_outfile(t_minishell *minishell);
-void	redirect_pipes(t_minishell *minishell, int *pipefd);
+void	redirect_pipes(t_minishell *minishell);
 int		restore_std(t_minishell *minishell);
 void	run_child(t_minishell *minishell);
 void	wachter(t_minishell *minishell);
@@ -209,6 +209,7 @@ void	free_cmd_table(t_cmd_table *cmd_table);
 void	free_expansion(t_expansion *expan);
 void	free_minishell(t_minishell *minishell);
 void	recess(t_child_p *child);
+void	kill_all_children(t_minishell *minishell);
 
 /* --------------------------------- INIT ---------------------------------- */
 void	get_envp(t_minishell *minishell, char *envp[]);

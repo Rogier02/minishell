@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/12 14:05:25 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/23 18:21:20 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/24 17:38:01 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,16 @@ static void exec_child(t_minishell *minishell)
 
 void	run_child(t_minishell *minishell)
 {
+	if (minishell->cmd_current->infd != minishell->pipe_fd[READ_END] && 
+        minishell->pipe_fd[READ_END] != -1)
+	{
+        close(minishell->pipe_fd[READ_END]);
+	}
+    if (minishell->cmd_current->outfd != minishell->pipe_fd[WRITE_END] && 
+        minishell->pipe_fd[WRITE_END] != -1)
+	{
+		close(minishell->pipe_fd[WRITE_END]);
+	}
 	if (redirect_output(minishell) == -1)
 		error_and_exit("failed to redirect the outfile", minishell);
 	if (redirect_input(minishell) == -1)

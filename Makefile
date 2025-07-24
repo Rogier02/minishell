@@ -36,6 +36,7 @@ SRCS			= 	srcs/main.c \
                     srcs/free/free_cmd_table.c \
                     srcs/free/free_expansion.c \
                     srcs/free/free_minishell.c \
+					srcs/free/kill_children.c \
                     srcs/init/get_envp.c \
                     srcs/init/get_pwd.c \
                     srcs/init/init_minishell.c \

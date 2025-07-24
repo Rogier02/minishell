@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:30:13 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/23 19:46:29 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/24 17:12:56 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,8 @@ static void		run_minishell(t_minishell *minishell)
 			exit(ENOMEM);
 		}
 		//print_cmd_table(minishell->cmd_head);
-		executor(minishell);
+		if (executor(minishell) == -1)
+			ft_putstr_fd("minishell: execution failed\n", STDERR_FILENO);
 		reset_data(minishell);
 		free(minishell->input);
 	}

@@ -6,13 +6,40 @@
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/08 18:11:36 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/07/23 19:50:10 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/24 17:19:22 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	run_execution_process(t_minishell *minishell, int *pid, int *pipefd)
+static int	set_up_pipe(t_minishell *minishell)
+{
+	if (minishell->cmd_current->next)
+	{
+		if (pipe(minishell->pipe_fd) == -1)
+			return (-1);
+		redirect_pipes(minishell);
+	}
+	return (0);
+}
+
+static int	clean_up_pipes(t_minishell *minishell, int *previous_read_fd)
+{
+	if (*previous_read_fd != -1)
+	{
+		if (close(*previous_read_fd) == -1)
+			return (-1);
+	}
+	if (minishell->cmd_current->next)
+	{
+		if (close(minishell->pipe_fd[WRITE_END]) == -1)
+			return (-1);
+		*previous_read_fd = minishell->pipe_fd[READ_END];
+	}
+	return (0);
+}
+
+static int	run_execution_process(t_minishell *minishell, int *pid)
 {	
 	if (!minishell->cmd_head->next && check_for_builtins(minishell))
 	{
@@ -24,12 +51,6 @@ static int	run_execution_process(t_minishell *minishell, int *pid, int *pipefd)
 	}
 	else
 	{
-		if (minishell->cmd_current->next && pipe(pipefd) == -1)
-		{
-			if (pipe(pipefd) == -1)
-				return (-1);
-			redirect_pipes(minishell, pipefd);
-		}
 		execute_externals_and_pipes(minishell, pid);
 	}
 	set_signal_protocal(minishell, execution);
@@ -39,19 +60,22 @@ static int	run_execution_process(t_minishell *minishell, int *pid, int *pipefd)
 int	executor(t_minishell *minishell)
 {
 	pid_t		pid;
-	int			execution_result;
-	int			*pipefd[2];
-
+	int			previous_read_fd;
+	
 	pid = 0;
+	previous_read_fd = -1;
 	while (minishell->cmd_current)
 	{
 		if (minishell->cmd_current->cmd)
 		{
-			execution_result = run_execution_process(minishell, &pid, pipefd);
-			if (execution_result == -1)
+			if (set_up_pipe(minishell) == -1
+				|| run_execution_process(minishell, &pid) == -1
+				|| clean_up_pipes(minishell, &previous_read_fd) == -1)
 			{
-				// Error occurred - set exit code but continue
+				kill_all_children(minishell);
+				wachter(minishell);
 				minishell->exit_code = 1;
+				return (-1);
 			}
 		}
 		else
@@ -59,7 +83,6 @@ int	executor(t_minishell *minishell)
 		minishell->cmd_current = minishell->cmd_current->next;
 	}
 	wachter(minishell);
-	// Always return to main loop - don't exit shell on command failure
 	return (0);
 }
 
