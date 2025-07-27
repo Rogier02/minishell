@@ -25,6 +25,7 @@ SRCS			= 	srcs/main.c \
                     srcs/execution/exec_externals_2.c \
                     srcs/execution/exec_single_builtin.c \
                     srcs/execution/executor.c \
+					srcs/execution/exit_child.c \
                     srcs/execution/open_infile.c \
                     srcs/execution/open_outfile.c \
 					srcs/execution/path_utils_2.c \
@@ -32,6 +33,7 @@ SRCS			= 	srcs/main.c \
                     srcs/execution/redirect_pipes.c \
                     srcs/execution/restore_std.c \
                     srcs/execution/wachter.c \
+					srcs/free/close_and_reset_fd.c \
 					srcs/free/close_fds.c \
                     srcs/free/free_cmd_table.c \
                     srcs/free/free_expansion.c \
@@ -53,8 +55,13 @@ SRCS			= 	srcs/main.c \
                     srcs/lexer/expansion/append_variable_2.c \
                     srcs/lexer/expansion/expansion.c \
                     srcs/lexer/expansion/tilde_expansion.c \
+					srcs/lexer/populate_data/handle_heredoc/add_line_to_file.c \
+                    srcs/lexer/populate_data/handle_heredoc/handle_heredoc.c \
+					srcs/lexer/populate_data/handle_heredoc/heredoc_append_char.c\
+					srcs/lexer/populate_data/handle_heredoc/heredoc_append_exit_code.c \
+					srcs/lexer/populate_data/handle_heredoc/heredoc_append_variable.c \
+					srcs/lexer/populate_data/handle_heredoc/heredoc_expansion.c \
                     srcs/lexer/populate_data/handle_command.c \
-                    srcs/lexer/populate_data/handle_heredoc.c \
                     srcs/lexer/populate_data/handle_pipe.c \
                     srcs/lexer/populate_data/handle_quotes.c \
                     srcs/lexer/populate_data/handle_redirect.c \

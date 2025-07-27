@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:34:37 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/24 15:27:05 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/25 15:40:15 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,7 @@
 
 void	init_minishell(t_minishell *minishell, char *envp[])
 {
-	int i;
 
-	i = 0;
 	get_envp(minishell, envp);
 	minishell->pwd = get_pwd(minishell);
 	if (!minishell->pwd)
@@ -36,9 +34,11 @@ void	init_minishell(t_minishell *minishell, char *envp[])
 	minishell->child = NULL;
 	minishell->input = NULL;
 	minishell->exit_code = 0;
-	minishell->original_stdout = -2;
-	minishell->original_stdin = -2;
+	minishell->original_stdout = -1;
+	minishell->original_stdin = -1;
 	minishell->execution_status = 0;
+	minishell->pipe_fd[WRITE_END] = -1;
+	minishell->pipe_fd[READ_END] = -1;
 	minishell->child = NULL;
 	minishell->cmd_head = ft_calloc(1, sizeof(t_cmd_table));
 	if (minishell->cmd_head == NULL)

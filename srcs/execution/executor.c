@@ -6,7 +6,7 @@
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/08 18:11:36 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/07/24 17:19:22 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/27 15:36:44 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ static int	clean_up_pipes(t_minishell *minishell, int *previous_read_fd)
 {
 	if (*previous_read_fd != -1)
 	{
-		if (close(*previous_read_fd) == -1)
+		if (close_and_reset_fd(previous_read_fd) == -1)
 			return (-1);
 	}
 	if (minishell->cmd_current->next)
 	{
-		if (close(minishell->pipe_fd[WRITE_END]) == -1)
+		if (close_and_reset_fd(&minishell->pipe_fd[WRITE_END]) == -1)
 			return (-1);
 		*previous_read_fd = minishell->pipe_fd[READ_END];
 	}
@@ -79,7 +79,7 @@ int	executor(t_minishell *minishell)
 			}
 		}
 		else
-			minishell->exit_code = 1;
+			minishell->exit_code = 0;
 		minishell->cmd_current = minishell->cmd_current->next;
 	}
 	wachter(minishell);

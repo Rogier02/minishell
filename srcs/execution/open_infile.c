@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/13 16:41:15 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/21 19:41:25 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/27 14:39:05 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,4 @@ int	open_infile(t_minishell *minishell)
 			return (perror("minishell: open: failed to open infd"), -1);
 	}
 	return (0);
-}	
+}

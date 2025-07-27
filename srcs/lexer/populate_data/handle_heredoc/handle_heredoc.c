@@ -6,37 +6,44 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/29 17:39:00 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/05 15:45:29 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/27 20:01:01 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	read_heredoc(t_minishell *minishell, int heredoc_fd, char *heredoc_file, t_lexing *token)
+static int	read_heredoc(t_minishell *minishell, int heredoc_fd, t_lexing *token)
 {
 	char	*line;
+	char	*temp;
 
-	(void)minishell;
-	(void)heredoc_file;
 	while (1)
 	{
-		line = readline("> ");
+		line = readline("heredoc> ");
 		if (!line)
 		{
-			ft_putstr_fd("minishell: warning: heredoc delimited by EOF\n",\
-															STDERR_FILENO);
+			ft_putstr_fd("minishell: heredoc delim by EOF\n", STDERR_FILENO);
 			break;
 		}
-		// if (token->contains_quotes)
-		// 	expand_heredoc();
-		if (!ft_strncmp(line, token->expanded_value, \
-									ft_strlen(token->expanded_value)))
+		if (ft_strcmp(line, token->expanded_value) == 0)
 		{
 			free(line);
 			break;
 		}
-		write(heredoc_fd, line, ft_strlen(line));
-		write(heredoc_fd, "\n", 1);
+		
+		if (token->contains_quotes == false)
+		{
+			temp = expand_heredoc(minishell, line);
+			if (temp == NULL)
+				return (free(line), -1);
+			append_line_to_file(heredoc_fd, temp);
+			free(temp);
+		}
+		else
+		{
+			write(heredoc_fd, line, ft_strlen(line));
+			write(heredoc_fd, "\n", 1);
+		}
 		free(line);
 	}
 	return (0);
@@ -85,7 +92,6 @@ int	add_heredoc(t_minishell *minishell, char *heredoc_file, int heredoc_fd)
 	}
 	minishell->cmd_current->infile->type_flag = HERE_DOC;
 	close(heredoc_fd);
-	unlink(heredoc_file);
 	return (0);
 }
 
@@ -109,7 +115,7 @@ int	handle_heredoc(t_minishell *minishell, t_lexing *token)
 			free(heredoc_file);
 			return (-1);
 		}
-		read_heredoc(minishell, heredoc_fd, heredoc_file, token);
+		read_heredoc(minishell, heredoc_fd, token);
 		if (g_heredoc_interrupted == 1)
 			return (clean_up_heredoc(minishell, heredoc_fd, heredoc_file));
 		if (add_heredoc(minishell, heredoc_file, heredoc_fd) == -1)

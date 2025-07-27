@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/05 18:09:18 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/21 18:12:11 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/25 15:05:31 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,10 @@ void	free_minishell(t_minishell *minishell)
 		free_children(minishell->child);
 	}
 	if (close_fds(4, minishell->original_stdin, \
-						minishell->original_stdout,\
-						minishell->pipe_fd[READ_END], \
-						minishell->pipe_fd[WRITE_END]) == -1)
-		minishell->exit_code = 1;
+		minishell->original_stdout,\
+		minishell->pipe_fd[READ_END], \
+		minishell->pipe_fd[WRITE_END]) == -1)
+		{
+			minishell->exit_code = 1;
+		}
 }

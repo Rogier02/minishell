@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/29 15:55:27 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/09 16:05:05 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/27 15:34:08 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ int handle_command(t_minishell *minishell, t_lexing *token)
 {
 	if (token->type == WORD)
 	{
+		if (!token->expanded_value || ft_strlen(token->expanded_value) == 0)
+			return (0);	
 		if ((token->previous && !is_redirect(token->previous->type)) || !token->previous)
 		{
 			if (handle_quotes(token) == -1)

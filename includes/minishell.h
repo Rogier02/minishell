@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/24 16:46:30 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/27 19:44:19 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,7 @@ int		exec_builtin(t_minishell *minishell);
 int		exec_single_builtin(t_minishell *minishell);
 void	execute_externals_and_pipes(t_minishell *minishell, int *pid);
 int		executor(t_minishell *minishell);
+int		exit_child(t_minishell *minishell, int exit_code);
 int		open_infile(t_minishell *minishell);
 int		open_outfile(t_minishell *minishell);
 void	redirect_pipes(t_minishell *minishell);
@@ -204,6 +205,7 @@ char	**env_list_to_array(t_envp *envp);
 char	*find_cmd_path(char *cmd, t_envp *envp);
 
 /* --------------------------------- FREE ---------------------------------- */
+int		close_and_reset_fd(int *fd);
 int		close_fds(int count, ...);
 void	free_cmd_table(t_cmd_table *cmd_table);
 void	free_expansion(t_expansion *expan);
@@ -242,6 +244,13 @@ int		handle_redirect(t_minishell *minishell, t_lexing *token);
 void	init_fds(t_cmd_table *cmd_table);
 int		populate_command_data(t_minishell *minishell, t_lexing *token_list);
 int		add_heredoc(t_minishell *minishell, char *heredoc_file, int heredoc_fd);
+
+/* Populate Data > Handle Heredoc*/
+int		append_line_to_file(int heredoc_fd, char *expanded_line);
+char	*expand_heredoc(t_minishell *minishell, char *line);
+int		heredoc_append_variable(t_minishell *minishell, t_expansion *expan, char *line, int *i);
+int		heredoc_append_exit_code(t_minishell *minishell, t_expansion *expan, char *line, int *i);
+int		heredoc_append_char(t_minishell *minishell, t_expansion *expan, char c);
 
 /* Expansion */
 int		append_char(t_minishell *minishell, t_expansion *expan, char c);

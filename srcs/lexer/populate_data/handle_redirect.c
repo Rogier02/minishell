@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/29 15:56:34 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/05 18:32:34 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/27 17:32:13 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static int get_outfile(t_minishell *minishell, t_lexing *token)
 {
 	if (token->previous->type == RE_OUT)
 	{
+		// TODO open and close;
 		if (minishell->cmd_current->outfile->name)
 			free(minishell->cmd_current->outfile->name);
 		minishell->cmd_current->outfile->name = \

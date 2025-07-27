@@ -20,6 +20,7 @@
 		"type_traits": "c",
 		"utility": "c",
 		"readline.h": "c",
-		"history.h": "c"
+		"history.h": "c",
+		"algorithm": "c"
 	}
 }
