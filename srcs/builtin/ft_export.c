@@ -46,40 +46,31 @@ static int	is_valid_key(const char *key)
 
 static int	export_update(t_envp *env, char *key, char *value)
 {
-	size_t	len;
-	char	*tmp;
-
-	len = ft_strlen(key);
-	while (env)
-	{
-		if (ft_strncmp(env->value, key, len) == 0 && env->value[len] == '=')
-		{
-			free(env->value);
-			env->value = ft_strjoin(key, "=");
-			tmp = ft_strjoin(env->value, value);
-			free(env->value);
-			env->value = tmp;
-			return (1);
-		}
-		env = env->next;
-	}
-	return (0);
+    while (env)
+    {
+        if (ft_strcmp(env->key, key) == 0)
+        {
+            free(env->value);
+            env->value = ft_strdup(value);
+            return (1);
+        }
+        env = env->next;
+    }
+    return (0);
 }
 
 static void	export_add(t_envp **env, char *key, char *value)
 {
-	char	*tmp;
-	char	*full;
 	t_envp	*new;
 	t_envp	*last;
 
-	tmp = ft_strjoin(key, "=");
-	full = ft_strjoin(tmp, value);
 	new = malloc(sizeof(t_envp));
-	last = *env;
-	free(tmp);
-	new->value = full;
+	if (!new)
+		return;
+	new->key = ft_strdup(key);
+	new->value = ft_strdup(value);
 	new->next = NULL;
+	last = *env;
 	if (!last)
 		*env = new;
 	else
