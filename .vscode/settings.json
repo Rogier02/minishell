@@ -1,0 +1,26 @@
+{
+	"files.associations": {
+		"array": "c",
+		"deque": "c",
+		"string": "c",
+		"unordered_map": "c",
+		"vector": "c",
+		"string_view": "c",
+		"initializer_list": "c",
+		"ranges": "c",
+		"span": "c",
+		"stdio.h": "c",
+		"stdlib.h": "c",
+		"minishell.h": "c",
+		"optional": "c",
+		"ostream": "c",
+		"system_error": "c",
+		"functional": "c",
+		"tuple": "c",
+		"type_traits": "c",
+		"utility": "c",
+		"readline.h": "c",
+		"history.h": "c",
+		"algorithm": "c"
+	}
+}

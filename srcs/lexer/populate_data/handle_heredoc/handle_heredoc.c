@@ -1,0 +1,126 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   handle_heredoc.c                                   :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/29 17:39:00 by rgoossen      #+#    #+#                 */
+/*   Updated: 2025/07/27 20:01:01 by rgoossen      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+static int	read_heredoc(t_minishell *minishell, int heredoc_fd, t_lexing *token)
+{
+	char	*line;
+	char	*temp;
+
+	while (1)
+	{
+		line = readline("heredoc> ");
+		if (!line)
+		{
+			ft_putstr_fd("minishell: heredoc delim by EOF\n", STDERR_FILENO);
+			break;
+		}
+		if (ft_strcmp(line, token->expanded_value) == 0)
+		{
+			free(line);
+			break;
+		}
+		
+		if (token->contains_quotes == false)
+		{
+			temp = expand_heredoc(minishell, line);
+			if (temp == NULL)
+				return (free(line), -1);
+			append_line_to_file(heredoc_fd, temp);
+			free(temp);
+		}
+		else
+		{
+			write(heredoc_fd, line, ft_strlen(line));
+			write(heredoc_fd, "\n", 1);
+		}
+		free(line);
+	}
+	return (0);
+}
+
+static int	create_file_name(t_minishell *minishell, char **heredoc_file, char *temp_file, int heredoc_count)
+{
+	char *count_str = ft_itoa(heredoc_count);
+	if (!count_str)
+	{
+		minishell->exit_code = ENOMEM;
+		return (-1);
+	}
+	*heredoc_file = ft_strjoin(temp_file, count_str);
+	free(count_str);
+	if (!*heredoc_file)
+	{
+		ft_putstr_fd("malloc failure\n", STDERR_FILENO);
+		minishell->exit_code = ENOMEM;
+		return (-1);
+	}
+	return (0);
+}
+
+static int	clean_up_heredoc(t_minishell *minishell, int heredoc_fd, char *heredoc_file)
+{
+	close(heredoc_fd);
+	unlink(heredoc_file);
+	free(heredoc_file);
+	minishell->exit_code = 130;
+	return (-1);
+}
+
+int	add_heredoc(t_minishell *minishell, char *heredoc_file, int heredoc_fd)
+{
+	if (minishell->cmd_current->infile->name)
+		free(minishell->cmd_current->infile->name);
+	minishell->cmd_current->infile->name = ft_strdup(heredoc_file);
+	if (!minishell->cmd_current->infile->name)
+	{
+		close(heredoc_fd);
+		unlink(heredoc_file);
+		free(heredoc_file);
+		minishell->exit_code = ENOMEM;
+		return (-1);
+	}
+	minishell->cmd_current->infile->type_flag = HERE_DOC;
+	close(heredoc_fd);
+	return (0);
+}
+
+int	handle_heredoc(t_minishell *minishell, t_lexing *token)
+{
+	static int	heredoc_count = 0;
+	int			heredoc_fd;
+	char		*temp_file;
+	char		*heredoc_file;
+
+	temp_file = "/tmp/minishell_heredoc";
+	heredoc_file = NULL;
+	if (token->previous->type == HERE_DOC)
+	{
+		heredoc_count += 1;
+		if (create_file_name(minishell, &heredoc_file, temp_file, heredoc_count) == -1)
+			return (-1);
+		heredoc_fd = open(heredoc_file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		if (heredoc_fd == -1)
+		{
+			free(heredoc_file);
+			return (-1);
+		}
+		read_heredoc(minishell, heredoc_fd, token);
+		if (g_heredoc_interrupted == 1)
+			return (clean_up_heredoc(minishell, heredoc_fd, heredoc_file));
+		if (add_heredoc(minishell, heredoc_file, heredoc_fd) == -1)
+			return (-1);
+		free(heredoc_file);
+	}
+	return (0);
+}
