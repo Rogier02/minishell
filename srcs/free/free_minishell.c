@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/05 18:09:18 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/25 15:05:31 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/29 16:59:57 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,3 +64,4 @@ void	free_minishell(t_minishell *minishell)
 			minishell->exit_code = 1;
 		}
 }
+

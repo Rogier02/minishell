@@ -6,13 +6,13 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:30:13 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/28 18:56:42 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/29 17:32:16 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// static void		print_cmd_table(t_cmd_table *cmd_table)
+//static void		print_cmd_table(t_cmd_table *cmd_table)
 // {
 // 	int i;
 // 	t_cmd_table *temp;
@@ -118,6 +118,7 @@ static void		reset_data(t_minishell *minishell)
 	}
 	minishell->cmd_current->infd = -1;
 	minishell->cmd_current->outfd = -1;
+	ft_memset(minishell->pipe_fd, -1, sizeof(int [2]));
 }
 
 static void		run_minishell(t_minishell *minishell)
@@ -143,7 +144,7 @@ static void		run_minishell(t_minishell *minishell)
 			free_minishell(minishell);
 			exit(ENOMEM);
 		}
-		//print_cmd_table(minishell->cmd_head);
+		// print_cmd_table(minishell->cmd_head);
 		if (executor(minishell) == -1)
 			ft_putstr_fd("minishell: execution failed\n", STDERR_FILENO);
 		reset_data(minishell);

@@ -6,25 +6,11 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/29 15:55:27 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/27 15:34:08 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/29 16:29:11 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// static int append_last_command(char **array, char *command, int i)
-// {
-// 	array[i] = ft_strdup(command);
-// 	if (!array[i])
-// 		return (-1);
-// 	return (0);
-// }
-
-void 	init_fds(t_cmd_table *cmd_table)
-{
-	cmd_table->infd = -1;
-	cmd_table->outfd = -1;
-}
 
 static int add_command_to_table(t_minishell *minishell, t_lexing *token)
 {
@@ -53,23 +39,25 @@ static int add_command_to_table(t_minishell *minishell, t_lexing *token)
 	return (0);
 }
 
-static int create_new_command_array(t_minishell *minishell, t_lexing *token)
+static int creat_array(t_minishell *minishell, t_lexing *token)
 {
-	minishell->cmd_current->cmd = ft_calloc(2, sizeof(char *));
+	(void) token;
+	init_fds(minishell->cmd_current);
+	minishell->cmd_current->cmd = ft_calloc(1, sizeof(char *));
 	if (!minishell->cmd_current->cmd)
 	{
 		ft_putstr_fd("malloc failure :\n", STDERR_FILENO);
 		minishell->exit_code = ENOMEM;
 		return (-1);
 	}
-	minishell->cmd_current->cmd[0] = ft_strdup(token->expanded_value);
-	if (!minishell->cmd_current->cmd[0])
-	{
-		ft_putstr_fd("malloc failure :\n", STDERR_FILENO);
-		minishell->exit_code = ENOMEM;
-		return (-1);
-	}
-	minishell->cmd_current->cmd[1] = NULL;
+	// minishell->cmd_current->cmd[0] = ft_strdup(token->expanded_value);
+	// if (!minishell->cmd_current->cmd[0])
+	// {
+	// 	ft_putstr_fd("malloc failure :\n", STDERR_FILENO);
+	// 	minishell->exit_code = ENOMEM;
+	// 	return (-1);
+	// }
+	minishell->cmd_current->cmd[0] = NULL;
 	return (0);
 }
 
@@ -85,18 +73,16 @@ int handle_command(t_minishell *minishell, t_lexing *token)
 				return (-1);
 			if (minishell->cmd_current->cmd == NULL)
 			{
-				init_fds(minishell->cmd_current); // TODO: maybe fix, not very pretty?
-				create_new_command_array(minishell, token);
-				if (!minishell->cmd_current->cmd)
+				if (creat_array(minishell, token) == -1 || !minishell->cmd_current->cmd)
 					return (-1);
-				return (0);
+			}
+			if (!token->contains_quotes && ft_strchr(token->expanded_value, ' '))
+			{
+				if (field_split_add(minishell, token) == -1)
+					return (error_malloc_failure(minishell));
 			}
 			else if(add_command_to_table(minishell, token) == -1)
-			{
-				ft_putstr_fd("malloc failure :\n", STDERR_FILENO);
-				minishell->exit_code = ENOMEM;
-				return (-1);
-			}	
+				return (error_malloc_failure(minishell));
 		}
 	}
 	return (0);

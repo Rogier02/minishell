@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   populate_command_data.c                            :+:    :+:            */
+/*   ft_export_update.c                                 :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/06/29 14:07:43 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/29 14:20:40 by rgoossen      ########   odam.nl         */
+/*   Created: 2025/07/29 12:15:24 by rgoossen      #+#    #+#                 */
+/*   Updated: 2025/07/29 12:15:48 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	populate_command_data(t_minishell *minishell, t_lexing *token_list)
+int	export_update(t_envp *env, char *key, char *value)
 {
-	t_lexing *current;
-
-	current = token_list;
-	while (current)
-	{
-		if (handle_redirect(minishell, current) == - 1)
-			return (-1);
-		if (handle_pipe(minishell, current) == -1)
-			return (-1);
-		if (handle_command(minishell, current) == -1)
-			return (-1);
-		current = current->next;
-	}
-	minishell->cmd_current = minishell->cmd_head;
-	return (0);
+    while (env)
+    {
+        if (ft_strcmp(env->key, key) == 0)
+        {
+            free(env->value);
+            if (value)
+                env->value = ft_strdup(value);
+            else
+                env->value = NULL;
+            return (1);
+        }
+        env = env->next;
+    }
+    return (0);
 }

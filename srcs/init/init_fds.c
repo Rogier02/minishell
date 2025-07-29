@@ -1,32 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   populate_command_data.c                            :+:    :+:            */
+/*   init_fds.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/06/29 14:07:43 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/29 14:20:40 by rgoossen      ########   odam.nl         */
+/*   Created: 2025/07/29 14:00:51 by rgoossen      #+#    #+#                 */
+/*   Updated: 2025/07/29 14:01:07 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	populate_command_data(t_minishell *minishell, t_lexing *token_list)
+void 	init_fds(t_cmd_table *cmd_table)
 {
-	t_lexing *current;
-
-	current = token_list;
-	while (current)
-	{
-		if (handle_redirect(minishell, current) == - 1)
-			return (-1);
-		if (handle_pipe(minishell, current) == -1)
-			return (-1);
-		if (handle_command(minishell, current) == -1)
-			return (-1);
-		current = current->next;
-	}
-	minishell->cmd_current = minishell->cmd_head;
-	return (0);
+	cmd_table->infd = -1;
+	cmd_table->outfd = -1;
 }

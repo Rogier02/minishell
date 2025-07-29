@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/12 13:49:01 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/25 15:26:48 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/29 17:00:13 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ static int	restore_stdout(t_minishell *minishell)
 
 int	restore_std(t_minishell *minishell)
 {
-	if (minishell->original_stdin)
+	if (minishell->original_stdin >= 0)
 	{
 		if (restore_stdin(minishell) == -1)
 			return (-1);
 	}
-	if (minishell->original_stdout)
+	if (minishell->original_stdout >= 0)
 	{
 		if (restore_stdout(minishell) == -1)
 			return (-1);

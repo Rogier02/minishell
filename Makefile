@@ -17,6 +17,8 @@ SRCS			= 	srcs/main.c \
                     srcs/builtin/ft_echo.c \
                     srcs/builtin/ft_env.c \
                     srcs/builtin/ft_exit.c \
+					srcs/builtin/ft_export_update.c \
+					srcs/builtin/ft_export_print.c \
                     srcs/builtin/ft_export.c \
                     srcs/builtin/ft_pwd.c \
                     srcs/builtin/ft_unset.c \
@@ -41,6 +43,7 @@ SRCS			= 	srcs/main.c \
 					srcs/free/kill_children.c \
                     srcs/init/get_envp.c \
                     srcs/init/get_pwd.c \
+					srcs/init/init_fds.c \
                     srcs/init/init_minishell.c \
                     srcs/init/init_token.c \
                     srcs/lexer/check_quotes.c \
@@ -66,6 +69,7 @@ SRCS			= 	srcs/main.c \
                     srcs/lexer/populate_data/handle_quotes.c \
                     srcs/lexer/populate_data/handle_redirect.c \
                     srcs/lexer/populate_data/populate_command_data.c \
+					srcs/lexer/populate_data/field_split.c \
                     srcs/lexer/substrings/get_substrings.c \
                     srcs/lexer/syntax_checker/syntax_check.c \
                     srcs/lexer/tokenize/get_next_token.c \

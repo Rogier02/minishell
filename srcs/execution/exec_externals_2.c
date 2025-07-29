@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/12 14:05:25 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/27 15:34:49 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/29 17:33:34 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static void exec_child(t_minishell *minishell)
                 minishell->exit_code = 127;
             ft_free_array(envp);
             free(cmd_path);
-            error_and_exit("minishell: execve failed", minishell);
+            error_and_exit("minishell: ", minishell);
         }
     }
 }
