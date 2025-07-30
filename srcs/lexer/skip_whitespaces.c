@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/28 13:37:59 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/05 16:13:09 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/30 16:11:58 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,3 +18,18 @@ void skip_whitespaces(char *input, int *index)
 		(*index) += 1;
 }
 
+int	is_only_whitespaces(char *input)
+{
+    int	i;
+
+    if (!input)
+        return (1);
+    i = 0;
+    while (input[i])
+    {
+        if (!ft_isspace(input[i]))
+            return (0);
+        i++;
+    }
+    return (1);
+}

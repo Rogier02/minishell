@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/12 14:05:25 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/29 17:33:34 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/30 13:30:53 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ static void exec_child(t_minishell *minishell)
 
 void	run_child(t_minishell *minishell)
 {
+	set_child_signals();
 	if (minishell->cmd_current->infd != minishell->pipe_fd[READ_END] && 
         minishell->pipe_fd[READ_END] != -1)
 	{

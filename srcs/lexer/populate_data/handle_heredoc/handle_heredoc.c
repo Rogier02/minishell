@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/29 17:39:00 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/27 20:01:01 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/30 13:39:04 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static int	read_heredoc(t_minishell *minishell, int heredoc_fd, t_lexing *token)
 	char	*line;
 	char	*temp;
 
+	set_signal_protocal(minishell, heredoc);
 	while (1)
 	{
 		line = readline("heredoc> ");
@@ -25,12 +26,12 @@ static int	read_heredoc(t_minishell *minishell, int heredoc_fd, t_lexing *token)
 			ft_putstr_fd("minishell: heredoc delim by EOF\n", STDERR_FILENO);
 			break;
 		}
-		if (ft_strcmp(line, token->expanded_value) == 0)
+		if (ft_strcmp(line, token->expanded_value) == 0 
+			|| g_heredoc_interrupted == 1)
 		{
 			free(line);
 			break;
 		}
-		
 		if (token->contains_quotes == false)
 		{
 			temp = expand_heredoc(minishell, line);
@@ -104,6 +105,7 @@ int	handle_heredoc(t_minishell *minishell, t_lexing *token)
 
 	temp_file = "/tmp/minishell_heredoc";
 	heredoc_file = NULL;
+	g_heredoc_interrupted = 0;
 	if (token->previous->type == HERE_DOC)
 	{
 		heredoc_count += 1;

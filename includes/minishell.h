@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/29 16:22:00 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/30 16:13:01 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,6 +228,8 @@ void			clean_up_(t_lexing *head);
 int				lexical_parser(t_minishell *minishell);
 void			print_token_list(t_lexing *token_list, char *input);
 void			print_token_values(t_lexing *token_list, int loc);
+void			skip_whitespaces(char *input, int *index);
+int				is_only_whitespaces(char *input);
 
 /* Tokenizer */
 t_lexing		*get_next_token(char *input, int *i);
@@ -235,7 +237,6 @@ t_token_type	get_type(char *input, t_lexing *token);
 int				is_delimiter(char c);
 int				is_redirect(t_token_type type);
 int				is_redirect_or_pipe(t_token_type type);
-void			skip_whitespaces(char *input, int *index);
 t_lexing		*tokenizer(char *input);
 
 /* Populate Data */
@@ -278,7 +279,7 @@ int		get_substrings(char *input, t_minishell *mshell, t_lexing *tokens);
 int		syntax_check(char *input, t_lexing *token_list);
 
 /* -------------------------------- SIGNALS --------------------------------- */
-void	child_signals(struct sigaction *sa, t_minishell *minishell);
+void	set_child_signals(void);
 void	handle_child_signals(int signal, siginfo_t *info, void *ucontext);
 void	handle_heredoc_signals(int signal, siginfo_t *info, void *ucontext);
 void	handle_shell_signals(int signal, siginfo_t *info, void *ucontext);

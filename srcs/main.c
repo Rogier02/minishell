@@ -6,13 +6,13 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:30:13 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/29 17:32:16 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/30 17:08:07 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//static void		print_cmd_table(t_cmd_table *cmd_table)
+// static void		print_cmd_table(t_cmd_table *cmd_table)
 // {
 // 	int i;
 // 	t_cmd_table *temp;
@@ -65,13 +65,15 @@
 // 	printf("--- End of Command Table ---\n");
 // }
 
-static int		has_syntax_error(const char *input)
+static int		has_syntax_error(char *input)
 {
 	int		i;
 	char	quote_flag;
 
 	i = 0;
 	quote_flag = '\0';
+	if (is_only_whitespaces(input))
+		return (1);
 	while (input[i])
 	{	
 		if (quote_flag == '\0' && (input[i] == '\\' || input[i] == ';'))
@@ -123,6 +125,8 @@ static void		reset_data(t_minishell *minishell)
 
 static void		run_minishell(t_minishell *minishell)
 {
+	int		parse_status;
+	
 	while (1)
 	{
 		minishell->input = readline("minishell:~$ ");
@@ -139,12 +143,20 @@ static void		run_minishell(t_minishell *minishell)
 			free(minishell->input);
 			continue ;
 		}
-		if (lexical_parser(minishell) == -1)
+		parse_status = lexical_parser(minishell);
+		//printf("%d", parse_status);
+		if (parse_status == 1)
+		{
+			reset_data(minishell);
+			free(minishell->input);
+			continue;
+		}
+		if (parse_status == -1)
 		{
 			free_minishell(minishell);
 			exit(ENOMEM);
 		}
-		// print_cmd_table(minishell->cmd_head);
+	//	print_cmd_table(minishell->cmd_head);
 		if (executor(minishell) == -1)
 			ft_putstr_fd("minishell: execution failed\n", STDERR_FILENO);
 		reset_data(minishell);
@@ -167,4 +179,5 @@ int main(int argc, char *argv[], char *envp[])
 	run_minishell(&minishell);
 	rl_clear_history();
 	free_minishell(&minishell);
+	return (0);
 }
