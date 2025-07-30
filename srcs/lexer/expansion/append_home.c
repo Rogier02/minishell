@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/25 19:13:57 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/28 20:50:06 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/28 18:44:36 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ char	*expand_home(t_minishell *minishell)
 	home = NULL;
 	while (head)
 	{
-		if (!ft_strncmp(head->value, "HOME=", 5))
+		if (ft_strcmp(head->key, "HOME") == 0)
 		{
-			home = ft_strdup(head->value + 5);
+			home = ft_strdup(head->value);
 			if (home == NULL)
 			{
 				minishell->exit_code = ENOMEM;
@@ -34,7 +34,7 @@ char	*expand_home(t_minishell *minishell)
 		}
 		head = head->next;
 	}
-	return (home);
+	return (NULL);
 }
 
 int	append_home(t_minishell *minishell, t_expansion *expan)

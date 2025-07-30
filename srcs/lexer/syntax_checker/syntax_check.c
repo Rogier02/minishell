@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/23 14:02:40 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/29 14:44:19 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/30 13:58:31 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,18 @@ static int	check_redir(char *input, t_lexing *token)
 	temp = NULL;
 	if ((token->type == RE_APPEND || token->type == RE_OUT
 		|| token->type == RE_IN || token->type == HERE_DOC) 
-		&& token->next->type == WORD)
+		&& token->next && token->next->type == WORD)
 	{
 		temp = ft_substr(input, token->next->start, token->next->len);
 		if (!temp)
 			return (-1);
 		if (!ft_strncmp("\"\"", temp, 2))
-		{
-			free(temp);
-			return (-1);
-		}
+			return (free(temp), -1);
 		return(free(temp), 0);
 	}
 	else if ((token->type == RE_APPEND || token->type == RE_OUT
 		|| token->type == RE_IN || token->type == HERE_DOC) 
-		&& token->next->type != WORD)
+		&& token->next && token->next->type != WORD)
 	{
 		return(-1);	
 	}

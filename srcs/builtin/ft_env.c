@@ -6,7 +6,7 @@
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/08 23:03:57 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/06/08 23:03:57 by mahkilic      ########   odam.nl         */
+/*   Updated: 2025/07/29 13:25:07 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_env(t_minishell *minishell, char **args)
 	env = minishell->envp;
 	while (env)
 	{
-		if (env->value && env->key && env->value[0] != '\0')
+		if (env->key && env->value != NULL)
 		{
 			ft_putstr_fd(env->key, 1);
 			ft_putstr_fd("=", 1);

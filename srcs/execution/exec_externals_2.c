@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/12 14:05:25 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/27 15:34:49 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/30 13:30:53 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,14 @@ static void exec_child(t_minishell *minishell)
                 minishell->exit_code = 127;
             ft_free_array(envp);
             free(cmd_path);
-            error_and_exit("minishell: execve failed", minishell);
+            error_and_exit("minishell: ", minishell);
         }
     }
 }
 
 void	run_child(t_minishell *minishell)
 {
+	set_child_signals();
 	if (minishell->cmd_current->infd != minishell->pipe_fd[READ_END] && 
         minishell->pipe_fd[READ_END] != -1)
 	{

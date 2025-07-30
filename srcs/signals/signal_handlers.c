@@ -21,6 +21,9 @@ void	handle_shell_signals(int signal, siginfo_t *info, void *ucontext)
 	
 	if (signal == SIGINT)
 	{
+		// Update global exit code for signal
+		// Note: You can't access minishell here, so use a global if needed
+		
 		rl_replace_line("", 0);
 		ft_putchar_fd('\n', STDOUT_FILENO);
 		rl_on_new_line();

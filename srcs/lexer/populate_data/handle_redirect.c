@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/29 15:56:34 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/27 17:32:13 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/30 17:23:40 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static int get_append(t_minishell *minishell, t_lexing *token)
 {
 	if (token->previous->type == RE_APPEND)
 	{
+		if (open_and_close_file(minishell) == -1)
+			return (-1);
 		if (minishell->cmd_current->outfile->name)
 			free(minishell->cmd_current->outfile->name);
 		minishell->cmd_current->outfile->name = \
@@ -35,7 +37,8 @@ static int get_outfile(t_minishell *minishell, t_lexing *token)
 {
 	if (token->previous->type == RE_OUT)
 	{
-		// TODO open and close;
+		if (open_and_close_file(minishell) == -1)
+			return (-1);
 		if (minishell->cmd_current->outfile->name)
 			free(minishell->cmd_current->outfile->name);
 		minishell->cmd_current->outfile->name = \
@@ -86,10 +89,11 @@ int	handle_redirect(t_minishell *minishell, t_lexing *token)
 	if (is_redirect(token->type))
 	{
 		token = token->next;
-		if (token->type != WORD)
+		if (!token || token->type != WORD) 
 		{
-			ft_putstr_fd("should be a syntax error but its not cause you're dumb", 2);
-			return (-1);
+			ft_putstr_fd("expected WORD after redirect token\n", 2);
+			minishell->exit_code = 2;
+			return (1);
 		}
 		if (handle_quotes(token) == -1) // TODO: MIGHT NEED ERROR HANDLING
 			return (-1);

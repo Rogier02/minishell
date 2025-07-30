@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/27 17:52:15 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/29 18:31:29 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/30 13:36:22 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,8 @@ void	heredoc_signals(struct sigaction *sa, t_minishell *minishell)
 
 }
 
-void	child_signals(struct sigaction *sa, t_minishell *minishell)
+void	set_child_signals(void)
 {
-	(void)minishell;
-	sa->sa_sigaction = handle_child_signals;
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);	
 }
@@ -55,8 +53,8 @@ void	set_signal_protocal(t_minishell *minishell, int location)
 			shell_signals(&sa, minishell);
 		if (location == heredoc)
 			heredoc_signals(&sa, minishell);
-		if (location == child_process)
-			child_signals(&sa, minishell);
+		// if (location == child_process)
+		// 	set_child_signals(&sa, minishell);
 		//if (location == waiting_parent)
 		//	waiting_parent_signals(&sa, minishell);
 }

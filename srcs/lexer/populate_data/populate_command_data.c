@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/29 14:07:43 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/23 15:50:03 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/30 16:58:21 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,16 @@
 
 int	populate_command_data(t_minishell *minishell, t_lexing *token_list)
 {
-	t_lexing *current;
+	t_lexing	*current;
+	int			result;
 
 	current = token_list;
 	while (current)
 	{
-		if (handle_redirect(minishell, current) == - 1)
+		result = handle_redirect(minishell, current);
+		if (result == 1)
+			return (1);
+		else if (result == -1)
 			return (-1);
 		if (handle_pipe(minishell, current) == -1)
 			return (-1);

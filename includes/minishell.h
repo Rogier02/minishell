@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/27 19:44:19 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/30 17:21:24 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,8 @@ int		ft_cd(t_minishell *minishell, char **args);
 int		ft_echo(char **args);
 int		ft_env(t_minishell *minishell, char **args);
 int		ft_exit(t_minishell *minishell, char **args);
+int		export_update(t_envp *env, char *key, char *value);
+void	ft_export_print(t_envp *env);
 int		ft_export(t_minishell *minishell, char **args);
 int		ft_pwd(void);
 int		ft_unset(t_minishell *minishell, char **args);
@@ -218,13 +220,16 @@ void	get_envp(t_minishell *minishell, char *envp[]);
 char	*get_pwd(t_minishell *minishell);
 void	init_minishell(t_minishell *minishell, char *envp[]);
 void	init_token(t_token *token, int i);
+void 	init_fds(t_cmd_table *cmd_table);
 
 /* -------------------------------- LEXER ----------------------------------- */
 /* Lexical Parser */
-void	clean_up_(t_lexing *head);
-int		lexical_parser(t_minishell *minishell);
-void	print_token_list(t_lexing *token_list, char *input);
-void	print_token_values(t_lexing *token_list, int loc);
+void			clean_up_(t_lexing *head);
+int				lexical_parser(t_minishell *minishell);
+void			print_token_list(t_lexing *token_list, char *input);
+void			print_token_values(t_lexing *token_list, int loc);
+void			skip_whitespaces(char *input, int *index);
+int				is_only_whitespaces(char *input);
 
 /* Tokenizer */
 t_lexing		*get_next_token(char *input, int *i);
@@ -232,25 +237,26 @@ t_token_type	get_type(char *input, t_lexing *token);
 int				is_delimiter(char c);
 int				is_redirect(t_token_type type);
 int				is_redirect_or_pipe(t_token_type type);
-void			skip_whitespaces(char *input, int *index);
 t_lexing		*tokenizer(char *input);
 
 /* Populate Data */
-int		handle_command(t_minishell *minishell, t_lexing *token);
-int		handle_heredoc(t_minishell *minishell, t_lexing *token);
-int		handle_pipe(t_minishell *minishell, t_lexing *token);
-int		handle_quotes(t_lexing *token);
-int		handle_redirect(t_minishell *minishell, t_lexing *token);
-void	init_fds(t_cmd_table *cmd_table);
-int		populate_command_data(t_minishell *minishell, t_lexing *token_list);
-int		add_heredoc(t_minishell *minishell, char *heredoc_file, int heredoc_fd);
+int				handle_command(t_minishell *minishell, t_lexing *token);
+int				handle_heredoc(t_minishell *minishell, t_lexing *token);
+int				handle_pipe(t_minishell *minishell, t_lexing *token);
+int				handle_quotes(t_lexing *token);
+int				handle_redirect(t_minishell *minishell, t_lexing *token);
+void			init_fds(t_cmd_table *cmd_table);
+int				populate_command_data(t_minishell *minishell, t_lexing *token_list);
+int				add_heredoc(t_minishell *minishell, char *heredoc_file, int heredoc_fd);
+int				open_and_close_file(t_minishell *minishell);
 
 /* Populate Data > Handle Heredoc*/
-int		append_line_to_file(int heredoc_fd, char *expanded_line);
-char	*expand_heredoc(t_minishell *minishell, char *line);
-int		heredoc_append_variable(t_minishell *minishell, t_expansion *expan, char *line, int *i);
-int		heredoc_append_exit_code(t_minishell *minishell, t_expansion *expan, char *line, int *i);
-int		heredoc_append_char(t_minishell *minishell, t_expansion *expan, char c);
+int			append_line_to_file(int heredoc_fd, char *expanded_line);
+char		*expand_heredoc(t_minishell *minishell, char *line);
+int			heredoc_append_variable(t_minishell *minishell, t_expansion *expan, char *line, int *i);
+int			heredoc_append_exit_code(t_minishell *minishell, t_expansion *expan, char *line, int *i);
+int			heredoc_append_char(t_minishell *minishell, t_expansion *expan, char c);
+int 		field_split_add(t_minishell *minishell, t_lexing *token);
 
 /* Expansion */
 int		append_char(t_minishell *minishell, t_expansion *expan, char c);
@@ -274,7 +280,7 @@ int		get_substrings(char *input, t_minishell *mshell, t_lexing *tokens);
 int		syntax_check(char *input, t_lexing *token_list);
 
 /* -------------------------------- SIGNALS --------------------------------- */
-void	child_signals(struct sigaction *sa, t_minishell *minishell);
+void	set_child_signals(void);
 void	handle_child_signals(int signal, siginfo_t *info, void *ucontext);
 void	handle_heredoc_signals(int signal, siginfo_t *info, void *ucontext);
 void	handle_shell_signals(int signal, siginfo_t *info, void *ucontext);
