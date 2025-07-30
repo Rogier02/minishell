@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/29 15:56:34 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/30 16:58:41 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/30 17:23:40 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static int get_append(t_minishell *minishell, t_lexing *token)
 {
 	if (token->previous->type == RE_APPEND)
 	{
+		if (open_and_close_file(minishell) == -1)
+			return (-1);
 		if (minishell->cmd_current->outfile->name)
 			free(minishell->cmd_current->outfile->name);
 		minishell->cmd_current->outfile->name = \
@@ -35,7 +37,8 @@ static int get_outfile(t_minishell *minishell, t_lexing *token)
 {
 	if (token->previous->type == RE_OUT)
 	{
-		// TODO open and close;
+		if (open_and_close_file(minishell) == -1)
+			return (-1);
 		if (minishell->cmd_current->outfile->name)
 			free(minishell->cmd_current->outfile->name);
 		minishell->cmd_current->outfile->name = \

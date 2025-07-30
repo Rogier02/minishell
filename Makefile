@@ -68,6 +68,7 @@ SRCS			= 	srcs/main.c \
                     srcs/lexer/populate_data/handle_pipe.c \
                     srcs/lexer/populate_data/handle_quotes.c \
                     srcs/lexer/populate_data/handle_redirect.c \
+					srcs/lexer/populate_data/open_close.c \
                     srcs/lexer/populate_data/populate_command_data.c \
 					srcs/lexer/populate_data/field_split.c \
                     srcs/lexer/substrings/get_substrings.c \

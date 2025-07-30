@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/30 16:13:01 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/30 17:21:24 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,6 +248,7 @@ int				handle_redirect(t_minishell *minishell, t_lexing *token);
 void			init_fds(t_cmd_table *cmd_table);
 int				populate_command_data(t_minishell *minishell, t_lexing *token_list);
 int				add_heredoc(t_minishell *minishell, char *heredoc_file, int heredoc_fd);
+int				open_and_close_file(t_minishell *minishell);
 
 /* Populate Data > Handle Heredoc*/
 int			append_line_to_file(int heredoc_fd, char *expanded_line);
