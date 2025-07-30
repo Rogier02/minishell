@@ -85,4 +85,3 @@ int	executor(t_minishell *minishell)
 	wachter(minishell);
 	return (0);
 }
-
