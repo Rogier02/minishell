@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/30 17:21:24 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/01 18:50:18 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ int		ft_unset(t_minishell *minishell, char **args);
 /* --------------------------------- ERROR --------------------------------- */
 void	error_and_exit(char *msg, t_minishell *minishell);
 int		error_malloc_failure(t_minishell *minishell);
+int		return_error(char *msg, t_minishell *minishell);
 
 /* ------------------------------- EXECUTION ------------------------------- */
 int		check_for_builtins(t_minishell *minishell);
@@ -260,7 +261,7 @@ int 		field_split_add(t_minishell *minishell, t_lexing *token);
 
 /* Expansion */
 int		append_char(t_minishell *minishell, t_expansion *expan, char c);
-int		append_exit_code(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i);
+int		append_exit_code(t_minishell *minishell, t_expansion *expan, int *i);
 int		append_home(t_minishell *minishell, t_expansion *expan);
 int		append_oldpwd(t_minishell *minishell, t_expansion *expan);
 int		append_pwd(t_minishell *minishell, t_expansion *expan);
@@ -271,6 +272,7 @@ int		expansion(t_minishell *minishell, t_lexing *token);
 char	*get_variable_name(char *input, char quote_flag, int i);
 int		tilde_expansion(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i);
 int		variable_located(t_expansion *expan, t_envp *head);
+int		expand(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i);
 void	print_envp(t_envp *envp);
 
 /* Substrings */

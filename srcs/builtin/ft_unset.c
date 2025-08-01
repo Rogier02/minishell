@@ -6,7 +6,7 @@
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/23 19:49:24 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/06/23 19:49:24 by mahkilic      ########   odam.nl         */
+/*   Updated: 2025/08/01 14:12:45 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ static void	remove_env_node(t_envp **env, t_envp **prev, t_envp **curr)
 	else
 		*env = (*curr)->next;
 	*curr = (*curr)->next;
+	if (tmp->key)
+	free(tmp->key);
+	if (tmp->value)
 	free(tmp->value);
 	free(tmp);
 }
@@ -37,8 +40,11 @@ static void	mini_remove_env(char *str, t_envp **env)
 	len = ft_strlen(str);
 	while (curr)
 	{
-		if (ft_strncmp(curr->value, str, len) == 0 && curr->value[len] == '=')
+		if (!ft_strncmp(curr->key, str, len))
+		{
 			remove_env_node(env, &prev, &curr);
+			return ;
+		}
 		else
 		{
 			prev = curr;
@@ -54,6 +60,8 @@ int	ft_unset(t_minishell *minishell, char **args)
 
 	i = 1;
 	env = minishell->envp;
+	if (!args[1])
+		return (0);
 	while (args[i])
 	{
 		mini_remove_env(args[i], &env);
