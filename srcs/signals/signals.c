@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/27 17:52:15 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/08/05 15:02:39 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/05 16:46:10 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	shell_signals(struct sigaction *sa, t_minishell *minishell)
 			exit(EXIT_FAILURE);
 		}
 	}
-	
 }
 
 void	exec_signals(struct sigaction *sa, t_minishell *minishell)
