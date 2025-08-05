@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/29 15:56:34 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/30 17:23:40 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/05 13:02:43 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ static int get_file_name(t_minishell *minishell, t_lexing *token)
 
 int	handle_redirect(t_minishell *minishell, t_lexing *token)
 {
+	int res;
+	
 	if (is_redirect(token->type))
 	{
 		token = token->next;
@@ -97,8 +99,11 @@ int	handle_redirect(t_minishell *minishell, t_lexing *token)
 		}
 		if (handle_quotes(token) == -1) // TODO: MIGHT NEED ERROR HANDLING
 			return (-1);
-		if (handle_heredoc(minishell, token) == -1)
+		res = handle_heredoc(minishell, token);
+		if (res == -1)
 			return (-1);
+		if (res == -2)
+			return (1);
 		if (get_file_name(minishell, token) == -1)
 			return (-1);
 	}

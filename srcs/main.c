@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:30:13 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/30 17:08:07 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/05 11:14:17 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,13 +122,25 @@ static void		reset_data(t_minishell *minishell)
 	minishell->cmd_current->outfd = -1;
 	ft_memset(minishell->pipe_fd, -1, sizeof(int [2]));
 }
-
+// static void		sig_resist(t_minishell *minishell)
+// {
+// 	(void)minishell;
+// 	//set_signal_protocal(minishell, main_shell);
+// 	// reset_data(minishell);
+//     // free(minishell->input);
+// 	// //g_heredoc_interrupted = 0;
+// 	// write(1, "\n", 1);    
+//     // rl_replace_line("", 0);
+//     // rl_on_new_line();
+// 	// rl_redisplay();
+// }
 static void		run_minishell(t_minishell *minishell)
 {
 	int		parse_status;
 	
 	while (1)
 	{
+		set_signal_protocal(minishell, main_shell);
 		minishell->input = readline("minishell:~$ ");
 		if (!minishell->input)
 		{
@@ -144,7 +156,6 @@ static void		run_minishell(t_minishell *minishell)
 			continue ;
 		}
 		parse_status = lexical_parser(minishell);
-		//printf("%d", parse_status);
 		if (parse_status == 1)
 		{
 			reset_data(minishell);
@@ -171,7 +182,8 @@ int main(int argc, char *argv[], char *envp[])
 	(void)argv;
 	if (argc > 1)
 	{
-		// TODO return simple error to 2.
+		ft_putstr_fd("Nope\n", 2);
+		return (2);
 	}
 	//handle_signals();
 	init_minishell(&minishell, envp);

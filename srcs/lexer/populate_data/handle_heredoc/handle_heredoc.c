@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/29 17:39:00 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/30 13:39:04 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/05 13:28:58 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static int	read_heredoc(t_minishell *minishell, int heredoc_fd, t_lexing *token)
 	char	*line;
 	char	*temp;
 
-	set_signal_protocal(minishell, heredoc);
 	while (1)
 	{
 		line = readline("heredoc> ");
@@ -26,8 +25,7 @@ static int	read_heredoc(t_minishell *minishell, int heredoc_fd, t_lexing *token)
 			ft_putstr_fd("minishell: heredoc delim by EOF\n", STDERR_FILENO);
 			break;
 		}
-		if (ft_strcmp(line, token->expanded_value) == 0 
-			|| g_heredoc_interrupted == 1)
+		if (ft_strcmp(line, token->expanded_value) == 0)
 		{
 			free(line);
 			break;
@@ -69,37 +67,86 @@ static int	create_file_name(t_minishell *minishell, char **heredoc_file, char *t
 	return (0);
 }
 
-static int	clean_up_heredoc(t_minishell *minishell, int heredoc_fd, char *heredoc_file)
+static int	clean_up_heredoc(t_minishell *minishell, char *heredoc_file)
 {
-	close(heredoc_fd);
-	unlink(heredoc_file);
-	free(heredoc_file);
+	if (heredoc_file)
+	{
+		unlink(heredoc_file);
+		free(heredoc_file);
+	}
 	minishell->exit_code = 130;
 	return (-1);
 }
 
-int	add_heredoc(t_minishell *minishell, char *heredoc_file, int heredoc_fd)
+int	add_heredoc(t_minishell *minishell, char *heredoc_file)
 {
 	if (minishell->cmd_current->infile->name)
 		free(minishell->cmd_current->infile->name);
 	minishell->cmd_current->infile->name = ft_strdup(heredoc_file);
 	if (!minishell->cmd_current->infile->name)
 	{
-		close(heredoc_fd);
 		unlink(heredoc_file);
 		free(heredoc_file);
 		minishell->exit_code = ENOMEM;
 		return (-1);
 	}
 	minishell->cmd_current->infile->type_flag = HERE_DOC;
-	close(heredoc_fd);
+	return (0);
+}
+
+int run_heredoc_process(t_minishell *minishell, char *heredoc_file, t_lexing *token)
+{	
+	pid_t	pid;
+	int		status;
+	int		heredoc_fd;
+
+	g_heredoc_interrupted = 0;
+	heredoc_fd = open(heredoc_file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (heredoc_fd == -1)
+	{
+		free(heredoc_file);
+		return (-1);
+	}
+	pid = fork();
+	if (pid == -1)
+	{
+		close(heredoc_fd);
+		free(heredoc_file);
+		return (-1);
+	}
+	if (pid == 0)
+	{
+		// signal(SIGQUIT, SIG_IGN);
+		// signal(SIGINT, SIG_DFL);
+		set_signal_protocal(minishell, heredoc);
+		read_heredoc(minishell, heredoc_fd, token);
+		if (g_heredoc_interrupted == 1)
+		{
+			clean_up_heredoc(minishell, heredoc_file);
+			exit(130);
+		}
+		close(heredoc_fd);
+		exit(0);
+	}
+	//close(heredoc_fd);
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
+    {
+		printf("cancled heredoc\n");
+		unlink(heredoc_file);
+        free(heredoc_file);
+		close(heredoc_fd);
+        minishell->exit_code = 130;
+        g_heredoc_interrupted = 1;
+        return (-2);
+    }
 	return (0);
 }
 
 int	handle_heredoc(t_minishell *minishell, t_lexing *token)
 {
 	static int	heredoc_count = 0;
-	int			heredoc_fd;
+	int			res;
 	char		*temp_file;
 	char		*heredoc_file;
 
@@ -111,18 +158,16 @@ int	handle_heredoc(t_minishell *minishell, t_lexing *token)
 		heredoc_count += 1;
 		if (create_file_name(minishell, &heredoc_file, temp_file, heredoc_count) == -1)
 			return (-1);
-		heredoc_fd = open(heredoc_file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		if (heredoc_fd == -1)
-		{
-			free(heredoc_file);
-			return (-1);
-		}
-		read_heredoc(minishell, heredoc_fd, token);
+		res = run_heredoc_process(minishell, heredoc_file, token);
+		if (res == -2)
+			return (-2);
+		set_signal_protocal(minishell, main_shell);
 		if (g_heredoc_interrupted == 1)
-			return (clean_up_heredoc(minishell, heredoc_fd, heredoc_file));
-		if (add_heredoc(minishell, heredoc_file, heredoc_fd) == -1)
+			return (clean_up_heredoc(minishell, heredoc_file));
+		if (add_heredoc(minishell, heredoc_file) == -1)
 			return (-1);
 		free(heredoc_file);
 	}
 	return (0);
 }
+

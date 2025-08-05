@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/01 18:22:58 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/08/01 18:52:24 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/02 14:54:12 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ static int is_expandable(char *input, char quote_flag, int i)
 		&& input[i + 1]
 		&& input[i + 1] != quote_flag 
 		&& input[i + 1] != ' '
-		&& input[i] == '$')
+		&& input[i] == '$'
+		&& quote_flag != '\'')
 		return (1);
 	return (0);
 }
