@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/27 17:52:15 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/08/05 13:20:39 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/05 15:02:39 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	heredoc_signals(struct sigaction *sa, t_minishell *minishell)
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, SIG_DFL);
 	sa->sa_sigaction = handle_heredoc_signals;
-	//sig_call_status += sigaction(SIGINT, sa, 0);
+	sig_call_status += sigaction(SIGINT, sa, 0);
 	if(sig_call_status)
 	{
 		if (minishell)

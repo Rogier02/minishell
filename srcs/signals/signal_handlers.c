@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/09 17:08:44 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/08/05 13:22:20 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/05 15:04:56 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,11 @@ void	handle_heredoc_signals(int signal, siginfo_t *info, void *ucontext)
 	if (signal == SIGINT)
 	{
 		g_heredoc_interrupted = 1;
+		ft_putstr_fd("canceled heredoc\n", 2);
 		rl_replace_line("", 0);
-		ft_putchar_fd('\n', STDOUT_FILENO);
+		//ft_putchar_fd('\n', STDOUT_FILENO);
 		rl_on_new_line();
+		exit(130);
 	}
 }
 

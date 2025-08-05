@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/29 17:39:00 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/08/05 13:28:58 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/05 15:50:43 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	read_heredoc(t_minishell *minishell, int heredoc_fd, t_lexing *token)
 			free(line);
 			break;
 		}
-		if (token->contains_quotes == false)
+		if (token->contains_quotes == true)
 		{
 			temp = expand_heredoc(minishell, line);
 			if (temp == NULL)
@@ -116,28 +116,57 @@ int run_heredoc_process(t_minishell *minishell, char *heredoc_file, t_lexing *to
 	}
 	if (pid == 0)
 	{
-		// signal(SIGQUIT, SIG_IGN);
-		// signal(SIGINT, SIG_DFL);
-		set_signal_protocal(minishell, heredoc);
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		read_heredoc(minishell, heredoc_fd, token);
-		if (g_heredoc_interrupted == 1)
-		{
-			clean_up_heredoc(minishell, heredoc_file);
-			exit(130);
-		}
 		close(heredoc_fd);
 		exit(0);
 	}
 	//close(heredoc_fd);
 	waitpid(pid, &status, 0);
-	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
+    ft_putstr_fd("Child process finished\n", 2);
+    // if (WIFEXITED(status))
+    // {
+    //     ft_putstr_fd("Child exited normally with code: ", 2);
+    //     ft_putnbr_fd(WEXITSTATUS(status), 2);
+    //     ft_putstr_fd("\n", 2);
+    // }
+    // if (WIFSIGNALED(status))
+    // {
+    //     int received_signal = WTERMSIG(status);
+    //     ft_putstr_fd("Child killed by signal: ", 2);
+    //     ft_putnbr_fd(received_signal, 2);
+    //     ft_putstr_fd(" (SIGINT is ", 2);
+    //     ft_putnbr_fd(SIGINT, 2);
+    //     ft_putstr_fd(")\n", 2);
+        
+    //     if (received_signal == SIGINT)
+    //     {
+    //         ft_putstr_fd("This IS SIGINT\n", 2);
+    //     }
+    //     else
+    //     {
+    //         ft_putstr_fd("This is NOT SIGINT\n", 2);
+    //     }
+    // }
+    // if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+    // {
+    //     ft_putstr_fd("canceled heredoc in parent\n", 2);
+    //     ft_putstr_fd("canceled heredoc in parent\n", 2);
+    //     unlink(heredoc_file);
+    //     free(heredoc_file);
+    //     close(heredoc_fd);
+    //     minishell->exit_code = 130;
+    //     return (-2);
+    // }
+    // Also check if child exited with 130
+   	if (WIFSIGNALED(status) && (WTERMSIG(status) == SIGINT))
     {
-		printf("cancled heredoc\n");
-		unlink(heredoc_file);
+        ft_putstr_fd("heredoc interrupted (exit 130)\n", 2);
+        unlink(heredoc_file);
         free(heredoc_file);
-		close(heredoc_fd);
+        close(heredoc_fd);
         minishell->exit_code = 130;
-        g_heredoc_interrupted = 1;
         return (-2);
     }
 	return (0);
