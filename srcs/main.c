@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:30:13 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/08/05 11:14:17 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/06 17:13:59 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ static void		run_minishell(t_minishell *minishell)
 		if (!minishell->input)
 		{
 			ft_putstr_fd("exit\n", STDOUT_FILENO);
-			break;
+			break ;
 		} 
 		if (ft_strlen(minishell->input) == 0 && minishell->input != NULL)
 			continue ;
@@ -160,7 +160,7 @@ static void		run_minishell(t_minishell *minishell)
 		{
 			reset_data(minishell);
 			free(minishell->input);
-			continue;
+			continue ;
 		}
 		if (parse_status == -1)
 		{

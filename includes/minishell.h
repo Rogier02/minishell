@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/08/05 12:20:07 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/06 18:08:33 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,7 @@ int		ft_unset(t_minishell *minishell, char **args);
 /* --------------------------------- ERROR --------------------------------- */
 void	error_and_exit(char *msg, t_minishell *minishell);
 int		error_malloc_failure(t_minishell *minishell);
+int		error_malloc_failure_2(t_minishell *minishell);
 int		return_error(char *msg, t_minishell *minishell);
 void	error_sig_failure(char *msg, t_minishell *minishell);
 

@@ -6,7 +6,7 @@
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/23 19:16:56 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/07/29 13:26:19 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/06 13:38:18 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,17 +69,19 @@ static void	handle_export_assignment(t_envp *env, char *arg)
     }
 }
 
-static void	handle_export_argument(t_minishell *minishell, t_envp *env, char *arg)
+static int	handle_export_argument(t_minishell *minishell, t_envp *env, char *arg)
 {
     if (!is_valid_key(arg))
     {
         minishell->exit_code = 1;
         ft_putstr_fd(" not a valid identifier\n", STDERR_FILENO);
+		return (-1);
     }
     else
     {
         handle_export_assignment(env, arg);
     }
+	return (0);
 }
 
 int	ft_export(t_minishell *minishell, char **args)
@@ -97,7 +99,8 @@ int	ft_export(t_minishell *minishell, char **args)
     }
     while (args[i])
     {
-        handle_export_argument(minishell, env, args[i]);
+        if (handle_export_argument(minishell, env, args[i]) == -1)
+			return (0);
         i++;
     }
     return (0);

@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 17:06:41 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/06 07:12:57 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/06 13:54:25 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,11 @@ void get_envp(t_minishell *minishell, char *envp[])
 	t_envp *previous = NULL;
 	
 	i = 0;
+	if (envp == NULL)
+	{
+		minishell->envp = NULL;
+		return ;
+	}
 	head = create_node(envp[i]);
 	if (head == NULL)
 		error_and_exit("malloc failure\n", minishell);

@@ -6,7 +6,7 @@
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/23 19:05:44 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/08/01 15:00:25 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/06 12:43:50 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ static int	cd_target(t_minishell *minishell, t_envp *env, char **args, char **ta
 	{
 		home = find_env(env, "HOME");
 		if (!home)
+		{
+			minishell->exit_code = 1;
 			return (return_error("minishell: cd: HOME not set\n", minishell));
+		}
 		*target = home->value;
 	}
 	else if (ft_strncmp(args[1], "-", 2) == 0)
