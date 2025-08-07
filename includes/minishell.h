@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/30 17:21:24 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/06 18:08:33 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ typedef	enum e_signal_locations
 	heredoc,
 	child_process,
 	waiting_parent,
-	execution
+	execution,
+	after_heredoc
 } t_signal_locations;
 
 typedef enum e_token_type
@@ -187,6 +188,9 @@ int		ft_unset(t_minishell *minishell, char **args);
 /* --------------------------------- ERROR --------------------------------- */
 void	error_and_exit(char *msg, t_minishell *minishell);
 int		error_malloc_failure(t_minishell *minishell);
+int		error_malloc_failure_2(t_minishell *minishell);
+int		return_error(char *msg, t_minishell *minishell);
+void	error_sig_failure(char *msg, t_minishell *minishell);
 
 /* ------------------------------- EXECUTION ------------------------------- */
 int		check_for_builtins(t_minishell *minishell);
@@ -247,7 +251,7 @@ int				handle_quotes(t_lexing *token);
 int				handle_redirect(t_minishell *minishell, t_lexing *token);
 void			init_fds(t_cmd_table *cmd_table);
 int				populate_command_data(t_minishell *minishell, t_lexing *token_list);
-int				add_heredoc(t_minishell *minishell, char *heredoc_file, int heredoc_fd);
+int				add_heredoc(t_minishell *minishell, char *heredoc_file);
 int				open_and_close_file(t_minishell *minishell);
 
 /* Populate Data > Handle Heredoc*/
@@ -260,7 +264,7 @@ int 		field_split_add(t_minishell *minishell, t_lexing *token);
 
 /* Expansion */
 int		append_char(t_minishell *minishell, t_expansion *expan, char c);
-int		append_exit_code(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i);
+int		append_exit_code(t_minishell *minishell, t_expansion *expan, int *i);
 int		append_home(t_minishell *minishell, t_expansion *expan);
 int		append_oldpwd(t_minishell *minishell, t_expansion *expan);
 int		append_pwd(t_minishell *minishell, t_expansion *expan);
@@ -271,6 +275,7 @@ int		expansion(t_minishell *minishell, t_lexing *token);
 char	*get_variable_name(char *input, char quote_flag, int i);
 int		tilde_expansion(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i);
 int		variable_located(t_expansion *expan, t_envp *head);
+int		expand(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i);
 void	print_envp(t_envp *envp);
 
 /* Substrings */
@@ -280,12 +285,12 @@ int		get_substrings(char *input, t_minishell *mshell, t_lexing *tokens);
 int		syntax_check(char *input, t_lexing *token_list);
 
 /* -------------------------------- SIGNALS --------------------------------- */
-void	set_child_signals(void);
-void	handle_child_signals(int signal, siginfo_t *info, void *ucontext);
-void	handle_heredoc_signals(int signal, siginfo_t *info, void *ucontext);
+
 void	handle_shell_signals(int signal, siginfo_t *info, void *ucontext);
-void	heredoc_signals(struct sigaction *sa, t_minishell *minishell);
+void	handle_heredoc_signals(int signal, siginfo_t *info, void *ucontext);
+void	handle_exec_signals(int signal, siginfo_t *info, void *ucontext);
+void	handle_after_heredoc_signals(int signal, siginfo_t *info, void *ucontext);
 void	set_signal_protocal(t_minishell *minishell, int location);
-void	shell_signals(struct sigaction *sa, t_minishell *minishell);
+void	handle_ignore_signals(void);
 
 #endif

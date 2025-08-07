@@ -15,12 +15,14 @@
 static void	free_envp_list(t_envp *envp)
 {
     t_envp *tmp;
-	
+    
     while (envp)
     {
         tmp = envp->next;
         if (envp->value)
             free(envp->value);
+        if (envp->key)
+            free(envp->key);
         free(envp);
         envp = tmp;
     }

@@ -1,5 +1,5 @@
 NAME			= 	minishell
-CFLAGS			= 	-Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS			= 	-Wall -Wextra -Werror -g -fsanitize=address
 LDFLAGS			= 	-lreadline
 CC				= 	cc
 RM				= 	rm -f
@@ -56,6 +56,7 @@ SRCS			= 	srcs/main.c \
                     srcs/lexer/expansion/append_pwd.c \
                     srcs/lexer/expansion/append_variable.c \
                     srcs/lexer/expansion/append_variable_2.c \
+					srcs/lexer/expansion/expansion_2.c \
                     srcs/lexer/expansion/expansion.c \
                     srcs/lexer/expansion/tilde_expansion.c \
 					srcs/lexer/populate_data/handle_heredoc/add_line_to_file.c \

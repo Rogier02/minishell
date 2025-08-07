@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/22 14:10:00 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/30 17:05:10 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/06 17:23:03 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	clean_up_(t_lexing *head)
 {
-	    t_lexing *tmp;
+	t_lexing *tmp;
 
     while (head)
     {
@@ -96,6 +96,6 @@ int	lexical_parser(t_minishell *minishell)
 		return (clean_up_(token_list), -1);
 	if (result == 1)
 		return (clean_up_(token_list), 1);
-	return (0);
+	return (clean_up_(token_list), 0);
 }
 

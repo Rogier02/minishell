@@ -6,53 +6,20 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/23 18:37:10 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/06 10:38:26 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/06 17:09:47 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	only_dollar_sign(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i)
+static void	expan_mini_free(t_expansion *expan)
 {
-	if ((token->quote_flag == '\"' 
-		&& (token->value[*i + 1] == '\"' || token->value[*i + 1] == ' ')) 
-		|| token->value[*i + 1] == '$' || token->value[*i + 1] == '\0')
-	{
-		if (append_char(minishell, expan, token->value[*i]) == -1)
-		{
-			printf("here");
-			*i += 1;
-			return (-1);
-		}
-	}
-	else if (token->len == 1)
-	{
-		if (append_char(minishell, expan, token->value[*i]) == -1)
-		{
-			*i += 1;
-			return (-1);
-		}
-	}
-	return (0);
-}
-
-
-static int	expand(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i)
-{
-	if (token->value[*i] && token->value[*i] == '$' && token->quote_flag != '\'')
-	{
-		if (only_dollar_sign(minishell, expan, token, i) == -1)
-			return (-1);
-		else if (append_exit_code(minishell, expan, token, i) == -1)
-			return (-1);
-		else if (append_variable(minishell, expan, token, i) == -1)
-			return (-1);
-		return (1);
-	}
-	if (token->value[*i] 
-		&& append_char(minishell, expan, token->value[*i]) == -1)
-		return (-1);
-	return (0);
+	if (expan->var_name)
+		free(expan->var_name);
+	if (expan->var_expanded)
+		free(expan->var_expanded);
+	if (expan)
+		free(expan);
 }
 
 static int	expand_token(t_minishell *minishell, t_lexing *token)
@@ -71,14 +38,15 @@ static int	expand_token(t_minishell *minishell, t_lexing *token)
 		if (tilde_expansion(minishell, expan, token, &i) == -1)
 			break ;
 		else if (expand(minishell, expan, token, &i) == -1)
-			return (-1);
+			return (expan_mini_free(expan), -1);
 		if (token->value[i] == '\0')
 			continue ;
 		i++;
 	}
 	if (!expan->expanded_input)
-		return (-1);
+		return (expan_mini_free(expan), -1);
 	token->expanded_value = expan->expanded_input;
+	expan_mini_free(expan);
 	return (0);
 }
 

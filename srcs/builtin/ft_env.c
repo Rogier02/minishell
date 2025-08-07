@@ -6,7 +6,7 @@
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/08 23:03:57 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/07/29 13:25:07 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/06 13:08:58 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	ft_env(t_minishell *minishell, char **args)
 		ft_putstr_fd("env: '", 2);
 		ft_putstr_fd(args[1], 2);
 		ft_putstr_fd("': No such file or directory\n", 2);
+		minishell->exit_code = 127;
 		return (127);
 	}
 	env = minishell->envp;

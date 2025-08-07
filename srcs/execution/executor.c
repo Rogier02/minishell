@@ -6,7 +6,7 @@
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/08 18:11:36 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/07/27 15:36:44 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/03 16:07:05 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,12 @@ static int	run_execution_process(t_minishell *minishell, int *pid)
 		if (exec_single_builtin(minishell) == -1)
 			return (-1);
 		restore_std(minishell);
-		set_signal_protocal(minishell, execution);
 		return (0);
 	}
 	else
 	{
 		execute_externals_and_pipes(minishell, pid);
 	}
-	set_signal_protocal(minishell, execution);
 	return (0);
 }
 

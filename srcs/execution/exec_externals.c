@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/10 13:57:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/16 18:02:20 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/03 16:04:22 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void collect_child_pid(t_minishell *minishell, int pid)
 	{
 		perror("minishell: malloc: failed to allocate memory for child process");
 		minishell->exit_code = 1;
+		return ;
 	}
 	new_child->pid = pid;
 	new_child->next = NULL;
@@ -38,6 +39,7 @@ static void collect_child_pid(t_minishell *minishell, int pid)
 
 void	execute_externals_and_pipes(t_minishell *minishell, int *pid)
 {
+	handle_ignore_signals();
 	*pid = fork();
 	if (*pid == -1)
 	{

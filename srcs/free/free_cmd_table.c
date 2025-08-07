@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/05 18:12:30 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/16 17:53:49 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/07/30 18:12:42 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 static void		free_file_struct(t_file_type *file)
 {
-	free(file->name);
+	if (file->type_flag == HERE_DOC)
+		unlink(file->name);
+	if (file->name)
+		free(file->name);
 	free(file);
 }
 

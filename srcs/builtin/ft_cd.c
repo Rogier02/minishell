@@ -6,7 +6,7 @@
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/23 19:05:44 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/07/06 12:33:03 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/06 12:43:50 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	update_pwd_oldpwd(t_envp *env, const char *oldpwd)
 		update_env_var(env, "PWD", cwd);
 }
 
-static int	cd_target(t_envp *env, char **args, char **target)
+static int	cd_target(t_minishell *minishell, t_envp *env, char **args, char **target)
 {
 	t_envp	*home;
 	t_envp	*oldpwd;
@@ -52,14 +52,17 @@ static int	cd_target(t_envp *env, char **args, char **target)
 	{
 		home = find_env(env, "HOME");
 		if (!home)
-			return (ft_putstr_fd("minishell: cd: HOME not set\n", 2), 1);
+		{
+			minishell->exit_code = 1;
+			return (return_error("minishell: cd: HOME not set\n", minishell));
+		}
 		*target = home->value;
 	}
 	else if (ft_strncmp(args[1], "-", 2) == 0)
 	{
 		oldpwd = find_env(env, "OLDPWD");
 		if (!oldpwd)
-			return (ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2), 1);
+			return (return_error("minishell: cd: OLDPWD not set\n", minishell));
 		*target = oldpwd->value;
 		ft_putstr_fd(*target, 1);
 		ft_putstr_fd("\n", 1);
@@ -84,7 +87,7 @@ int	ft_cd(t_minishell *minishell, char **args)
 	}
 	if (!getcwd(cwd, sizeof(cwd)))
 		return (1);
-	if (cd_target(env, args, &target))
+	if (cd_target(minishell, env, args, &target))
 		return (1);
 	if (chdir(target) == -1)
 	{
