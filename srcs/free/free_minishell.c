@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/05 18:09:18 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/29 16:59:57 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/07 15:00:51 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,13 @@ void	free_minishell(t_minishell *minishell)
 	{
 		free_children(minishell->child);
 	}
-	if (close_fds(4, minishell->original_stdin, \
-		minishell->original_stdout,\
-		minishell->pipe_fd[READ_END], \
-		minishell->pipe_fd[WRITE_END]) == -1)
+	if (close_fds(2, minishell->original_stdin, \
+		minishell->original_stdout) == -1)
 		{
+			ft_putstr_fd("failed at loc 2\n", 2);
 			minishell->exit_code = 1;
 		}
 }
 
+//		minishell->pipe_fd[READ_END], \
+// 		minishell->pipe_fd[WRITE_END])

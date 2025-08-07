@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/29 15:36:11 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/05 16:49:29 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/07 14:21:47 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static t_lexing	*init_new_token(int i)
 	new_token->quote_flag = 0;
 	new_token->contains_quotes = 0;
 	new_token->expanded_value = NULL;
+	new_token->value = NULL;
 	new_token->type = 0;
 	new_token->next = NULL;
 	return (new_token);

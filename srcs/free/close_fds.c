@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/13 13:51:46 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/16 17:49:33 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/07 14:24:03 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	close_fds(int count, ...)
 		{
 			if (close(fd) == -1)
 			{
-				perror("minishell: close\n");
+				perror("minishell: close\n\n");
 				ret = -1;
 			}
 		}

@@ -6,7 +6,7 @@
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/08 18:11:36 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/08/03 16:07:05 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/07 14:25:48 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,22 @@ static int	run_execution_process(t_minishell *minishell, int *pid)
 	return (0);
 }
 
+static int check_open_files(t_minishell *minishell)
+{
+	if (!minishell->cmd_current->cmd)
+	{
+		ft_putstr_fd("failed at loc 1\n", 2);
+		if (open_infile(minishell) == -1)
+			return (-1);
+		if (open_outfile(minishell) == -1)
+			return (-1);
+		if (close_fds(2, minishell->cmd_current->infd, \
+						minishell->cmd_current->outfd) == -1)
+			return (-1);
+	}
+	return (0);
+}
+
 int	executor(t_minishell *minishell)
 {
 	pid_t		pid;
@@ -64,6 +80,8 @@ int	executor(t_minishell *minishell)
 	previous_read_fd = -1;
 	while (minishell->cmd_current)
 	{
+		if (check_open_files(minishell) == -1)
+			return (-1);
 		if (minishell->cmd_current->cmd)
 		{
 			if (set_up_pipe(minishell) == -1

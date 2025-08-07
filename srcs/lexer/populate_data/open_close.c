@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/30 17:18:56 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/30 17:21:00 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/07 12:27:07 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int	open_and_close_file(t_minishell *minishell)
 		minishell->exit_code = 1;
 		return (-1);
 	}
-	close(fd);
+	if (close(fd) == -1)
+		return (-1);
 	return (0);
 }
 

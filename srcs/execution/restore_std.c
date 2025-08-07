@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/12 13:49:01 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/29 17:00:13 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/07 12:25:49 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ static int	restore_stdin(t_minishell *minishell)
 
 static int	restore_stdout(t_minishell *minishell)
 {
-	if (dup2(minishell->original_stdout, STDOUT_FILENO) == O_FAILURE)
+	if (dup2(minishell->original_stdout, STDOUT_FILENO) == -1)
 		return (perror("failed to restore original stdout"), -1);
-	if (close(minishell->original_stdout) == O_FAILURE)
+	if (close(minishell->original_stdout) == -1)
 		return (perror("failed to close original stdout"), -1);
 	minishell->original_stdout = -2;
 	return (0);
