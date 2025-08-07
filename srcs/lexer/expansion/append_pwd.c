@@ -6,17 +6,42 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/25 19:26:43 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/06 08:17:14 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/07 19:07:04 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static char	*get_pwd_2(t_minishell *minishell)
+{
+	t_envp	*head;
+	char 	*pwd;
+	
+	head = minishell->envp;
+	while (head != NULL)
+	{
+		//printf("hello\n");
+		if (ft_strcmp(head->key, "PWD") == 0)
+		{
+			pwd = ft_strdup(head->value);
+			if (pwd == NULL)
+			{
+				error_and_exit("malloc failure\n", minishell);
+				break;
+			}
+			return (pwd);
+		}
+		head = head->next;
+	}
+	return(NULL);
+
+}
+
 char	*expand_pwd(t_minishell *minishell)
 {
 	char	*pwd;
 
-	pwd = get_pwd(minishell);
+	pwd = get_pwd_2(minishell);
 	if (!pwd)
 	{
 		minishell->exit_code = ENOMEM;

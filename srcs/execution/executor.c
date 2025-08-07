@@ -6,7 +6,7 @@
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/08 18:11:36 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/08/07 14:25:48 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/07 18:56:34 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ static int check_open_files(t_minishell *minishell)
 {
 	if (!minishell->cmd_current->cmd)
 	{
-		ft_putstr_fd("failed at loc 1\n", 2);
 		if (open_infile(minishell) == -1)
 			return (-1);
 		if (open_outfile(minishell) == -1)

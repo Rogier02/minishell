@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rgoossen <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/18 07:33:23 by rgoossen          #+#    #+#             */
-/*   Updated: 2023/10/18 07:33:28 by rgoossen         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   ft_split.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: rgoossen <marvin@42.fr>                      +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/10/18 07:33:23 by rgoossen      #+#    #+#                 */
+/*   Updated: 2025/08/07 19:38:50 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,10 @@ char	**ft_split(char const *s, char c)
 	size_t	len;
 
 	len = 0;
+	if (!s)
+		return (NULL);
 	arr = (char **)ft_calloc((ft_count(s, c) + 1), sizeof(char *));
-	if (!s || !arr)
+	if (!arr)
 		return (NULL);
 	arr = split(s, c, arr, 0);
 	return (arr);

@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/12 14:05:25 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/08/06 17:11:27 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/07 19:37:54 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ static void exec_child(t_minishell *minishell)
     }
     if (execve(minishell->cmd_current->cmd[0], minishell->cmd_current->cmd, envp) == -1)
     {
+		// if (!envp[0])
+		// 	exit(555);
         cmd_path = find_cmd_path(minishell->cmd_current->cmd[0], minishell->envp);
         if (!cmd_path)
         {
@@ -68,7 +70,6 @@ static void exec_child(t_minishell *minishell)
             ft_free_array(envp);
             error_and_exit("minishell: command not found", minishell);
         }
-        
         if (execve(cmd_path, minishell->cmd_current->cmd, envp) == -1)
         {
             if (errno == EACCES)

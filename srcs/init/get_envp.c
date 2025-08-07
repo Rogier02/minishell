@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 17:06:41 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/08/06 13:54:25 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/07 18:40:54 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,16 @@ static t_envp	*create_node(char *env)
     return (new_node);
 }
 
+
 void get_envp(t_minishell *minishell, char *envp[])
 {
-	int	i;
+	int		i;
 	t_envp *head = NULL;
 	t_envp *current = NULL;
 	t_envp *previous = NULL;
 	
 	i = 0;
-	if (envp == NULL)
+	if (envp == NULL || envp[0] == NULL)
 	{
 		minishell->envp = NULL;
 		return ;
@@ -64,7 +65,7 @@ void get_envp(t_minishell *minishell, char *envp[])
 		error_and_exit("malloc failure\n", minishell);
 	i++;
 	previous = head;
-	while(envp[i])
+	while (envp[i])
 	{
 		current = create_node(envp[i]);
 		if (current == NULL)

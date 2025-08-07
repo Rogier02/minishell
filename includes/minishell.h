@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/08/06 18:08:33 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/07 18:49:39 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,15 +63,15 @@ typedef enum e_syntax_err
 	ERR_REOUT,
 	ERR_HEREDOC,
 	ERR_REAPPEND
-} t_syntax_err;
+}	t_syntax_err;
 
 typedef enum e_pipe_end
 {
 	READ_END,
 	WRITE_END
-} t_pipe_end;
+}	t_pipe_end;
 
-typedef	enum e_signal_locations
+typedef enum e_signal_locations
 {
 	main_shell,
 	heredoc,
@@ -79,7 +79,7 @@ typedef	enum e_signal_locations
 	waiting_parent,
 	execution,
 	after_heredoc
-} t_signal_locations;
+}	t_signal_locations;
 
 typedef enum e_token_type
 {
@@ -89,37 +89,37 @@ typedef enum e_token_type
 	PIPE,
 	RE_APPEND,
 	HERE_DOC
-} t_token_type;
+}	t_token_type;
 
 /* ================================ STRUCTS ================================= */
 
-typedef struct	s_child_p
+typedef struct s_child_p
 {
-	int		pid;
-	struct	s_child_p *next;
-} t_child_p;
+	int					pid;
+	struct s_child_p	*next;
+}	t_child_p;
 
-typedef struct  s_token
+typedef struct s_token
 {
 	t_token_type	type;
 	int				len;
 	int				start;
 	int				end;
 	char			quote_flag;
-} t_token;
+}	t_token;
 
 typedef struct s_envp
 {
 	char			*value;
 	char			*key;
 	struct s_envp	*next;
-} t_envp;
+}	t_envp;
 
 typedef struct s_file_type
 {
 	char	*name;
 	int		type_flag;
-} t_file_type;
+}	t_file_type;
 
 typedef struct s_cmd_table
 {
@@ -130,7 +130,7 @@ typedef struct s_cmd_table
 	int						infd;
 	int						outfd;
 	struct s_cmd_table		*next;
-} t_cmd_table;
+}	t_cmd_table;
 
 typedef struct s_expansion
 {
@@ -141,22 +141,22 @@ typedef struct s_expansion
 	t_envp	*envp_copy;
 	int		exit_code_copy;
 	bool	encountered_heredoc;
-} t_expansion;
+}	t_expansion;
 
 typedef struct s_minishells
 {
-	int			exit_code;
-	int			original_stdout;
-	int			original_stdin;
-	int			execution_status;
-	int			pipe_fd[2];
-	char		*pwd;
-	char		*input;
-	t_envp		*envp;
-	t_cmd_table *cmd_head;
-	t_cmd_table *cmd_current;
-	t_child_p	*child;
-} t_minishell;
+	int				exit_code;
+	int				original_stdout;
+	int				original_stdin;
+	int				execution_status;
+	int				pipe_fd[2];
+	char			*pwd;
+	char			*input;
+	t_envp			*envp;
+	t_cmd_table		*cmd_head;
+	t_cmd_table		*cmd_current;
+	t_child_p		*child;
+}	t_minishell;
 
 typedef struct s_lexing
 {
@@ -167,130 +167,145 @@ typedef struct s_lexing
 	char			*value;
 	char			*expanded_value;
 	struct s_lexing	*next;
-	struct s_lexing *previous;
+	struct s_lexing	*previous;
 	bool			contains_quotes;
 	t_syntax_err	syntax_err;
-} t_lexing;
+}	t_lexing;
 
 /* ========================== FUNCTION DECLARATIONS ======================== */
 
 /* -------------------------------- BUILTIN -------------------------------- */
-int		ft_cd(t_minishell *minishell, char **args);
-int		ft_echo(char **args);
-int		ft_env(t_minishell *minishell, char **args);
-int		ft_exit(t_minishell *minishell, char **args);
-int		export_update(t_envp *env, char *key, char *value);
-void	ft_export_print(t_envp *env);
-int		ft_export(t_minishell *minishell, char **args);
-int		ft_pwd(void);
-int		ft_unset(t_minishell *minishell, char **args);
+int					ft_cd(t_minishell *minishell, char **args);
+int					ft_echo(char **args);
+int					ft_env(t_minishell *minishell, char **args);
+int					ft_exit(t_minishell *minishell, char **args);
+int					export_update(t_envp *env, char *key, char *value);
+void				ft_export_print(t_envp *env);
+int					ft_export(t_minishell *minishell, char **args);
+int					ft_pwd(void);
+int					ft_unset(t_minishell *minishell, char **args);
 
 /* --------------------------------- ERROR --------------------------------- */
-void	error_and_exit(char *msg, t_minishell *minishell);
-int		error_malloc_failure(t_minishell *minishell);
-int		error_malloc_failure_2(t_minishell *minishell);
-int		return_error(char *msg, t_minishell *minishell);
-void	error_sig_failure(char *msg, t_minishell *minishell);
+void				error_and_exit(char *msg, t_minishell *minishell);
+int					error_malloc_failure(t_minishell *minishell);
+int					error_malloc_failure_2(t_minishell *minishell);
+int					return_error(char *msg, t_minishell *minishell);
+void				error_sig_failure(char *msg, t_minishell *minishell);
 
 /* ------------------------------- EXECUTION ------------------------------- */
-int		check_for_builtins(t_minishell *minishell);
-int		exec_builtin(t_minishell *minishell);
-int		exec_single_builtin(t_minishell *minishell);
-void	execute_externals_and_pipes(t_minishell *minishell, int *pid);
-int		executor(t_minishell *minishell);
-int		exit_child(t_minishell *minishell, int exit_code);
-int		open_infile(t_minishell *minishell);
-int		open_outfile(t_minishell *minishell);
-void	redirect_pipes(t_minishell *minishell);
-int		restore_std(t_minishell *minishell);
-void	run_child(t_minishell *minishell);
-void	wachter(t_minishell *minishell);
+int					check_for_builtins(t_minishell *minishell);
+int					exec_builtin(t_minishell *minishell);
+int					exec_single_builtin(t_minishell *minishell);
+void				execute_externals_and_pipes(t_minishell *minishell,\
+															int *pid);
+int					executor(t_minishell *minishell);
+int					exit_child(t_minishell *minishell, int exit_code);
+int					open_infile(t_minishell *minishell);
+int					open_outfile(t_minishell *minishell);
+void				redirect_pipes(t_minishell *minishell);
+int					restore_std(t_minishell *minishell);
+void				run_child(t_minishell *minishell);
+void				wachter(t_minishell *minishell);
 
 /* ------------------------------- PATH UTILS ------------------------------ */
-char	**env_list_to_array(t_envp *envp);
-char	*find_cmd_path(char *cmd, t_envp *envp);
+char				**env_list_to_array(t_envp *envp);
+char				*find_cmd_path(char *cmd, t_envp *envp);
 
 /* --------------------------------- FREE ---------------------------------- */
-int		close_and_reset_fd(int *fd);
-int		close_fds(int count, ...);
-void	free_cmd_table(t_cmd_table *cmd_table);
-void	free_expansion(t_expansion *expan);
-void	free_minishell(t_minishell *minishell);
-void	recess(t_child_p *child);
-void	kill_all_children(t_minishell *minishell);
+int					close_and_reset_fd(int *fd);
+int					close_fds(int count, ...);
+void				free_cmd_table(t_cmd_table *cmd_table);
+void				free_expansion(t_expansion *expan);
+void				free_minishell(t_minishell *minishell);
+void				recess(t_child_p *child);
+void				kill_all_children(t_minishell *minishell);
 
 /* --------------------------------- INIT ---------------------------------- */
-void	get_envp(t_minishell *minishell, char *envp[]);
-char	*get_pwd(t_minishell *minishell);
-void	init_minishell(t_minishell *minishell, char *envp[]);
-void	init_token(t_token *token, int i);
-void 	init_fds(t_cmd_table *cmd_table);
+void				get_envp(t_minishell *minishell, char *envp[]);
+int					get_pwd(t_minishell *minishell);
+void				init_minishell(t_minishell *minishell, char *envp[]);
+void				init_token(t_token *token, int i);
+void				init_fds(t_cmd_table *cmd_table);
 
 /* -------------------------------- LEXER ----------------------------------- */
 /* Lexical Parser */
-void			clean_up_(t_lexing *head);
-int				lexical_parser(t_minishell *minishell);
-void			print_token_list(t_lexing *token_list, char *input);
-void			print_token_values(t_lexing *token_list, int loc);
-void			skip_whitespaces(char *input, int *index);
-int				is_only_whitespaces(char *input);
+void				clean_up_(t_lexing *head);
+int					lexical_parser(t_minishell *minishell);
+void				print_token_list(t_lexing *token_list, char *input);
+void				print_token_values(t_lexing *token_list, int loc);
+void				skip_whitespaces(char *input, int *index);
+int					is_only_whitespaces(char *input);
 
 /* Tokenizer */
-t_lexing		*get_next_token(char *input, int *i);
-t_token_type	get_type(char *input, t_lexing *token);
-int				is_delimiter(char c);
-int				is_redirect(t_token_type type);
-int				is_redirect_or_pipe(t_token_type type);
-t_lexing		*tokenizer(char *input);
+t_lexing			*get_next_token(char *input, int *i);
+t_token_type		get_type(char *input, t_lexing *token);
+int					is_delimiter(char c);
+int					is_redirect(t_token_type type);
+int					is_redirect_or_pipe(t_token_type type);
+t_lexing			*tokenizer(char *input);
 
 /* Populate Data */
-int				handle_command(t_minishell *minishell, t_lexing *token);
-int				handle_heredoc(t_minishell *minishell, t_lexing *token);
-int				handle_pipe(t_minishell *minishell, t_lexing *token);
-int				handle_quotes(t_lexing *token);
-int				handle_redirect(t_minishell *minishell, t_lexing *token);
-void			init_fds(t_cmd_table *cmd_table);
-int				populate_command_data(t_minishell *minishell, t_lexing *token_list);
-int				add_heredoc(t_minishell *minishell, char *heredoc_file);
-int				open_and_close_file(t_minishell *minishell);
+int					handle_command(t_minishell *minishell, t_lexing *token);
+int					handle_heredoc(t_minishell *minishell, t_lexing *token);
+int					handle_pipe(t_minishell *minishell, t_lexing *token);
+int					handle_quotes(t_lexing *token);
+int					handle_redirect(t_minishell *minishell, t_lexing *token);
+void				init_fds(t_cmd_table *cmd_table);
+int					populate_command_data(t_minishell *minishell,\
+													t_lexing *token_list);
+int					add_heredoc(t_minishell *minishell, char *heredoc_file);
+int					open_and_close_file(t_minishell *minishell);
 
 /* Populate Data > Handle Heredoc*/
-int			append_line_to_file(int heredoc_fd, char *expanded_line);
-char		*expand_heredoc(t_minishell *minishell, char *line);
-int			heredoc_append_variable(t_minishell *minishell, t_expansion *expan, char *line, int *i);
-int			heredoc_append_exit_code(t_minishell *minishell, t_expansion *expan, char *line, int *i);
-int			heredoc_append_char(t_minishell *minishell, t_expansion *expan, char c);
-int 		field_split_add(t_minishell *minishell, t_lexing *token);
+int					append_line_to_file(int heredoc_fd, char *expanded_line);
+char				*expand_heredoc(t_minishell *minishell, char *line);
+int					heredoc_append_variable(t_minishell *minishell,\
+									t_expansion *expan, char *line, int *i);
+int					heredoc_append_exit_code(t_minishell *minishell,\
+									t_expansion *expan, char *line, int *i);
+int					heredoc_append_char(t_minishell *minishell,\
+												t_expansion *expan, char c);
+int					field_split_add(t_minishell *minishell, t_lexing *token);
 
 /* Expansion */
-int		append_char(t_minishell *minishell, t_expansion *expan, char c);
-int		append_exit_code(t_minishell *minishell, t_expansion *expan, int *i);
-int		append_home(t_minishell *minishell, t_expansion *expan);
-int		append_oldpwd(t_minishell *minishell, t_expansion *expan);
-int		append_pwd(t_minishell *minishell, t_expansion *expan);
-int		append_variable(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i);
-void	check_quotes(char c, char *quote_flag);
-int		expand_variable(t_envp *envp, t_expansion *expan);
-int		expansion(t_minishell *minishell, t_lexing *token);
-char	*get_variable_name(char *input, char quote_flag, int i);
-int		tilde_expansion(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i);
-int		variable_located(t_expansion *expan, t_envp *head);
-int		expand(t_minishell *minishell, t_expansion *expan, t_lexing *token, int *i);
-void	print_envp(t_envp *envp);
+int					append_char(t_minishell *minishell,\
+												t_expansion *expan, char c);
+int					append_exit_code(t_minishell *minishell,\
+												t_expansion *expan, int *i);
+int					append_home(t_minishell *minishell, t_expansion *expan);
+int					append_oldpwd(t_minishell *minishell, t_expansion *expan);
+int					append_pwd(t_minishell *minishell, t_expansion *expan);
+int					append_variable(t_minishell *minishell,\
+								t_expansion *expan, t_lexing *token, int *i);
+void				check_quotes(char c, char *quote_flag);
+int					expand_variable(t_envp *envp, t_expansion *expan);
+int					expansion(t_minishell *minishell, t_lexing *token);
+char				*get_variable_name(char *input, char quote_flag, int i);
+int					tilde_expansion(t_minishell *minishell,\
+								t_expansion *expan, t_lexing *token, int *i);
+int					variable_located(t_expansion *expan, t_envp *head);
+int					expand(t_minishell *minishell,\
+								t_expansion *expan, t_lexing *token, int *i);
+void				print_envp(t_envp *envp);
 
 /* Substrings */
-int		get_substrings(char *input, t_minishell *mshell, t_lexing *tokens);
+int					get_substrings(char *input, t_minishell *mshell,\
+															t_lexing *tokens);
 
 /* Syntax */
-int		syntax_check(char *input, t_lexing *token_list);
+int					syntax_check(char *input, t_lexing *token_list);
 
 /* -------------------------------- SIGNALS --------------------------------- */
 
-void	handle_shell_signals(int signal, siginfo_t *info, void *ucontext);
-void	handle_heredoc_signals(int signal, siginfo_t *info, void *ucontext);
-void	handle_exec_signals(int signal, siginfo_t *info, void *ucontext);
-void	handle_after_heredoc_signals(int signal, siginfo_t *info, void *ucontext);
-void	set_signal_protocal(t_minishell *minishell, int location);
-void	handle_ignore_signals(void);
+void				handle_shell_signals(int signal,\
+											siginfo_t *info, void *ucontext);
+void				handle_heredoc_signals(int signal,\
+											siginfo_t *info, void *ucontext);
+void				handle_exec_signals(int signal,\
+											siginfo_t *info, void *ucontext);
+void				handle_after_heredoc_signals(int signal,\
+											siginfo_t *info, void *ucontext);
+void				set_signal_protocal(t_minishell *minishell, int location);
+void				handle_ignore_signals(void);
 
 #endif
