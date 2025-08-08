@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ft_env.c                                           :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
+/*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/06/08 23:03:57 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/08/06 13:08:58 by rgoossen      ########   odam.nl         */
+/*   Created: 2025/08/08 19:24:39 by rgoossen      #+#    #+#                 */
+/*   Updated: 2025/08/08 19:24:43 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

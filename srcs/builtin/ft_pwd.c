@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ft_pwd.c                                           :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
+/*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/06/08 23:00:15 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/08/08 12:21:28 by rgoossen      ########   odam.nl         */
+/*   Created: 2025/08/08 19:25:01 by rgoossen      #+#    #+#                 */
+/*   Updated: 2025/08/08 19:25:03 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

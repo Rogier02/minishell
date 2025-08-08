@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ft_exit.c                                          :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
+/*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/06/23 19:54:06 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/08/08 12:16:29 by rgoossen      ########   odam.nl         */
+/*   Created: 2025/08/08 19:24:48 by rgoossen      #+#    #+#                 */
+/*   Updated: 2025/08/08 19:24:51 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

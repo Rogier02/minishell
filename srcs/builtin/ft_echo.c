@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ft_echo.c                                          :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
+/*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/06/08 22:42:29 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/08/08 14:51:46 by rgoossen      ########   odam.nl         */
+/*   Created: 2025/08/08 19:23:49 by rgoossen      #+#    #+#                 */
+/*   Updated: 2025/08/08 19:23:51 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
