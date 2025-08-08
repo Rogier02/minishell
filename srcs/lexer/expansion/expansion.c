@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/23 18:37:10 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/08/06 17:09:47 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/08 17:38:58 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ static void	expan_mini_free(t_expansion *expan)
 
 static int	expand_token(t_minishell *minishell, t_lexing *token)
 {
-	int	i;
-	t_expansion *expan;
-	
+	int			i;
+	t_expansion	*expan;
+
 	expan = ft_calloc(1, sizeof(t_expansion));
 	if (!expan)
 		return (-1);
@@ -52,7 +52,7 @@ static int	expand_token(t_minishell *minishell, t_lexing *token)
 
 int	expansion(t_minishell *minishell, t_lexing *token)
 {
-	while(token)
+	while (token)
 	{
 		if (is_redirect_or_pipe(token->type)
 			|| (token->previous && token->previous->type == HERE_DOC))
@@ -67,7 +67,7 @@ int	expansion(t_minishell *minishell, t_lexing *token)
 			continue ;
 		}
 		if (expand_token(minishell, token) == -1)
-			   return (-1);
+			return (-1);
 		token = token->next;
 	}
 	return (0);

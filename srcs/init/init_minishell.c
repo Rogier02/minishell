@@ -6,24 +6,11 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:34:37 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/08/07 18:49:18 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/08 17:23:53 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// static void	print_envp(t_minishell *minishell)
-// {
-// 	t_envp *head;
-	
-// 	head = minishell->envp;
-// 	while (head)
-// 	{
-// 		printf("%s\n", head->value);
-// 		head = head->next;
-// 	}
-// }
-
 
 void	init_minishell(t_minishell *minishell, char *envp[])
 {

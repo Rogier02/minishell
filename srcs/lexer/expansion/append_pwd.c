@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/25 19:26:43 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/08/07 19:07:04 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/08 18:03:03 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,24 @@
 static char	*get_pwd_2(t_minishell *minishell)
 {
 	t_envp	*head;
-	char 	*pwd;
-	
+	char	*pwd;
+
 	head = minishell->envp;
 	while (head != NULL)
 	{
-		//printf("hello\n");
 		if (ft_strcmp(head->key, "PWD") == 0)
 		{
 			pwd = ft_strdup(head->value);
 			if (pwd == NULL)
 			{
 				error_and_exit("malloc failure\n", minishell);
-				break;
+				break ;
 			}
 			return (pwd);
 		}
 		head = head->next;
 	}
-	return(NULL);
-
+	return (NULL);
 }
 
 char	*expand_pwd(t_minishell *minishell)
@@ -75,11 +73,12 @@ char	*expand_oldpwd(t_minishell *minishell)
 	}
 	return (oldpwd);
 }
+
 int	append_pwd(t_minishell *minishell, t_expansion *expan)
 {
 	char	*pwd;
 	char	*temp;
-	
+
 	pwd = expand_pwd(minishell);
 	if (!pwd)
 		return (-1);
@@ -92,14 +91,14 @@ int	append_pwd(t_minishell *minishell, t_expansion *expan)
 	}
 	free(expan->expanded_input);
 	expan->expanded_input = temp;
-	return (0);	
+	return (0);
 }
 
 int	append_oldpwd(t_minishell *minishell, t_expansion *expan)
-{	
+{
 	char	*oldpwd;
 	char	*temp;
-	
+
 	oldpwd = expand_oldpwd(minishell);
 	if (!oldpwd)
 		return (-1);
@@ -113,5 +112,5 @@ int	append_oldpwd(t_minishell *minishell, t_expansion *expan)
 	free(oldpwd);
 	free(expan->expanded_input);
 	expan->expanded_input = temp;
-	return (0);	
+	return (0);
 }

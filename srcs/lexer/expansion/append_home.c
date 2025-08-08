@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/25 19:13:57 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/28 18:44:36 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/08 18:03:35 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	append_home(t_minishell *minishell, t_expansion *expan)
 	t_envp	*head;
 	char	*home;
 	char	*temp;
-		
+
 	head = minishell->envp;
 	home = expand_home(minishell);
 	if (!home)

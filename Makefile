@@ -35,6 +35,7 @@ SRCS			= 	srcs/main.c \
                     srcs/execution/redirect_pipes.c \
                     srcs/execution/restore_std.c \
                     srcs/execution/wachter.c \
+					srcs/execution/wait_and_kill.c \
 					srcs/free/close_and_reset_fd.c \
 					srcs/free/close_fds.c \
                     srcs/free/free_cmd_table.c \
