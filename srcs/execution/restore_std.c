@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/12 13:49:01 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/08/07 12:25:49 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/08 14:58:17 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	restore_stdin(t_minishell *minishell)
 		return (perror("failed to close originall stdin"), -1);
 	if (close(minishell->original_stdin) == -1)
 		return (perror("failed to close originall stdin"), -1);
-	minishell->original_stdin = -2;	
+	minishell->original_stdin = -2;
 	return (0);
 }
 

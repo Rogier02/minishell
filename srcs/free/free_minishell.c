@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/05 18:09:18 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/08/07 15:00:51 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/08 15:05:28 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,43 +14,43 @@
 
 static void	free_envp_list(t_envp *envp)
 {
-    t_envp *tmp;
-    
-    while (envp)
-    {
-        tmp = envp->next;
-        if (envp->value)
-            free(envp->value);
-        if (envp->key)
-            free(envp->key);
-        free(envp);
-        envp = tmp;
-    }
+	t_envp	*tmp;
+
+	while (envp)
+	{
+		tmp = envp->next;
+		if (envp->value)
+			free(envp->value);
+		if (envp->key)
+			free(envp->key);
+		free(envp);
+		envp = tmp;
+	}
 }
 
-static void free_children(t_child_p *childs)
+static void	free_children(t_child_p *childs)
 {
-    t_child_p *tmp;
-    
-    while (childs)
-    {
-        tmp = childs->next;
-        free(childs);
-        childs = tmp;
-    }
+	t_child_p	*tmp;
+
+	while (childs)
+	{
+		tmp = childs->next;
+		free(childs);
+		childs = tmp;
+	}
 }
 
 void	free_minishell(t_minishell *minishell)
 {
-    if (!minishell)
-        return ;
-    if (minishell->input)
-        free(minishell->input);
-    if (minishell->pwd)
-        free(minishell->pwd);
-    if (minishell->envp)
-        free_envp_list(minishell->envp);
-    if (minishell->cmd_head)
+	if (!minishell)
+		return ;
+	if (minishell->input)
+		free(minishell->input);
+	if (minishell->pwd)
+		free(minishell->pwd);
+	if (minishell->envp)
+		free_envp_list(minishell->envp);
+	if (minishell->cmd_head)
 	{
 		free_cmd_table(minishell->cmd_head);
 	}
@@ -59,12 +59,9 @@ void	free_minishell(t_minishell *minishell)
 		free_children(minishell->child);
 	}
 	if (close_fds(2, minishell->original_stdin, \
-		minishell->original_stdout) == -1)
-		{
-			ft_putstr_fd("failed at loc 2\n", 2);
-			minishell->exit_code = 1;
-		}
+minishell->original_stdout) == -1)
+	{
+		ft_putstr_fd("failed at loc 2\n", 2);
+		minishell->exit_code = 1;
+	}
 }
-
-//		minishell->pipe_fd[READ_END], \
-// 		minishell->pipe_fd[WRITE_END])

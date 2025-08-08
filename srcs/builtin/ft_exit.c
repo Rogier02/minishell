@@ -6,7 +6,7 @@
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/23 19:54:06 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/07/06 12:52:15 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/08 12:16:29 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,20 @@ static void	exit_with_stat(int exit_status, int status)
 
 static int	is_numeric(const char *str)
 {
-    int i = 0;
+	int	i;
 
-    if (str[i] == '-' || str[i] == '+')
-        i++;
-    if (!str[i])
-        return (0);
-    while (str[i])
-    {
-        if (!ft_isdigit(str[i]))
-            return (0);
-        i++;
-    }
-    return (1);
+	i = 0;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	if (!str[i])
+		return (0);
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 int	ft_exit(t_minishell *minishell, char **args)

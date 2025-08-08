@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   kill_children.c                                    :+:    :+:            */
+/*   wait_and_kill.c                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/07/24 16:24:18 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/08/08 15:02:19 by rgoossen      ########   odam.nl         */
+/*   Created: 2025/08/08 12:36:53 by rgoossen      #+#    #+#                 */
+/*   Updated: 2025/08/08 12:38:10 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	kill_all_children(t_minishell *minishell)
+int	wait_and_kill(t_minishell *minishell)
 {
-	t_child_p	*current;
-
-	current = minishell->child;
-	while (current)
-	{
-		if (current->pid > 0)
-			kill(current->pid, SIGTERM);
-		current = current->next;
-	}
+	kill_all_children(minishell);
+	wachter(minishell);
+	minishell->exit_code = 1;
+	return (-1);
 }

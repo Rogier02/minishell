@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/08/07 18:49:39 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/08 12:38:38 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,7 @@ void				redirect_pipes(t_minishell *minishell);
 int					restore_std(t_minishell *minishell);
 void				run_child(t_minishell *minishell);
 void				wachter(t_minishell *minishell);
+int					wait_and_kill(t_minishell *minishell);
 
 /* ------------------------------- PATH UTILS ------------------------------ */
 char				**env_list_to_array(t_envp *envp);

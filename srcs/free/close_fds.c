@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/13 13:51:46 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/08/07 14:24:03 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/08 15:03:03 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	close_fds(int count, ...)
 {
-	va_list args;
+	va_list	args;
 	int		fd;
 	int		i;
 	int		ret;
@@ -22,7 +22,7 @@ int	close_fds(int count, ...)
 	i = 0;
 	ret = 1;
 	va_start(args, count);
-	while(i < count)
+	while (i < count)
 	{
 		fd = va_arg(args, int);
 		if (fd >= 0)

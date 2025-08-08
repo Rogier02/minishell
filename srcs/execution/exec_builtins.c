@@ -6,15 +6,15 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/10 12:11:41 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/13 17:33:05 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/08 14:57:45 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		check_for_builtins(t_minishell *minishell)
+int	check_for_builtins(t_minishell *minishell)
 {
-		char	**cmd;
+	char	**cmd;
 
 	cmd = minishell->cmd_current->cmd;
 	if (!cmd || !cmd[0])

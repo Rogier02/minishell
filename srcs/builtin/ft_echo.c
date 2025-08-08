@@ -6,13 +6,12 @@
 /*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/08 22:42:29 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/07/24 16:10:45 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/08 14:51:46 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// TODO: -nnnnnnn
 static int	is_all_n(const char *str)
 {
 	int	j;

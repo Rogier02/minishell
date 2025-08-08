@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   executor.c                                         :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
+/*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/06/08 18:11:36 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/08/07 18:56:34 by rgoossen      ########   odam.nl         */
+/*   Created: 2025/08/08 12:11:55 by rgoossen      #+#    #+#                 */
+/*   Updated: 2025/08/08 12:47:16 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	clean_up_pipes(t_minishell *minishell, int *previous_read_fd)
 }
 
 static int	run_execution_process(t_minishell *minishell, int *pid)
-{	
+{
 	if (!minishell->cmd_head->next && check_for_builtins(minishell))
 	{
 		if (exec_single_builtin(minishell) == -1)
@@ -55,17 +55,18 @@ static int	run_execution_process(t_minishell *minishell, int *pid)
 	return (0);
 }
 
-static int check_open_files(t_minishell *minishell)
+static int	check_open_files(t_minishell *m)
 {
-	if (!minishell->cmd_current->cmd)
+	if (!m->cmd_current->cmd)
 	{
-		if (open_infile(minishell) == -1)
+		if (open_infile(m) == -1)
 			return (-1);
-		if (open_outfile(minishell) == -1)
+		if (open_outfile(m) == -1)
 			return (-1);
-		if (close_fds(2, minishell->cmd_current->infd, \
-						minishell->cmd_current->outfd) == -1)
+		if (close_fds(2, m->cmd_current->infd, m->cmd_current->outfd) == -1)
+		{
 			return (-1);
+		}
 	}
 	return (0);
 }
@@ -74,7 +75,7 @@ int	executor(t_minishell *minishell)
 {
 	pid_t		pid;
 	int			previous_read_fd;
-	
+
 	pid = 0;
 	previous_read_fd = -1;
 	while (minishell->cmd_current)
@@ -87,10 +88,7 @@ int	executor(t_minishell *minishell)
 				|| run_execution_process(minishell, &pid) == -1
 				|| clean_up_pipes(minishell, &previous_read_fd) == -1)
 			{
-				kill_all_children(minishell);
-				wachter(minishell);
-				minishell->exit_code = 1;
-				return (-1);
+				return (wait_and_kill(minishell));
 			}
 		}
 		else
@@ -100,4 +98,3 @@ int	executor(t_minishell *minishell)
 	wachter(minishell);
 	return (0);
 }
-

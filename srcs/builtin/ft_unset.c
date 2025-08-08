@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ft_unset.c                                         :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
+/*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/06/23 19:49:24 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/08/01 14:12:45 by rgoossen      ########   odam.nl         */
+/*   Created: 2025/08/08 12:22:17 by rgoossen      #+#    #+#                 */
+/*   Updated: 2025/08/08 12:22:20 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ static void	remove_env_node(t_envp **env, t_envp **prev, t_envp **curr)
 		*env = (*curr)->next;
 	*curr = (*curr)->next;
 	if (tmp->key)
-	free(tmp->key);
+		free(tmp->key);
 	if (tmp->value)
-	free(tmp->value);
+		free(tmp->value);
 	free(tmp);
 }
 

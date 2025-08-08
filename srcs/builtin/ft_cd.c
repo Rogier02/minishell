@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ft_cd.c                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: mahkilic <mahkilic@student.codam.nl>         +#+                     */
+/*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/06/23 19:05:44 by mahkilic      #+#    #+#                 */
-/*   Updated: 2025/08/06 12:43:50 by rgoossen      ########   odam.nl         */
+/*   Created: 2025/08/08 12:07:47 by rgoossen      #+#    #+#                 */
+/*   Updated: 2025/08/08 12:10:45 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,24 @@
 
 static t_envp	*find_env(t_envp *env, const char *key)
 {
-    while (env)
-    {
-        if (ft_strcmp(env->key, key) == 0)
-            return (env);
-        env = env->next;
-    }
-    return (NULL);
+	while (env)
+	{
+		if (ft_strcmp(env->key, key) == 0)
+			return (env);
+		env = env->next;
+	}
+	return (NULL);
 }
 
 static void	update_env_var(t_envp *env, const char *key, const char *newval)
 {
-    t_envp	*node;
+	t_envp	*node;
 
-    node = find_env(env, key);
-    if (!node)
-        return ;
-    free(node->value);
-    node->value = ft_strdup(newval); // <-- FIXED
+	node = find_env(env, key);
+	if (!node)
+		return ;
+	free(node->value);
+	node->value = ft_strdup(newval);
 }
 
 static void	update_pwd_oldpwd(t_envp *env, const char *oldpwd)
@@ -43,7 +43,8 @@ static void	update_pwd_oldpwd(t_envp *env, const char *oldpwd)
 		update_env_var(env, "PWD", cwd);
 }
 
-static int	cd_target(t_minishell *minishell, t_envp *env, char **args, char **target)
+static int	cd_target(t_minishell *minishell, t_envp *env,\
+	char **args, char **target)
 {
 	t_envp	*home;
 	t_envp	*oldpwd;

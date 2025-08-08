@@ -6,13 +6,13 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/11 18:50:52 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/21 19:45:02 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/08 12:49:16 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int collect_original_fds(t_minishell *minishell)
+static int	collect_original_fds(t_minishell *minishell)
 {
 	minishell->original_stdin = dup(STDIN_FILENO);
 	if (minishell->original_stdin == -1)
@@ -38,7 +38,7 @@ static int	open_files_to_fds(t_minishell *minishell)
 	return (0);
 }
 
-static int redirect_fds(t_minishell *minishell)
+static int	redirect_fds(t_minishell *minishell)
 {
 	if (minishell->cmd_current->infd != -1)
 	{

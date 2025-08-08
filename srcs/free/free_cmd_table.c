@@ -6,13 +6,13 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/05 18:12:30 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/30 18:12:42 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/08 15:06:14 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void		free_file_struct(t_file_type *file)
+static void	free_file_struct(t_file_type *file)
 {
 	if (file->type_flag == HERE_DOC)
 		unlink(file->name);
@@ -21,22 +21,22 @@ static void		free_file_struct(t_file_type *file)
 	free(file);
 }
 
-void		free_cmd_table(t_cmd_table *cmd_table)
+void	free_cmd_table(t_cmd_table *cmd_table)
 {
-	t_cmd_table *tmp;
+	t_cmd_table	*tmp;
 
 	while (cmd_table)
 	{
 		tmp = cmd_table->next;
-        if (cmd_table->cmd)
+		if (cmd_table->cmd)
 			ft_free_array(cmd_table->cmd);
-        if (cmd_table->infile)
+		if (cmd_table->infile)
 			free_file_struct(cmd_table->infile);
-        if (cmd_table->outfile)
+		if (cmd_table->outfile)
 			free_file_struct(cmd_table->outfile);
-        if (cmd_table->heredoc_delim)
-            free(cmd_table->heredoc_delim);
-        free(cmd_table);
-        cmd_table = tmp;
+		if (cmd_table->heredoc_delim)
+			free(cmd_table->heredoc_delim);
+		free(cmd_table);
+		cmd_table = tmp;
 	}
 }
