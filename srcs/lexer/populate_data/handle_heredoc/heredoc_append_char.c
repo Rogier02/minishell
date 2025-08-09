@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/27 17:35:20 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/27 18:44:38 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/09 12:31:11 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@ int	heredoc_append_char(t_minishell *minishell, t_expansion *expan, char c)
 	char	*new_str;
 	int		len;
 
-	if (expan->expanded_input == NULL 
+	if (expan->expanded_input == NULL
 		|| *expan->expanded_input == '\0')
 		len = 0;
-	else 
+	else
 		len = ft_strlen(expan->expanded_input);
 	new_str = malloc(sizeof(char) * (len + 2));
 	if (!new_str)
 	{
 		minishell->exit_code = ENOMEM;
 		ft_putstr_fd("malloc failure: \n", STDERR_FILENO);
-		return (-1); 
+		return (-1);
 	}
 	if (expan->expanded_input != NULL)
 		new_str = ft_memcpy(new_str, expan->expanded_input, len);

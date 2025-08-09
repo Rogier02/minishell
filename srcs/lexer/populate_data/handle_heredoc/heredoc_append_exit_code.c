@@ -6,13 +6,13 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/27 17:48:34 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/27 19:36:59 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/09 12:28:34 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	heredoc_append_exit_code(t_minishell *minishell, t_expansion *expan, \
+int	heredoc_append_exit_code(t_minishell *minishell, t_expansion *expan,\
 								char *line, int *i)
 {
 	char	*exit_code_s;

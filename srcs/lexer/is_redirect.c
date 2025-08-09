@@ -6,13 +6,13 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/29 14:19:38 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/06 10:41:40 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/09 12:27:21 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include  "minishell.h"
+#include "minishell.h"
 
-int is_redirect(t_token_type type)
+int	is_redirect(t_token_type type)
 {
 	if (type == HERE_DOC
 		|| type == RE_APPEND
@@ -26,9 +26,9 @@ int is_redirect(t_token_type type)
 
 int	is_redirect_or_pipe(t_token_type type)
 {
-	if (type == HERE_DOC 
-		|| type == RE_APPEND 
-		|| type == RE_IN 
+	if (type == HERE_DOC
+		|| type == RE_APPEND
+		|| type == RE_IN
 		|| type == RE_OUT
 		|| type == PIPE)
 		return (1);

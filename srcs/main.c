@@ -6,125 +6,73 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:30:13 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/08/09 12:01:43 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/09 12:23:07 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	has_syntax_error(char *input)
+static int	get_and_validate_input(t_minishell *minishell)
 {
-	int		i;
-	char	quote_flag;
-
-	i = 0;
-	quote_flag = '\0';
-	if (is_only_whitespaces(input))
-		return (1);
-	while (input[i])
+	set_signal_protocal(minishell, main_shell);
+	minishell->input = readline("minishell:~$ ");
+	if (!minishell->input)
 	{
-		if (quote_flag == '\0' && (input[i] == '\\' || input[i] == ';'))
-			return (1);
-		if (quote_flag == '\0' 
-			&& (input[i] == '\'' || input[i] == '\"'))
-			quote_flag = input[i];
-		else if (quote_flag == input[i] 
-			&& (input[i] == '\'' || input[i] == '\"'))
-			quote_flag = '\0';
-		i++;
+		ft_putstr_fd("exit\n", STDOUT_FILENO);
+		return (-1);
 	}
-	if (quote_flag != '\0')
+	if (ft_strlen(minishell->input) == 0 && minishell->input != NULL)
+		return (0);
+	add_history(minishell->input);
+	if (has_syntax_error(minishell->input) == 1)
 	{
-		ft_putstr_fd("minishell: unclosed quote\n", STDERR_FILENO);
-		return (1);
+		free(minishell->input);
+		return (0);
 	}
-	return (0);
+	return (1);
 }
 
-static void	reset_data(t_minishell *minishell)
+static int	parse_and_execute(t_minishell *minishell)
 {
-	free_cmd_table(minishell->cmd_head);
-	minishell->cmd_head = NULL;
-	minishell->cmd_current = NULL;
-	minishell->cmd_head = ft_calloc(1, sizeof(t_cmd_table));
-	if (!minishell->cmd_head)
+	int	parse_status;
+
+	parse_status = lexical_parser(minishell);
+	if (parse_status == 1)
 	{
-		free_minishell(minishell);
-		exit(ENOMEM);
-	}
-	minishell->cmd_current = minishell->cmd_head;
-	minishell->cmd_current->infile = ft_calloc(1, sizeof(t_file_type));
-	if (!minishell->cmd_current->infile)
-	{
-		free_minishell(minishell);
-		exit(ENOMEM);
-	}
-	minishell->cmd_current->outfile = ft_calloc(1, sizeof(t_file_type));
-	if (!minishell->cmd_current->outfile)
-	{
-		free_minishell(minishell);
-		exit(ENOMEM);
-	}
-	minishell->cmd_current->infd = -1;
-	minishell->cmd_current->outfd = -1;
-	ft_memset(minishell->pipe_fd, -1, sizeof(int [2]));
-}
-// static void		sig_resist(t_minishell *minishell)
-// {
-// 	(void)minishell;
-// 	//set_signal_protocal(minishell, main_shell);
-// 	// reset_data(minishell);
-//     // free(minishell->input);
-// 	// //g_heredoc_interrupted = 0;
-// 	// write(1, "\n", 1);    
-//     // rl_replace_line("", 0);
-//     // rl_on_new_line();
-// 	// rl_redisplay();
-// }
-static void		run_minishell(t_minishell *minishell)
-{
-	int		parse_status;
-	
-	while (1)
-	{
-		set_signal_protocal(minishell, main_shell);
-		minishell->input = readline("minishell:~$ ");
-		if (!minishell->input)
-		{
-			ft_putstr_fd("exit\n", STDOUT_FILENO);
-			break ;
-		} 
-		if (ft_strlen(minishell->input) == 0 && minishell->input != NULL)
-			continue ;
-		add_history(minishell->input);
-		if (has_syntax_error(minishell->input) == 1)
-		{
-			free(minishell->input);
-			continue ;
-		}
-		parse_status = lexical_parser(minishell);
-		if (parse_status == 1)
-		{
-			reset_data(minishell);
-			free(minishell->input);
-			continue ;
-		}
-		if (parse_status == -1)
-		{
-			free_minishell(minishell);
-			exit(ENOMEM);
-		}
-	//	print_cmd_table(minishell->cmd_head);
-		if (executor(minishell) == -1)
-			ft_putstr_fd("minishell: execution failed\n", STDERR_FILENO);
 		reset_data(minishell);
 		free(minishell->input);
+		return (0);
+	}
+	if (parse_status == -1)
+	{
+		free_minishell(minishell);
+		exit(ENOMEM);
+	}
+	if (executor(minishell) == -1)
+		ft_putstr_fd("minishell: execution failed\n", STDERR_FILENO);
+	reset_data(minishell);
+	free(minishell->input);
+	return (1);
+}
+
+static void	run_minishell(t_minishell *minishell)
+{
+	int	input_status;
+
+	while (1)
+	{
+		input_status = get_and_validate_input(minishell);
+		if (input_status == -1)
+			break ;
+		if (input_status == 0)
+			continue ;
+		parse_and_execute(minishell);
 	}
 }
 
-int main(int argc, char *argv[], char *envp[])
+int	main(int argc, char *argv[], char *envp[])
 {
-	t_minishell minishell;
+	t_minishell	minishell;
 
 	(void)argv;
 	if (argc > 1)
@@ -132,7 +80,6 @@ int main(int argc, char *argv[], char *envp[])
 		ft_putstr_fd("Nope\n", 2);
 		return (2);
 	}
-	//handle_signals();
 	init_minishell(&minishell, envp);
 	set_signal_protocal(&minishell, main_shell);
 	run_minishell(&minishell);

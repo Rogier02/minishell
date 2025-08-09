@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/27 17:49:49 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/27 19:39:10 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/09 12:28:23 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 char	*get_env_value(t_envp *envp, char *key)
 {
-    while (envp)
-    {
-        if (ft_strcmp(envp->key, key) == 0)
-            return (ft_strdup(envp->value));
-        envp = envp->next;
-    }
-    return (NULL);
+	while (envp)
+	{
+		if (ft_strcmp(envp->key, key) == 0)
+			return (ft_strdup(envp->value));
+		envp = envp->next;
+	}
+	return (NULL);
 }
 
-int	heredoc_append_variable(t_minishell *minishell, t_expansion *expan, \
+int	heredoc_append_variable(t_minishell *minishell, t_expansion *expan,\
 							char *line, int *i)
 {
 	char	*temp;

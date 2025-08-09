@@ -11,6 +11,8 @@ LIBFT_A			= 	libft/libft.a
 INCLUDES		=	-I	./includes
 SRCS_DIR		= 	srcs
 SRCS			= 	srcs/main.c \
+					srcs/has_syntax_error.c \
+					srcs/reset_data.c \
                     srcs/error/error.c \
                     srcs/error/malloc_error.c \
                     srcs/builtin/ft_cd.c \
@@ -61,6 +63,7 @@ SRCS			= 	srcs/main.c \
                     srcs/lexer/expansion/expansion.c \
                     srcs/lexer/expansion/tilde_expansion.c \
 					srcs/lexer/populate_data/handle_heredoc/add_line_to_file.c \
+					srcs/lexer/populate_data/handle_heredoc/handle_heredoc_2.c \
                     srcs/lexer/populate_data/handle_heredoc/handle_heredoc.c \
 					srcs/lexer/populate_data/handle_heredoc/heredoc_append_char.c\
 					srcs/lexer/populate_data/handle_heredoc/heredoc_append_exit_code.c \

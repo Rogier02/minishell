@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 14:41:48 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/08/08 12:38:38 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/09 12:36:19 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,9 @@ typedef struct s_lexing
 
 /* ========================== FUNCTION DECLARATIONS ======================== */
 
+int					has_syntax_error(char *input);
+void				reset_data(t_minishell *minishell);
+
 /* -------------------------------- BUILTIN -------------------------------- */
 int					ft_cd(t_minishell *minishell, char **args);
 int					ft_echo(char **args);
@@ -267,6 +270,12 @@ int					heredoc_append_exit_code(t_minishell *minishell,\
 int					heredoc_append_char(t_minishell *minishell,\
 												t_expansion *expan, char c);
 int					field_split_add(t_minishell *minishell, t_lexing *token);
+int					read_heredoc(t_minishell *minishell, int heredoc_fd,\
+															t_lexing *token);
+int					create_file_name(t_minishell *minishell,\
+					char **heredoc_file, char *temp_file, int heredoc_count);
+int					clean_up_heredoc(t_minishell *minishell,\
+														char *heredoc_file);
 
 /* Expansion */
 int					append_char(t_minishell *minishell,\

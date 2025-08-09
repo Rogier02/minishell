@@ -6,77 +6,11 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/29 17:39:00 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/08/05 17:07:18 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/09 12:33:59 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	read_heredoc(t_minishell *minishell, int heredoc_fd, t_lexing *token)
-{
-	char	*line;
-	char	*temp;
-
-	while (1)
-	{
-		line = readline("heredoc> ");
-		if (!line)
-		{
-			ft_putstr_fd("minishell: heredoc delim by EOF\n", STDERR_FILENO);
-			break;
-		}
-		if (ft_strcmp(line, token->expanded_value) == 0)
-		{
-			free(line);
-			break;
-		}
-		if (token->contains_quotes == true)
-		{
-			temp = expand_heredoc(minishell, line);
-			if (temp == NULL)
-				return (free(line), -1);
-			append_line_to_file(heredoc_fd, temp);
-			free(temp);
-		}
-		else
-		{
-			write(heredoc_fd, line, ft_strlen(line));
-			write(heredoc_fd, "\n", 1);
-		}
-		free(line);
-	}
-	return (0);
-}
-
-static int	create_file_name(t_minishell *minishell, char **heredoc_file, char *temp_file, int heredoc_count)
-{
-	char *count_str = ft_itoa(heredoc_count);
-	if (!count_str)
-	{
-		minishell->exit_code = ENOMEM;
-		return (-1);
-	}
-	*heredoc_file = ft_strjoin(temp_file, count_str);
-	free(count_str);
-	if (!*heredoc_file)
-	{
-		ft_putstr_fd("malloc failure\n", STDERR_FILENO);
-		minishell->exit_code = ENOMEM;
-		return (-1);
-	}
-	return (0);
-}
-
-static int	clean_up_heredoc(t_minishell *minishell, char *heredoc_file)
-{
-	if (heredoc_file)
-	{
-		unlink(heredoc_file);
-		free(heredoc_file);
-	}
-	minishell->exit_code = 130;
-	return (-1);
-}
 
 int	add_heredoc(t_minishell *minishell, char *heredoc_file)
 {
@@ -95,7 +29,7 @@ int	add_heredoc(t_minishell *minishell, char *heredoc_file)
 }
 
 int run_heredoc_process(t_minishell *minishell, char *heredoc_file, t_lexing *token)
-{	
+{
 	pid_t	pid;
 	int		status;
 	int		heredoc_fd;
@@ -135,16 +69,6 @@ int run_heredoc_process(t_minishell *minishell, char *heredoc_file, t_lexing *to
         minishell->exit_code = 130;
         return (-2);
     }
-    // Also check if child exited with 130
-    // if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
-    // {
-    //     ft_putstr_fd("heredoc interrupted (exit 130)\n", 2);
-    //     unlink(heredoc_file);
-    //     free(heredoc_file);
-    //     close(heredoc_fd);
-    //     minishell->exit_code = 130;
-    //     return (-2);
-    // }
 	return (0);
 }
 

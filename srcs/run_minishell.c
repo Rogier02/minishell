@@ -1,24 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   add_line_to_file.c                                 :+:    :+:            */
+/*   run_minishell.c                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/07/27 19:33:38 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/08/09 12:27:49 by rgoossen      ########   odam.nl         */
+/*   Created: 2025/08/09 12:09:19 by rgoossen      #+#    #+#                 */
+/*   Updated: 2025/08/09 12:09:41 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	append_line_to_file(int heredoc_fd, char *expanded_line)
-{
-	if (!expanded_line)
-	{
-		return (-1);
-	}
-	write(heredoc_fd, expanded_line, ft_strlen(expanded_line));
-	write(heredoc_fd, "\n", 1);
-	return (0);
-}
