@@ -6,13 +6,13 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/29 17:37:24 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/06 10:25:48 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/09 12:51:00 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int handle_pipe(t_minishell *minishell, t_lexing *token)
+int	handle_pipe(t_minishell *minishell, t_lexing *token)
 {
 	if (token->type == PIPE)
 	{

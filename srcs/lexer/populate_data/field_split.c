@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/29 14:20:42 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/07/29 16:19:58 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/09 12:51:19 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	count_words(char *str)
 {
-	int i;
+	int	i;
 	int	count;
 
 	i = 0;
@@ -25,21 +25,20 @@ static int	count_words(char *str)
 			i++;
 		if (str[i])
 			count++;
-		while(str[i] && !ft_isspace(str[i]))
+	while (str[i] && !ft_isspace(str[i]))
 			i++;
 	}
 	return (count);
 }
 
-char **split_on_whitespace(char *str)
+char	**split_on_whitespace(char *str)
 {
 	int		i;
 	int		j;
 	int		count;
 	int		start;
 	char	**result;
-	
-	
+
 	count = count_words(str);
 	result = malloc(sizeof(char *) * (count + 1));
 	if (!result)
@@ -48,7 +47,7 @@ char **split_on_whitespace(char *str)
 	j = 0;
 	while (str[i])
 	{
-		while(ft_isspace(str[i]))
+		while (ft_isspace(str[i]))
 			i++;
 		start = i;
 		while (str[i] && !ft_isspace(str[i]))
@@ -60,36 +59,37 @@ char **split_on_whitespace(char *str)
 	return (result);
 }
 
-static int add_split_command_to_table(t_minishell *minishell, char *command_str)
+static int	add_split_command_to_table(t_minishell *minishell,\
+	char *command_str)
 {
-    char	**new_array;
-    int		i;
-    int		j;
+	char	**new_array;
+	int		i;
+	int		j;
 
-    i = 0;
-    j = 0;
-    while (minishell->cmd_current->cmd[i])
-        i++;
-    new_array = ft_calloc(i + 2, sizeof(char *));
-    if (!new_array)
-        return (-1);
-    while (j < i)
-    {
-        new_array[j] = ft_strdup(minishell->cmd_current->cmd[j]);
-        if (!new_array[j])
-            return (ft_free_array(new_array), -1);
-        j++;
-    }
-    new_array[i] = ft_strdup(command_str);
-    if (!new_array[i])
-        return (ft_free_array(new_array), -1);
-    new_array[i + 1] = NULL;
-    ft_free_array(minishell->cmd_current->cmd);
-    minishell->cmd_current->cmd = new_array;
-    return (0);
+	i = 0;
+	j = 0;
+	while (minishell->cmd_current->cmd[i])
+		i++;
+	new_array = ft_calloc(i + 2, sizeof(char *));
+	if (!new_array)
+		return (-1);
+	while (j < i)
+	{
+		new_array[j] = ft_strdup(minishell->cmd_current->cmd[j]);
+		if (!new_array[j])
+			return (ft_free_array(new_array), -1);
+		j++;
+	}
+	new_array[i] = ft_strdup(command_str);
+	if (!new_array[i])
+		return (ft_free_array(new_array), -1);
+	new_array[i + 1] = NULL;
+	ft_free_array(minishell->cmd_current->cmd);
+	minishell->cmd_current->cmd = new_array;
+	return (0);
 }
 
-int field_split_add(t_minishell *minishell, t_lexing *token)
+int	field_split_add(t_minishell *minishell, t_lexing *token)
 {
 	char	**split;
 	int		k;

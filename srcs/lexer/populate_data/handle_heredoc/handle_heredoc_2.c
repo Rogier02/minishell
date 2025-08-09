@@ -6,13 +6,13 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/09 12:31:49 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/08/09 12:33:18 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/09 12:41:17 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	process_heredoc_line(t_minishell *minishell, int heredoc_fd, \
+static int	process_heredoc_line(t_minishell *minishell, int heredoc_fd,\
 	t_lexing *token, char *line)
 {
 	char	*temp;
