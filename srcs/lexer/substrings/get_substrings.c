@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/23 17:45:33 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/06/28 13:56:45 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/09 13:02:11 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	get_substrings(char *input, t_minishell *mshell, t_lexing *tokens)
 {
-	t_lexing *current;
+	t_lexing	*current;
 
 	current = tokens;
 	while (current)

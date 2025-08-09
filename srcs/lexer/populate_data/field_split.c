@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/29 14:20:42 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/08/09 12:51:19 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/09 12:52:25 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	count_words(char *str)
 			i++;
 		if (str[i])
 			count++;
-	while (str[i] && !ft_isspace(str[i]))
+		while (str[i] && !ft_isspace(str[i]))
 			i++;
 	}
 	return (count);

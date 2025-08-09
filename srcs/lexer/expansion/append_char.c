@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 13:18:58 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/08/08 18:03:50 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/09 13:01:45 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	append_char(t_minishell *minishell, t_expansion *expan, char c)
 	{
 		minishell->exit_code = ENOMEM;
 		ft_putstr_fd("malloc failure: \n", STDERR_FILENO);
-		return (-1); 
+		return (-1);
 	}
 	if (expan->expanded_input != NULL)
 		new_str = ft_memcpy(new_str, expan->expanded_input, len);

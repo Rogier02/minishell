@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/22 14:32:35 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/08/07 14:22:02 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/09 13:07:25 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_lexing	*tokenizer(char *input)
 	int			i;
 	t_lexing	*current;
 	t_lexing	*head;
-	
+
 	i = 0;
 	skip_whitespaces(input, &i);
 	current = get_next_token(input, &i);
@@ -26,13 +26,13 @@ t_lexing	*tokenizer(char *input)
 	head = current;
 	current->previous = NULL;
 	while (input[i])
-	{	
+	{
 		current->next = get_next_token(input, &i);
 		if (!current->next)
 		{
 			return (NULL);
 		}
-		current->next->previous = current; 
+		current->next->previous = current;
 		current = current->next;
 	}
 	return (head);

@@ -6,7 +6,7 @@
 /*   By: rgoossen <rgoossen@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/29 15:36:11 by rgoossen      #+#    #+#                 */
-/*   Updated: 2025/08/07 14:21:47 by rgoossen      ########   odam.nl         */
+/*   Updated: 2025/08/09 13:04:46 by rgoossen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,16 @@ static void	get_redirect_token(char *input, t_lexing *token, int *i)
 		token->len = 2;
 		return ;
 	}
-	else 
+	else
 	{
 		*i += 1;
 		token->len = 1;
 	}
 }
+
 static t_lexing	*init_new_token(int i)
 {
-	t_lexing *new_token;
+	t_lexing	*new_token;
 
 	new_token = malloc(sizeof(t_lexing));
 	if (!new_token)
@@ -51,18 +52,18 @@ t_lexing	*get_next_token(char *input, int *i)
 
 	new_token = init_new_token(*i);
 	if (!new_token)
-		return (NULL); 
+		return (NULL);
 	while (input[*i])
 	{
 		check_quotes(input[*i], &new_token->quote_flag);
 		if (new_token->quote_flag)
 			new_token->contains_quotes = true;
-		if (is_delimiter(input[*i]) && new_token->len == 0 
+		if (is_delimiter(input[*i]) && new_token->len == 0
 			&& new_token->quote_flag == '\0')
-			{
-				get_redirect_token(input, new_token, i);
-				break;
-			}
+		{
+			get_redirect_token(input, new_token, i);
+			break ;
+		}
 		if (is_delimiter(input[*i]) && new_token->quote_flag == '\0')
 			break ;
 		*i += 1;
